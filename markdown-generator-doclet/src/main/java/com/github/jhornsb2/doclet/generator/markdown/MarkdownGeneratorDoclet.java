@@ -43,13 +43,16 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
     @Override
     public boolean run(DocletEnvironment environment) {
-        environment.getIncludedElements().stream()
-            .filter(element -> element.getKind() == ElementKind.CLASS)
-            .map(element -> (TypeElement) element)
-            .forEach(typeElement -> {
-                String className = typeElement.getQualifiedName().toString();
-                reporter.print(Kind.NOTE, "Found class: " + className);
-            });
+        environment.getIncludedElements().forEach(element -> {
+            reporter.print(
+                Kind.NOTE,
+                String.format(
+                    "Processing element %s of kind %s",
+                    element.getSimpleName(),
+                    element.getKind()
+                )
+            );
+        });
         return true;
     }
 }
