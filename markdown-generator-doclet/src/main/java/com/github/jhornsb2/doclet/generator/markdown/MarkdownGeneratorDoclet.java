@@ -13,7 +13,9 @@ import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
 
 import java.util.Set;
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class MarkdownGeneratorDoclet implements Doclet {
 
@@ -47,10 +49,18 @@ public class MarkdownGeneratorDoclet implements Doclet {
             reporter.print(
                 Kind.NOTE,
                 String.format(
-                    "Processing element %s of kind %s",
+                    "Processing element %s of kind %s element class %s",
                     element.getSimpleName(),
-                    element.getKind()
+                    element.getKind(),
+                    element.getClass().getSimpleName()
                 )
+            );
+            reporter.print(
+                Kind.NOTE,
+                Optional.ofNullable(environment.getDocTrees().getDocCommentTree(element))
+                    .map(docTree -> docTree.getFullBody())
+                    .map(List::toString)
+                    .orElse("")
             );
         });
         return true;
