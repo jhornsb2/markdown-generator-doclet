@@ -47,3 +47,9 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+task generateMarkdown(type: Javadoc) {
+    source = sourceSets.main.allJava
+    destinationDir = file("$rootDir/generated-docs/TestJavaProject/app")
+    classpath += configurations.compileClasspath
+}
