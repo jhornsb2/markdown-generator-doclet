@@ -10,5 +10,10 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
+// The core project of this repository
 rootProject.name = 'markdown-generator-doclet'
 include('markdown-generator-doclet')
+
+// Include the test resources project(s)
+include('app')
+project(':app').projectDir = file('test-resources/TestJavaProject/app')
