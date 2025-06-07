@@ -57,6 +57,8 @@ tasks.named('test') {
 
 // Custom Javadoc task using the MarkdownGeneratorDoclet
 task generateMarkdown(type: Javadoc) {
+    outputs.upToDateWhen { false } // Always regenerate the docs
+
     source = sourceSets.main.allJava
     destinationDir = file("$rootDir/generated-docs/TestJavaProject/app")
     classpath += configurations.compileClasspath
