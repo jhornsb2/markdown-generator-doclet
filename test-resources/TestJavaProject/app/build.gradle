@@ -61,6 +61,7 @@ task generateMarkdown(type: Javadoc) {
     destinationDir = file("$rootDir/generated-docs/TestJavaProject/app")
     classpath += configurations.compileClasspath
 
+    // TODO: figure out how to use this in the doclet
     title = ''
 
     // Use the custom doclet
