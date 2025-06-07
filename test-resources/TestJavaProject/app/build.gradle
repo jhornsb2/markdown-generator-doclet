@@ -15,6 +15,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    jaxDoclet
+}
+
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
@@ -29,6 +33,9 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.34'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // Add this to use the doclet from the sibling project
+    jaxDoclet project(':markdown-generator-doclet')
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -48,8 +55,19 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+// Custom Javadoc task using the MarkdownGeneratorDoclet
 task generateMarkdown(type: Javadoc) {
     source = sourceSets.main.allJava
     destinationDir = file("$rootDir/generated-docs/TestJavaProject/app")
     classpath += configurations.compileClasspath
+
+    title = ''
+
+    // Use the custom doclet
+    options.docletpath = configurations.jaxDoclet.files as List
+    options.doclet = 'com.github.jhornsb2.doclet.generator.markdown.MarkdownGeneratorDoclet'
+
+    // Example: pass options to your doclet (optional)
+    // options.addStringOption('d', file("$rootDir/generated-docs/TestJavaProject/app").absolutePath)
+    // options.addBooleanOption('notimestamp', true)
 }
