@@ -17,8 +17,15 @@ import jdk.javadoc.doclet.Reporter;
 
 public class MarkdownGeneratorDoclet implements Doclet {
 
-	private Flag noTimestamp = new Flag("-notimestamp", "Do not include hidden time stamp");
-	private GenericOption destinationDir = new GenericOption("-d", "Destination directory for output files", "/tmp");
+	private static final Flag noTimestamp = new Flag(
+		"-notimestamp", 
+		"Do not include hidden time stamp"
+	);
+	private static final GenericOption destinationDir = new GenericOption(
+		"-d", 
+		"Destination directory for output files", 
+		"/tmp"
+	);
 	private Reporter reporter;
 
 	@Override
