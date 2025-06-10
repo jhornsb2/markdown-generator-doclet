@@ -59,7 +59,7 @@ public class DocletLogger {
      */
     public void debug(final String message, Object... args) {
         checkReporter();
-        reporter.print(Kind.OTHER, formatMessage(message, args));
+        reporter.print(Kind.NOTE, formatMessage(message, args));
     }
 
     /**
