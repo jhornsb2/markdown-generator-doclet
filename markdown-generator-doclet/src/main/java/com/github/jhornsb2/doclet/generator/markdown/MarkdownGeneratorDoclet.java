@@ -34,16 +34,15 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	 * This is ignored, but is supported in order to be compatible with running in
 	 * gradle.
 	 */
-	private final Flag noTimestamp = new Flag(
-			"-notimestamp",
-			"Do not include hidden time stamp");
+	private final Flag noTimestamp = new Flag("-notimestamp", "Do not include hidden time stamp");
 	/**
 	 * The option to specify the destination directory for output files.
 	 */
 	private final GenericOption destinationDir = new GenericOption(
-			"-d",
-			"Destination directory for output files",
-			"/tmp");
+		"-d",
+		"Destination directory for output files",
+		"/tmp"
+	);
 
 	@Override
 	public void init(Locale locale, Reporter reporter) {
@@ -73,29 +72,27 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		log.info("Running MarkdownGeneratorDoclet...");
 		environment.getIncludedElements().forEach(element -> {
 			switch (element.getKind()) {
-				case MODULE:
-					break;
-				case PACKAGE:
-					PackageElement packageElement = (PackageElement) element;
-					PackageElementProcessor packageProcessor = new PackageElementProcessor(
-						packageElement
-					);
-					log.info("Package name: {}", packageElement.getQualifiedName());
-					log.info(packageProcessor.toMarkdownString());
-					break;
-				case INTERFACE:
-					break;
-				case CLASS:
-					break;
-				case ENUM:
-					break;
-				case RECORD:
-					break;
-				case ANNOTATION_TYPE:
-					break;
-				default:
-					log.warn("Unhandled element kind: {}", element.getKind());
-					break;
+			case MODULE:
+				break;
+			case PACKAGE:
+				PackageElement packageElement = (PackageElement) element;
+				PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
+				log.info("Package name: {}", packageElement.getQualifiedName());
+				log.info(packageProcessor.toMarkdownString());
+				break;
+			case INTERFACE:
+				break;
+			case CLASS:
+				break;
+			case ENUM:
+				break;
+			case RECORD:
+				break;
+			case ANNOTATION_TYPE:
+				break;
+			default:
+				log.warn("Unhandled element kind: {}", element.getKind());
+				break;
 			}
 		});
 		return true;

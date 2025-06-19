@@ -14,26 +14,26 @@ import lombok.Value;
 @Value
 public class PackageElementProcessor implements IDocletElementProcessor {
 
-    private static final DocletLogger log = DocletLogger.forClass(PackageElementProcessor.class);
-    
-    /**
-     * The package element to process.
-     */
-    PackageElement packageElement;
+	private static final DocletLogger log = DocletLogger.forClass(PackageElementProcessor.class);
 
-    public String toMarkdownString() {
-        log.debug("Generating markdown for package: {}", packageElement.getQualifiedName());
-        Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(packageElement);
-        StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(packageElement.getQualifiedName()).append("\n\n");
-        docCommentTree.ifPresent(tree -> sb.append(tree.getFullBody()).append("\n\n"));
-        sb.append("## Contents\n\n");
+	/**
+	 * The package element to process.
+	 */
+	PackageElement packageElement;
 
-        packageElement.getEnclosedElements().stream()
-            .filter(element -> element.getKind().isClass())
-            .forEach(element -> sb.append("- ").append(element.getSimpleName()).append("\n"));
+	public String toMarkdownString() {
+		log.debug("Generating markdown for package: {}", packageElement.getQualifiedName());
+		Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(packageElement);
+		StringBuilder sb = new StringBuilder();
+		sb.append("# ").append(packageElement.getQualifiedName()).append("\n\n");
+		docCommentTree.ifPresent(tree -> sb.append(tree.getFullBody()).append("\n\n"));
+		sb.append("## Contents\n\n");
 
-        return sb.toString();
-    }
+		packageElement.getEnclosedElements().stream().filter(element -> element.getKind().isClass()).forEach(
+			element -> sb.append("- ").append(element.getSimpleName()).append("\n")
+		);
+
+		return sb.toString();
+	}
 
 }

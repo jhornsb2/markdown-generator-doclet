@@ -11,17 +11,16 @@ import lombok.NonNull;
 
 public class DocCommentUtil {
 
-    private static DocletEnvironment environment;
-    public static void setEnvironment(DocletEnvironment env) {
-        if (environment != null) {
-            throw new IllegalStateException("DocletEnvironment has already been set.");
-        }
-        environment = env;
-    }
+	private static DocletEnvironment environment;
 
-    public static Optional<DocCommentTree> getDocCommentTree(
-		@NonNull Element element
-	) {
+	public static void setEnvironment(DocletEnvironment env) {
+		if (environment != null) {
+			throw new IllegalStateException("DocletEnvironment has already been set.");
+		}
+		environment = env;
+	}
+
+	public static Optional<DocCommentTree> getDocCommentTree(@NonNull Element element) {
 		return Optional.ofNullable(environment.getDocTrees().getDocCommentTree(element));
 	}
 

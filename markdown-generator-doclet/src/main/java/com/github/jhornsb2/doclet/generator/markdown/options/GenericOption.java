@@ -46,7 +46,8 @@ public class GenericOption implements Option {
 		if (values.size() >= 1) {
 			this.value = values.get(0);
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -54,4 +55,5 @@ public class GenericOption implements Option {
 	public String getValue() {
 		return this.value;
 	}
+
 }

@@ -10,17 +10,17 @@ import lombok.Value;
 @Value
 public class ClassElementProcessor implements IDocletElementProcessor {
 
-    private static final DocletLogger log = DocletLogger.forClass(ClassElementProcessor.class);
+	private static final DocletLogger log = DocletLogger.forClass(ClassElementProcessor.class);
 
-    TypeElement classElement;
+	TypeElement classElement;
 
-    public String toMarkdownString() {
-        log.debug("Generating markdown for class: {}", classElement.getQualifiedName());
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append("# ").append(classElement.getSimpleName()).append("\n\n");
+	public String toMarkdownString() {
+		log.debug("Generating markdown for class: {}", classElement.getQualifiedName());
+		StringBuilder sb = new StringBuilder();
 
-        return sb.toString();
-    }
+		sb.append("# ").append(classElement.getSimpleName()).append("\n\n");
+
+		return sb.toString();
+	}
 
 }
