@@ -45,18 +45,18 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	);
 
 	@Override
-	public void init(Locale locale, Reporter reporter) {
+	public void init(final Locale locale, final Reporter reporter) {
 		DocletLogger.setReporter(reporter);
 	}
 
 	@Override
 	public String getName() {
-		return getClass().getSimpleName();
+		return this.getClass().getSimpleName();
 	}
 
 	@Override
 	public Set<Option> getSupportedOptions() {
-		return Set.of(noTimestamp, destinationDir);
+		return Set.of(this.noTimestamp, this.destinationDir);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	}
 
 	@Override
-	public boolean run(DocletEnvironment environment) {
+	public boolean run(final DocletEnvironment environment) {
 		// Initialize the run
 		DocCommentUtil.setEnvironment(environment);
 
@@ -75,8 +75,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 			case MODULE:
 				break;
 			case PACKAGE:
-				PackageElement packageElement = (PackageElement) element;
-				PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
+				final PackageElement packageElement = (PackageElement) element;
+				final PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
 				log.info("Package name: {}", packageElement.getQualifiedName());
 				log.info(packageProcessor.toMarkdownString());
 				break;

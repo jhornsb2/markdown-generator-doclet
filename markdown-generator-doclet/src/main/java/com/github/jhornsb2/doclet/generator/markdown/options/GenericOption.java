@@ -6,11 +6,11 @@ import jdk.javadoc.doclet.Doclet.Option;
 
 public class GenericOption implements Option {
 
-	private String name;
-	private String description;
+	private final String name;
+	private final String description;
 	private String value;
 
-	public GenericOption(String name, String description, String defaultValue) {
+	public GenericOption(final String name, final String description, final String defaultValue) {
 		this.name = name;
 		this.description = description;
 		this.value = defaultValue;
@@ -23,7 +23,7 @@ public class GenericOption implements Option {
 
 	@Override
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class GenericOption implements Option {
 	}
 
 	@Override
-	public boolean process(String optionName, List<String> values) {
+	public boolean process(final String optionName, final List<String> values) {
 		if (values.size() >= 1) {
 			this.value = values.get(0);
 			return true;

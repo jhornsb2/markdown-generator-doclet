@@ -1,10 +1,10 @@
 package com.github.jhornsb2.doclet.generator.markdown.logging;
 
-import jdk.javadoc.doclet.Reporter;
-
 import java.util.stream.Stream;
 
 import javax.tools.Diagnostic.Kind;
+
+import jdk.javadoc.doclet.Reporter;
 import lombok.Value;
 
 /**
@@ -27,7 +27,7 @@ public class DocletLogger {
 	 * @param reporter the reporter to set
 	 * @throws IllegalStateException if the reporter has already been set
 	 */
-	public static void setReporter(Reporter reporter) {
+	public static void setReporter(final Reporter reporter) {
 		if (DocletLogger.reporter != null) {
 			throw new IllegalStateException("Reporter has already been set.");
 		}
@@ -57,9 +57,9 @@ public class DocletLogger {
 	 * @param args    the arguments to format the message
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
-	public void debug(final String message, Object... args) {
+	public void debug(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.NOTE, formatMessage(message, args));
+		reporter.print(Kind.NOTE, this.formatMessage(message, args));
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class DocletLogger {
 	 * @param args    the arguments to format the message
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
-	public void info(final String message, Object... args) {
+	public void info(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.NOTE, formatMessage(message, args));
+		reporter.print(Kind.NOTE, this.formatMessage(message, args));
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class DocletLogger {
 	 * @param args    the arguments to format the message
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
-	public void warn(final String message, Object... args) {
+	public void warn(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.WARNING, formatMessage(message, args));
+		reporter.print(Kind.WARNING, this.formatMessage(message, args));
 	}
 
 	/**
@@ -93,9 +93,9 @@ public class DocletLogger {
 	 * @param args    the arguments to format the message
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
-	public void error(final String message, Object... args) {
+	public void error(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.ERROR, formatMessage(message, args));
+		reporter.print(Kind.ERROR, this.formatMessage(message, args));
 	}
 
 	/**
@@ -105,9 +105,9 @@ public class DocletLogger {
 	 * @param throwable the throwable to log
 	 * @param args      the arguments to format the message
 	 */
-	public void error(final String message, final Throwable throwable, Object... args) {
+	public void error(final String message, final Throwable throwable, final Object... args) {
 		checkReporter();
-		final String formattedMessage = formatMessage(message, args);
+		final String formattedMessage = this.formatMessage(message, args);
 		reporter.print(Kind.ERROR, formattedMessage + "\n" + throwable.getMessage());
 		if (throwable.getStackTrace() != null && throwable.getStackTrace().length > 0) {
 			reporter.print(Kind.OTHER, "Stack trace: " + throwable.getStackTrace()[0]);
@@ -121,11 +121,11 @@ public class DocletLogger {
 	 * @param args    the arguments to replace the placeholders
 	 * @return the formatted message
 	 */
-	private String formatMessage(final String message, Object... args) {
+	private String formatMessage(final String message, final Object... args) {
 		if (args == null || args.length == 0)
 			return message;
 
-		final String messagePrefix = clazz != null ? clazz.getSimpleName() + ": " : "";
+		final String messagePrefix = this.clazz != null ? this.clazz.getSimpleName() + ": " : "";
 		final String formattedMessage = messagePrefix + message.replace("{}", "%s");
 		final Object[] formattedArgs = Stream.of(args).map(arg -> arg == null ? "null" : arg.toString()).toArray(
 			Object[]::new

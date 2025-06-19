@@ -22,14 +22,14 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	PackageElement packageElement;
 
 	public String toMarkdownString() {
-		log.debug("Generating markdown for package: {}", packageElement.getQualifiedName());
-		Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(packageElement);
+		log.debug("Generating markdown for package: {}", this.packageElement.getQualifiedName());
+		Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(this.packageElement);
 		StringBuilder sb = new StringBuilder();
-		sb.append("# ").append(packageElement.getQualifiedName()).append("\n\n");
+		sb.append("# ").append(this.packageElement.getQualifiedName()).append("\n\n");
 		docCommentTree.ifPresent(tree -> sb.append(tree.getFullBody()).append("\n\n"));
 		sb.append("## Contents\n\n");
 
-		packageElement.getEnclosedElements().stream().filter(element -> element.getKind().isClass()).forEach(
+		this.packageElement.getEnclosedElements().stream().filter(element -> element.getKind().isClass()).forEach(
 			element -> sb.append("- ").append(element.getSimpleName()).append("\n")
 		);
 

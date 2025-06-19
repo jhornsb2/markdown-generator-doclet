@@ -15,10 +15,10 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 	TypeElement classElement;
 
 	public String toMarkdownString() {
-		log.debug("Generating markdown for class: {}", classElement.getQualifiedName());
-		StringBuilder sb = new StringBuilder();
+		log.debug("Generating markdown for class: {}", this.classElement.getQualifiedName());
+		final StringBuilder sb = new StringBuilder();
 
-		sb.append("# ").append(classElement.getSimpleName()).append("\n\n");
+		sb.append("# ").append(this.classElement.getSimpleName()).append("\n\n");
 
 		return sb.toString();
 	}

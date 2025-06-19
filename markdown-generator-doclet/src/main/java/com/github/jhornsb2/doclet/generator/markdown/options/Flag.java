@@ -6,11 +6,11 @@ import jdk.javadoc.doclet.Doclet.Option;
 
 public class Flag implements Option {
 
-	private String name;
-	private String description;
+	private final String name;
+	private final String description;
 	private boolean value;
 
-	public Flag(String name, String description) {
+	public Flag(final String name, final String description) {
 		this.name = name;
 		this.description = description;
 		this.value = false;
@@ -42,7 +42,7 @@ public class Flag implements Option {
 	}
 
 	@Override
-	public boolean process(String arg0, List<String> arg1) {
+	public boolean process(final String arg0, final List<String> arg1) {
 		this.value = true;
 		return true;
 	}
