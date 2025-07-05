@@ -1,5 +1,6 @@
 package com.github.jhornsb2.doclet.generator.markdown.processor.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.lang.model.element.PackageElement;
@@ -16,6 +17,17 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 
 	private static final DocletLogger log = DocletLogger.forClass(PackageElementProcessor.class);
 
+	private static final String TEMPLATE = """
+		# ${qualifiedName}
+
+		${docComment}
+
+		## Contents
+
+		${packageContents}
+
+		""";
+
 	/**
 	 * The package element to process.
 	 */
@@ -23,17 +35,19 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 
 	public String toMarkdownString() {
 		log.debug("Generating markdown for package: {}", this.packageElement.getQualifiedName());
-		Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(this.packageElement);
-		StringBuilder sb = new StringBuilder();
-		sb.append("# ").append(this.packageElement.getQualifiedName()).append("\n\n");
-		docCommentTree.ifPresent(tree -> sb.append(tree.getFullBody()).append("\n\n"));
-		sb.append("## Contents\n\n");
-
-		this.packageElement.getEnclosedElements().stream().filter(element -> element.getKind().isClass()).forEach(
-			element -> sb.append("- ").append(element.getSimpleName()).append("\n")
+		final Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(this.packageElement);
+		return PackageElementProcessor.TEMPLATE.replace(
+			"${qualifiedName}",
+			this.packageElement.getQualifiedName()
+		).replace(
+			"${docComment}",
+			docCommentTree.map(DocCommentTree::getFullBody).map(List::toString).orElse("")
+		).replace(
+			"${packageContents}",
+			this.packageElement.getEnclosedElements().stream().filter(element -> element.getKind().isClass()).map(
+				element -> "- " + element.getSimpleName()
+			).reduce((a, b) -> a + "\n" + b).orElse("")
 		);
-
-		return sb.toString();
 	}
 
 }
