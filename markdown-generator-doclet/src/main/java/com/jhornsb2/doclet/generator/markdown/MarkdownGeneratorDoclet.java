@@ -17,6 +17,7 @@ import com.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcess
 import com.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.RecordElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 
@@ -90,11 +91,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				case INTERFACE -> new InterfaceElementProcessor((TypeElement) element);
 				case CLASS -> new ClassElementProcessor((TypeElement) element);
 				case ENUM -> new EnumElementProcessor((TypeElement) element);
-				case RECORD -> {
-					final TypeElement recordElement = (TypeElement) element;
-					log.info("Processing record: {}", recordElement.getQualifiedName());
-					yield null;
-				}
+				case RECORD -> new RecordElementProcessor((TypeElement) element);
 				case ANNOTATION_TYPE -> {
 					final TypeElement annotationElement = (TypeElement) element;
 					log.info("Processing annotation type: {}", annotationElement.getQualifiedName());
