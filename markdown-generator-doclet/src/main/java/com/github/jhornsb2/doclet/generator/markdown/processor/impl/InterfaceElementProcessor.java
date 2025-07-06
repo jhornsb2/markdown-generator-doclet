@@ -14,7 +14,7 @@ import lombok.Value;
 @Value
 public class InterfaceElementProcessor implements IDocletElementProcessor {
 
-	private static final DocletLogger log = DocletLogger.forClass(ClassElementProcessor.class);
+	private static final DocletLogger log = DocletLogger.forClass(InterfaceElementProcessor.class);
 
 	private static final String TEMPLATE = """
 		# ${simpleName}
