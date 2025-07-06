@@ -13,6 +13,7 @@ import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.AnnotationElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
@@ -92,11 +93,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				case CLASS -> new ClassElementProcessor((TypeElement) element);
 				case ENUM -> new EnumElementProcessor((TypeElement) element);
 				case RECORD -> new RecordElementProcessor((TypeElement) element);
-				case ANNOTATION_TYPE -> {
-					final TypeElement annotationElement = (TypeElement) element;
-					log.info("Processing annotation type: {}", annotationElement.getQualifiedName());
-					yield null;
-				}
+				case ANNOTATION_TYPE -> new AnnotationElementProcessor((TypeElement) element);
 				default -> {
 					log.warn("Unhandled element kind: {}", element.getKind());
 					yield null;
