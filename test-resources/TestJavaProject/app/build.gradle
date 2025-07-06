@@ -68,7 +68,7 @@ task generateMarkdown(type: Javadoc) {
 
     // Use the custom doclet
     options.docletpath = configurations.jaxDoclet.files as List
-    options.doclet = 'com.github.jhornsb2.doclet.generator.markdown.MarkdownGeneratorDoclet'
+    options.doclet = 'com.jhornsb2.doclet.generator.markdown.MarkdownGeneratorDoclet'
 
     // Example: pass options to your doclet (optional)
     // options.addStringOption('d', file("$rootDir/generated-docs/TestJavaProject/app").absolutePath)
