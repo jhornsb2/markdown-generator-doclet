@@ -1,4 +1,4 @@
-package com.github.jhornsb2.doclet.generator.markdown.logging;
+package com.jhornsb2.doclet.generator.markdown.logging;
 
 import java.util.stream.Stream;
 

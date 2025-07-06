@@ -1,6 +1,6 @@
-package com.github.jhornsb2.doclet.generator.markdown.util;
+package com.jhornsb2.doclet.generator.markdown.util;
 
-import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
+import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

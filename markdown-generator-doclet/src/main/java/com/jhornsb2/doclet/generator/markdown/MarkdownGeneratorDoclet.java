@@ -1,4 +1,4 @@
-package com.github.jhornsb2.doclet.generator.markdown;
+package com.jhornsb2.doclet.generator.markdown;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -9,16 +9,16 @@ import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 
-import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
-import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
-import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
-import com.github.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
-import com.github.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
-import com.github.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
-import com.github.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
-import com.github.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
-import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
-import com.github.jhornsb2.doclet.generator.markdown.util.OptionUtil;
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.options.Flag;
+import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
+import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;

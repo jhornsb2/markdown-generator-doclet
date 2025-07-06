@@ -1,12 +1,12 @@
-package com.github.jhornsb2.doclet.generator.markdown.processor.impl;
+package com.jhornsb2.doclet.generator.markdown.processor.impl;
 
 import java.util.List;
 
 import javax.lang.model.element.TypeElement;
 
-import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
-import com.github.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
-import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.sun.source.doctree.DocCommentTree;
 
 import lombok.Value;

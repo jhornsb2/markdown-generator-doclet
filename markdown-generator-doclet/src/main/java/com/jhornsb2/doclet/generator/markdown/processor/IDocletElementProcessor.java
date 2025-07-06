@@ -1,11 +1,11 @@
-package com.github.jhornsb2.doclet.generator.markdown.processor;
+package com.jhornsb2.doclet.generator.markdown.processor;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import com.github.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import com.google.common.io.Files;
+import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 
 public interface IDocletElementProcessor {
 

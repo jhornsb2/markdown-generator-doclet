@@ -1,4 +1,4 @@
-package com.github.jhornsb2.doclet.generator.markdown.options;
+package com.jhornsb2.doclet.generator.markdown.options;
 
 import java.util.List;
 
