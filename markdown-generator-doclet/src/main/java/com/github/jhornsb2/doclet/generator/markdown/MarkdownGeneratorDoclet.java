@@ -2,11 +2,14 @@ package com.github.jhornsb2.doclet.generator.markdown;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.TypeElement;
 
 import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
@@ -76,6 +79,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		environment.getIncludedElements().forEach(element -> {
 			switch (element.getKind()) {
 			case MODULE:
+				ModuleElement moduleElement = (ModuleElement) element;
+				log.info("Processing module: {}", moduleElement.getQualifiedName());
 				break;
 			case PACKAGE:
 				final PackageElement packageElement = (PackageElement) element;
@@ -92,14 +97,24 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				}
 				break;
 			case INTERFACE:
+				final TypeElement interfaceElement = (TypeElement) element;
+				log.info("Processing interface: {}", interfaceElement.getQualifiedName());
 				break;
 			case CLASS:
+				final TypeElement classElement = (TypeElement) element;
+				log.info("Processing class: {}", classElement.getQualifiedName());
 				break;
 			case ENUM:
+				final TypeElement enumElement = (TypeElement) element;
+				log.info("Processing enum: {}", enumElement.getQualifiedName());
 				break;
 			case RECORD:
+				final TypeElement recordElement = (TypeElement) element;
+				log.info("Processing record: {}", recordElement.getQualifiedName());
 				break;
 			case ANNOTATION_TYPE:
+				final TypeElement annotationElement = (TypeElement) element;
+				log.info("Processing annotation type: {}", annotationElement.getQualifiedName());
 				break;
 			default:
 				log.warn("Unhandled element kind: {}", element.getKind());
