@@ -14,6 +14,7 @@ import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
+import com.github.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.google.common.io.Files;
@@ -100,7 +101,17 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				break;
 			case INTERFACE:
 				final TypeElement interfaceElement = (TypeElement) element;
-				log.info("Processing interface: {}", interfaceElement.getQualifiedName());
+				final InterfaceElementProcessor interfaceProcessor = new InterfaceElementProcessor(interfaceElement);
+				outputFilepath = interfaceProcessor.getOutputFilepath();
+				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
+				try {
+					Files.createParentDirs(outputFile);
+					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
+						.write(interfaceProcessor.toMarkdownString());
+				}
+				catch (IOException e) {
+					log.error("Error writing file: {}", outputFilepath, e);
+				}
 				break;
 			case CLASS:
 				final TypeElement classElement = (TypeElement) element;
