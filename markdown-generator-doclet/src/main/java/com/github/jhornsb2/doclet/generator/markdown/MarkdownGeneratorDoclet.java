@@ -2,7 +2,6 @@ package com.github.jhornsb2.doclet.generator.markdown;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Locale;
 import java.util.Set;
 
@@ -14,6 +13,7 @@ import javax.lang.model.element.TypeElement;
 import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
+import com.github.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.google.common.io.Files;
@@ -77,6 +77,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 		log.info("Running MarkdownGeneratorDoclet...");
 		environment.getIncludedElements().forEach(element -> {
+			String outputFilepath;
+			File outputFile;
 			switch (element.getKind()) {
 			case MODULE:
 				ModuleElement moduleElement = (ModuleElement) element;
@@ -85,8 +87,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 			case PACKAGE:
 				final PackageElement packageElement = (PackageElement) element;
 				final PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
-				String outputFilepath = packageProcessor.getOutputFilepath();
-				File outputFile = new File(this.destinationDir.getValue(), outputFilepath);
+				outputFilepath = packageProcessor.getOutputFilepath();
+				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
 				try {
 					Files.createParentDirs(outputFile);
 					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
@@ -102,7 +104,17 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				break;
 			case CLASS:
 				final TypeElement classElement = (TypeElement) element;
-				log.info("Processing class: {}", classElement.getQualifiedName());
+				final ClassElementProcessor classProcessor = new ClassElementProcessor(classElement);
+				outputFilepath = classProcessor.getOutputFilepath();
+				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
+				try {
+					Files.createParentDirs(outputFile);
+					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
+						.write(classProcessor.toMarkdownString());
+				}
+				catch (IOException e) {
+					log.error("Error writing file: {}", outputFilepath, e);
+				}
 				break;
 			case ENUM:
 				final TypeElement enumElement = (TypeElement) element;
