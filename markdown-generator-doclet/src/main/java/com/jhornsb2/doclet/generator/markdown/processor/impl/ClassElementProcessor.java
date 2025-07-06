@@ -56,13 +56,19 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 
 	public String toMarkdownString() {
 		log.debug("Generating markdown for class: {}", this.classElement.getQualifiedName());
-		
+
 		return ClassElementProcessor.TEMPLATE.replace("${simpleName}", this.classElement.getSimpleName().toString())
 			.replace("${kind}", this.classElement.getKind().toString())
 			.replace("${packageName}", this.classElement.getEnclosingElement().toString())
 			.replace("${superclassName}", this.classElement.getSuperclass().toString())
 			.replace("${interfaces}", this.classElement.getInterfaces().toString())
-			.replace("${docComment}", DocCommentUtil.getDocCommentTree(this.classElement).map(DocCommentTree::getFullBody).map(List::toString).orElse(""))
+			.replace(
+				"${docComment}",
+				DocCommentUtil.getDocCommentTree(this.classElement)
+					.map(DocCommentTree::getFullBody)
+					.map(List::toString)
+					.orElse("")
+			)
 			.replace("${properties}", "TODO: Implement properties")
 			.replace("${publicMethods}", "TODO: Implement public methods")
 			.replace("${staticMethods}", "TODO: Implement static methods")
