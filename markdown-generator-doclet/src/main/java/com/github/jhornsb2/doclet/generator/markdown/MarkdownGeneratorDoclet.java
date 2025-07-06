@@ -1,6 +1,5 @@
 package com.github.jhornsb2.doclet.generator.markdown;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Set;
@@ -13,12 +12,13 @@ import javax.lang.model.element.TypeElement;
 import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
+import com.github.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
-import com.google.common.io.Files;
+import com.github.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
@@ -64,6 +64,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public Set<Option> getSupportedOptions() {
+		OptionUtil.initialize(this.destinationDir);
 		return Set.of(this.noTimestamp, this.destinationDir);
 	}
 
@@ -79,80 +80,42 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 		log.info("Running MarkdownGeneratorDoclet...");
 		environment.getIncludedElements().forEach(element -> {
-			String outputFilepath;
-			File outputFile;
-			switch (element.getKind()) {
-			case MODULE:
-				ModuleElement moduleElement = (ModuleElement) element;
-				log.info("Processing module: {}", moduleElement.getQualifiedName());
-				break;
-			case PACKAGE:
-				final PackageElement packageElement = (PackageElement) element;
-				final PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
-				outputFilepath = packageProcessor.getOutputFilepath();
-				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
-				try {
-					Files.createParentDirs(outputFile);
-					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
-						.write(packageProcessor.toMarkdownString());
+			IDocletElementProcessor elementProcessor = switch (element.getKind()) {
+				case MODULE -> {
+					ModuleElement moduleElement = (ModuleElement) element;
+					log.info("Processing module: {}", moduleElement.getQualifiedName());
+					yield null; // No specific processing for modules yet
 				}
-				catch (IOException e) {
-					log.error("Error writing file: {}", outputFilepath, e);
+				case PACKAGE -> new PackageElementProcessor((PackageElement) element);
+				case INTERFACE -> new InterfaceElementProcessor((TypeElement) element);
+				case CLASS -> new ClassElementProcessor((TypeElement) element);
+				case ENUM -> new EnumElementProcessor((TypeElement) element);
+				case RECORD -> {
+					final TypeElement recordElement = (TypeElement) element;
+					log.info("Processing record: {}", recordElement.getQualifiedName());
+					yield null;
 				}
-				break;
-			case INTERFACE:
-				final TypeElement interfaceElement = (TypeElement) element;
-				final InterfaceElementProcessor interfaceProcessor = new InterfaceElementProcessor(interfaceElement);
-				outputFilepath = interfaceProcessor.getOutputFilepath();
-				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
-				try {
-					Files.createParentDirs(outputFile);
-					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
-						.write(interfaceProcessor.toMarkdownString());
+				case ANNOTATION_TYPE -> {
+					final TypeElement annotationElement = (TypeElement) element;
+					log.info("Processing annotation type: {}", annotationElement.getQualifiedName());
+					yield null;
 				}
-				catch (IOException e) {
-					log.error("Error writing file: {}", outputFilepath, e);
+				default -> {
+					log.warn("Unhandled element kind: {}", element.getKind());
+					yield null;
 				}
-				break;
-			case CLASS:
-				final TypeElement classElement = (TypeElement) element;
-				final ClassElementProcessor classProcessor = new ClassElementProcessor(classElement);
-				outputFilepath = classProcessor.getOutputFilepath();
-				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
-				try {
-					Files.createParentDirs(outputFile);
-					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
-						.write(classProcessor.toMarkdownString());
-				}
-				catch (IOException e) {
-					log.error("Error writing file: {}", outputFilepath, e);
-				}
-				break;
-			case ENUM:
-				final TypeElement enumElement = (TypeElement) element;
-				final EnumElementProcessor enumProcessor = new EnumElementProcessor(enumElement);
-				outputFilepath = enumProcessor.getOutputFilepath();
-				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
-				try {
-					Files.createParentDirs(outputFile);
-					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
-						.write(enumProcessor.toMarkdownString());
-				}
-				catch (IOException e) {
-					log.error("Error writing file: {}", outputFilepath, e);
-				}
-				break;
-			case RECORD:
-				final TypeElement recordElement = (TypeElement) element;
-				log.info("Processing record: {}", recordElement.getQualifiedName());
-				break;
-			case ANNOTATION_TYPE:
-				final TypeElement annotationElement = (TypeElement) element;
-				log.info("Processing annotation type: {}", annotationElement.getQualifiedName());
-				break;
-			default:
-				log.warn("Unhandled element kind: {}", element.getKind());
-				break;
+			};
+
+			if (elementProcessor == null) {
+				log.warn("No processor found for element: {}", element.getKind());
+				return;
+			}
+
+			try {
+				elementProcessor.processElement();
+			}
+			catch (IOException e) {
+				log.error("Error processing element: {}", element.getSimpleName(), e);
 			}
 		});
 		return true;
