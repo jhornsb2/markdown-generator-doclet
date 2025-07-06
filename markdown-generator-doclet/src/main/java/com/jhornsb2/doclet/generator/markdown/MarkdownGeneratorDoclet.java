@@ -17,6 +17,7 @@ import com.jhornsb2.doclet.generator.markdown.processor.impl.AnnotationElementPr
 import com.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
+import com.jhornsb2.doclet.generator.markdown.processor.impl.ModuleElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.processor.impl.RecordElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
@@ -83,11 +84,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		log.info("Running MarkdownGeneratorDoclet...");
 		environment.getIncludedElements().forEach(element -> {
 			IDocletElementProcessor elementProcessor = switch (element.getKind()) {
-				case MODULE -> {
-					ModuleElement moduleElement = (ModuleElement) element;
-					log.info("Processing module: {}", moduleElement.getQualifiedName());
-					yield null; // No specific processing for modules yet
-				}
+				case MODULE -> new ModuleElementProcessor((ModuleElement) element);
 				case PACKAGE -> new PackageElementProcessor((PackageElement) element);
 				case INTERFACE -> new InterfaceElementProcessor((TypeElement) element);
 				case CLASS -> new ClassElementProcessor((TypeElement) element);
