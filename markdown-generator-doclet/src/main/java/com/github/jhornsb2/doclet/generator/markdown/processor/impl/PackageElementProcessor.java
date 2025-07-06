@@ -33,6 +33,11 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	 */
 	PackageElement packageElement;
 
+	public String getOutputFilepath() {
+		log.debug("Generating output file path for package: {}", this.packageElement.getQualifiedName());
+		return this.packageElement.getQualifiedName().toString().replace('.', '/') + "/index.md";
+	}
+
 	public String toMarkdownString() {
 		log.debug("Generating markdown for package: {}", this.packageElement.getQualifiedName());
 		final Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(this.packageElement);

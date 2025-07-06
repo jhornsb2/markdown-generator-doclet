@@ -1,5 +1,7 @@
 package com.github.jhornsb2.doclet.generator.markdown;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Set;
 
@@ -11,6 +13,7 @@ import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.google.common.io.Files;
 
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
@@ -78,7 +81,19 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				final PackageElement packageElement = (PackageElement) element;
 				final PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
 				log.info("Package name: {}", packageElement.getQualifiedName());
+				String outputFilepath = packageProcessor.getOutputFilepath();
+				log.info("Output file path: {}", outputFilepath);
 				log.info(packageProcessor.toMarkdownString());
+				File outputFile = new File(this.destinationDir.getValue(), outputFilepath);
+				try {
+					Files.createParentDirs(outputFile);
+					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8).write(
+						packageProcessor.toMarkdownString()
+					);
+				}
+				catch (IOException e) {
+					log.error("Error writing file: {}", outputFilepath, e);
+				}
 				break;
 			case INTERFACE:
 				break;
