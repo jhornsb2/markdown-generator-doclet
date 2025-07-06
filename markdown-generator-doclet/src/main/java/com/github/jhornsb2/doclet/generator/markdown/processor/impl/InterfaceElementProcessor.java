@@ -41,23 +41,24 @@ public class InterfaceElementProcessor implements IDocletElementProcessor {
 
 		""";
 
-	TypeElement classElement;
+	TypeElement interfaceElement;
 
 	public String getOutputFilepath() {
-		log.debug("Generating output file path for interface: {}", this.classElement.getQualifiedName());
-		return this.classElement.getQualifiedName().toString().replace('.', '/') + "/index.md";
+		log.debug("Generating output file path for interface: {}", this.interfaceElement.getQualifiedName());
+		return this.interfaceElement.getQualifiedName().toString().replace('.', '/') + "/index.md";
 	}
 
 	public String toMarkdownString() {
-		log.debug("Generating markdown for interface: {}", this.classElement.getQualifiedName());
+		log.debug("Generating markdown for interface: {}", this.interfaceElement.getQualifiedName());
 
-		return InterfaceElementProcessor.TEMPLATE.replace("${simpleName}", this.classElement.getSimpleName().toString())
-			.replace("${kind}", this.classElement.getKind().toString())
-			.replace("${packageName}", this.classElement.getEnclosingElement().toString())
-			.replace("${interfaces}", this.classElement.getInterfaces().toString())
+		return InterfaceElementProcessor.TEMPLATE
+			.replace("${simpleName}", this.interfaceElement.getSimpleName().toString())
+			.replace("${kind}", this.interfaceElement.getKind().toString())
+			.replace("${packageName}", this.interfaceElement.getEnclosingElement().toString())
+			.replace("${interfaces}", this.interfaceElement.getInterfaces().toString())
 			.replace(
 				"${docComment}",
-				DocCommentUtil.getDocCommentTree(this.classElement)
+				DocCommentUtil.getDocCommentTree(this.interfaceElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

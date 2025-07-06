@@ -14,6 +14,7 @@ import com.github.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.github.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.github.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
+import com.github.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
 import com.github.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
@@ -129,7 +130,17 @@ public class MarkdownGeneratorDoclet implements Doclet {
 				break;
 			case ENUM:
 				final TypeElement enumElement = (TypeElement) element;
-				log.info("Processing enum: {}", enumElement.getQualifiedName());
+				final EnumElementProcessor enumProcessor = new EnumElementProcessor(enumElement);
+				outputFilepath = enumProcessor.getOutputFilepath();
+				outputFile = new File(this.destinationDir.getValue(), outputFilepath);
+				try {
+					Files.createParentDirs(outputFile);
+					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
+						.write(enumProcessor.toMarkdownString());
+				}
+				catch (IOException e) {
+					log.error("Error writing file: {}", outputFilepath, e);
+				}
 				break;
 			case RECORD:
 				final TypeElement recordElement = (TypeElement) element;
