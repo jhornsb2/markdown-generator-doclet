@@ -7,8 +7,11 @@ import javax.lang.model.element.Element;
 import com.sun.source.doctree.DocCommentTree;
 
 import jdk.javadoc.doclet.DocletEnvironment;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocCommentUtil {
 
 	private static DocletEnvironment environment;
