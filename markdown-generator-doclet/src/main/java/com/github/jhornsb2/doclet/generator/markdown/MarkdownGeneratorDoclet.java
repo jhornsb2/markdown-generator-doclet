@@ -80,16 +80,12 @@ public class MarkdownGeneratorDoclet implements Doclet {
 			case PACKAGE:
 				final PackageElement packageElement = (PackageElement) element;
 				final PackageElementProcessor packageProcessor = new PackageElementProcessor(packageElement);
-				log.info("Package name: {}", packageElement.getQualifiedName());
 				String outputFilepath = packageProcessor.getOutputFilepath();
-				log.info("Output file path: {}", outputFilepath);
-				log.info(packageProcessor.toMarkdownString());
 				File outputFile = new File(this.destinationDir.getValue(), outputFilepath);
 				try {
 					Files.createParentDirs(outputFile);
-					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8).write(
-						packageProcessor.toMarkdownString()
-					);
+					Files.asCharSink(outputFile, java.nio.charset.StandardCharsets.UTF_8)
+						.write(packageProcessor.toMarkdownString());
 				}
 				catch (IOException e) {
 					log.error("Error writing file: {}", outputFilepath, e);
