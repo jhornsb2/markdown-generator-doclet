@@ -41,18 +41,17 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	public String toMarkdownString() {
 		log.debug("Generating markdown for package: {}", this.packageElement.getQualifiedName());
 		final Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(this.packageElement);
-		return PackageElementProcessor.TEMPLATE.replace(
-			"${qualifiedName}",
-			this.packageElement.getQualifiedName()
-		).replace(
-			"${docComment}",
-			docCommentTree.map(DocCommentTree::getFullBody).map(List::toString).orElse("")
-		).replace(
-			"${packageContents}",
-			this.packageElement.getEnclosedElements().stream().filter(element -> element.getKind().isClass()).map(
-				element -> "- " + element.getSimpleName()
-			).reduce((a, b) -> a + "\n" + b).orElse("")
-		);
+		return PackageElementProcessor.TEMPLATE.replace("${qualifiedName}", this.packageElement.getQualifiedName())
+			.replace("${docComment}", docCommentTree.map(DocCommentTree::getFullBody).map(List::toString).orElse(""))
+			.replace(
+				"${packageContents}",
+				this.packageElement.getEnclosedElements()
+					.stream()
+					.filter(element -> element.getKind().isClass())
+					.map(element -> "- " + element.getSimpleName())
+					.reduce((a, b) -> a + "\n" + b)
+					.orElse("")
+			);
 	}
 
 }
