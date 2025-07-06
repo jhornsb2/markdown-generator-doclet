@@ -83,7 +83,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 		log.info("Running MarkdownGeneratorDoclet...");
 		environment.getIncludedElements().forEach(element -> {
-			IDocletElementProcessor elementProcessor = switch (element.getKind()) {
+			final IDocletElementProcessor elementProcessor = switch (element.getKind()) {
 				case MODULE -> new ModuleElementProcessor((ModuleElement) element);
 				case PACKAGE -> new PackageElementProcessor((PackageElement) element);
 				case INTERFACE -> new InterfaceElementProcessor((TypeElement) element);
