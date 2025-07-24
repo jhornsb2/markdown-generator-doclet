@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'io.freefair.lombok' version '8.14'
 }
 
 repositories {
@@ -57,9 +58,11 @@ tasks.named('test') {
 
 // Custom Javadoc task using the MarkdownGeneratorDoclet
 task generateMarkdown(type: Javadoc) {
+    dependsOn('delombok')
+
     outputs.upToDateWhen { false } // Always regenerate the docs
 
-    source = sourceSets.main.allJava
+    source = delombok
     destinationDir = file("$rootDir/generated-docs/TestJavaProject/app")
     classpath += configurations.compileClasspath
 
