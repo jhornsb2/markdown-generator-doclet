@@ -1,8 +1,12 @@
 package com.jhornsb2.doclet.generator.markdown.processor.impl;
 
+import java.io.IOException;
+import java.lang.reflect.Executable;
 import java.util.List;
 
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
@@ -73,6 +77,36 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 			.replace("${publicMethods}", "TODO: Implement public methods")
 			.replace("${staticMethods}", "TODO: Implement static methods")
 			.replace("${inheritedMembers}", "TODO: Implement inherited members");
+	}
+
+	@Override
+	public void processElement() throws IOException {
+		IDocletElementProcessor.super.processElement();
+
+		this.classElement.getEnclosedElements().forEach(element -> {
+			log.debug("Processing enclosed {} element: {}", element.getKind(), element.getSimpleName());
+			// Process each enclosed element as needed
+			switch (element.getKind()) {
+			case FIELD:
+				VariableElement variableElement = (VariableElement) element;
+				log.debug("Found field: {}", variableElement.getSimpleName());
+				break;
+
+			case CONSTRUCTOR:
+				ExecutableElement constructorElement = (ExecutableElement) element;
+				log.debug("Found constructor: {}", constructorElement.getSimpleName());
+				break;
+
+			case METHOD:
+				ExecutableElement methodElement = (ExecutableElement) element;
+				log.debug("Found method: {}", methodElement.getSimpleName());
+				break;
+
+			default:
+				log.warn("{}: Skipping processing for element: {}", this.getClass().getName(), element.getSimpleName());
+				break;
+			}
+		});
 	}
 
 }
