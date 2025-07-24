@@ -3,7 +3,7 @@
 
 [versions]
 guava = "33.0.0-jre"
-lombok = "1.18.34"
+lombok = "1.18.38"
 junit-jupiter = "5.10.2"
 
 [libraries]
