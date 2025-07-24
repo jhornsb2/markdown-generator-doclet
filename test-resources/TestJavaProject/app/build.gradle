@@ -29,11 +29,11 @@ dependencies {
     // This dependency is used by the application.
     implementation libs.guava
 
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.34'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+    // Lombok for reducing boilerplate code.
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
 
     // Add this to use the doclet from the sibling project
     jaxDoclet project(':markdown-generator-doclet')
