@@ -1,7 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.processor.impl;
 
 import java.io.IOException;
-import java.lang.reflect.Executable;
 import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
