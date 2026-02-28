@@ -1,9 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown.logging;
 
 import java.util.stream.Stream;
-
 import javax.tools.Diagnostic.Kind;
-
 import jdk.javadoc.doclet.Reporter;
 import lombok.Value;
 
@@ -36,12 +34,14 @@ public class DocletLogger {
 
 	/**
 	 * Checks if the reporter has been set.
-	 * 
+	 *
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
 	private static void checkReporter() {
 		if (reporter == null) {
-			throw new IllegalStateException("Reporter has not been set. Call DocletLogger.setReporter() first.");
+			throw new IllegalStateException(
+				"Reporter has not been set. Call DocletLogger.setReporter() first."
+			);
 		}
 	}
 
@@ -105,32 +105,45 @@ public class DocletLogger {
 	 * @param throwable the throwable to log
 	 * @param args      the arguments to format the message
 	 */
-	public void error(final String message, final Throwable throwable, final Object... args) {
+	public void error(
+		final String message,
+		final Throwable throwable,
+		final Object... args
+	) {
 		checkReporter();
 		final String formattedMessage = this.formatMessage(message, args);
-		reporter.print(Kind.ERROR, formattedMessage + "\n" + throwable.getMessage());
-		if (throwable.getStackTrace() != null && throwable.getStackTrace().length > 0) {
-			reporter.print(Kind.OTHER, "Stack trace: " + throwable.getStackTrace()[0]);
+		reporter.print(
+			Kind.ERROR,
+			formattedMessage + "\n" + throwable.getMessage()
+		);
+		if (
+			throwable.getStackTrace() != null &&
+			throwable.getStackTrace().length > 0
+		) {
+			reporter.print(
+				Kind.OTHER,
+				"Stack trace: " + throwable.getStackTrace()[0]
+			);
 		}
 	}
 
 	/**
 	 * Formats a message by replacing placeholders with the provided arguments.
-	 * 
+	 *
 	 * @param message the message to format
 	 * @param args    the arguments to replace the placeholders
 	 * @return the formatted message
 	 */
 	private String formatMessage(final String message, final Object... args) {
-		if (args == null || args.length == 0)
-			return message;
+		if (args == null || args.length == 0) return message;
 
-		final String messagePrefix = this.clazz != null ? this.clazz.getSimpleName() + ": " : "";
-		final String formattedMessage = messagePrefix + message.replace("{}", "%s");
-		final Object[] formattedArgs = Stream.of(args).map(arg -> arg == null ? "null" : arg.toString()).toArray(
-			Object[]::new
-		);
+		final String messagePrefix =
+			this.clazz != null ? this.clazz.getSimpleName() + ": " : "";
+		final String formattedMessage =
+			messagePrefix + message.replace("{}", "%s");
+		final Object[] formattedArgs = Stream.of(args)
+			.map(arg -> arg == null ? "null" : arg.toString())
+			.toArray(Object[]::new);
 		return String.format(formattedMessage, formattedArgs);
 	}
-
 }
