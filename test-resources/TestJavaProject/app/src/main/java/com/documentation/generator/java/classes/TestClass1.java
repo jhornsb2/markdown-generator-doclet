@@ -24,7 +24,7 @@ public class TestClass1 {
 
 	/**
 	 * Constructor with all parameters.
-	 * 
+	 *
 	 * @param foo The foo parameter.
 	 * @param bar The bar parameter.
 	 */
@@ -35,7 +35,7 @@ public class TestClass1 {
 
 	/**
 	 * Getter for the foo field.
-	 * 
+	 *
 	 * @return The foo field.
 	 */
 	public String getFoo() {
@@ -44,7 +44,7 @@ public class TestClass1 {
 
 	/**
 	 * Setter for the foo field.
-	 * 
+	 *
 	 * @param foo The new value for the foo field.
 	 */
 	public void setFoo(String foo) {
@@ -53,7 +53,7 @@ public class TestClass1 {
 
 	/**
 	 * Getter for the bar field.
-	 * 
+	 *
 	 * @return The bar field.
 	 */
 	public int getBar() {
@@ -62,11 +62,10 @@ public class TestClass1 {
 
 	/**
 	 * Setter for the bar field.
-	 * 
+	 *
 	 * @param bar The new value for the bar field.
 	 */
 	public void setBar(int bar) {
 		this.bar = bar;
 	}
-
 }

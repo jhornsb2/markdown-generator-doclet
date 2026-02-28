@@ -24,7 +24,7 @@ public final class ImmutableTestClass1 {
 
 	/**
 	 * Constructor with all parameters.
-	 * 
+	 *
 	 * @param foo The foo parameter.
 	 * @param bar The bar parameter.
 	 */
@@ -35,7 +35,7 @@ public final class ImmutableTestClass1 {
 
 	/**
 	 * Getter for the foo field.
-	 * 
+	 *
 	 * @return The foo field.
 	 */
 	public String getFoo() {
@@ -44,7 +44,7 @@ public final class ImmutableTestClass1 {
 
 	/**
 	 * Getter for the bar field.
-	 * 
+	 *
 	 * @return The bar field.
 	 */
 	public int getBar() {
@@ -54,7 +54,7 @@ public final class ImmutableTestClass1 {
 	/**
 	 * Returns a new instance of ImmutableTestClass1 with the foo field set to the
 	 * specified value.
-	 * 
+	 *
 	 * @param foo The new value for the foo field.
 	 * @return A new instance of ImmutableTestClass1 with the foo field set to the
 	 *         specified value.
@@ -66,7 +66,7 @@ public final class ImmutableTestClass1 {
 	/**
 	 * Returns a new instance of ImmutableTestClass1 with the bar field set to the
 	 * specified value.
-	 * 
+	 *
 	 * @param bar The new value for the bar field.
 	 * @return A new instance of ImmutableTestClass1 with the bar field set to the
 	 *         specified value.
@@ -94,5 +94,4 @@ public final class ImmutableTestClass1 {
 		result = 31 * result + bar;
 		return result;
 	}
-
 }

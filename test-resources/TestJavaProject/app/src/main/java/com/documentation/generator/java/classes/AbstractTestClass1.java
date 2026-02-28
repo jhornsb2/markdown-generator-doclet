@@ -24,7 +24,7 @@ public abstract class AbstractTestClass1 {
 
 	/**
 	 * Constructor with all parameters.
-	 * 
+	 *
 	 * @param foo The foo parameter.
 	 * @param bar The bar parameter.
 	 */
@@ -35,7 +35,7 @@ public abstract class AbstractTestClass1 {
 
 	/**
 	 * Getter for the foo field.
-	 * 
+	 *
 	 * @return The foo field.
 	 */
 	public String getFoo() {
@@ -44,7 +44,7 @@ public abstract class AbstractTestClass1 {
 
 	/**
 	 * Setter for the foo field.
-	 * 
+	 *
 	 * @param foo The new value for the foo field.
 	 */
 	public void setFoo(String foo) {
@@ -53,7 +53,7 @@ public abstract class AbstractTestClass1 {
 
 	/**
 	 * Getter for the bar field.
-	 * 
+	 *
 	 * @return The bar field.
 	 */
 	public int getBar() {
@@ -62,7 +62,7 @@ public abstract class AbstractTestClass1 {
 
 	/**
 	 * Setter for the bar field.
-	 * 
+	 *
 	 * @param bar The new value for the bar field.
 	 */
 	public void setBar(int bar) {
@@ -76,17 +76,16 @@ public abstract class AbstractTestClass1 {
 
 	/**
 	 * An abstract method with no parameters and a return value.
-	 * 
+	 *
 	 * @return The return value.
 	 */
 	public abstract String abstractMethod2();
 
 	/**
 	 * An abstract method with parameters and no return value.
-	 * 
+	 *
 	 * @param param1 The first parameter.
 	 * @param param2 The second parameter.
 	 */
 	public abstract void abstractMethod3(String param1, int param2);
-
 }

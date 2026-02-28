@@ -1,14 +1,5 @@
 package com.jhornsb2.doclet.generator.markdown;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.ModuleElement;
-import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
-
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
@@ -22,7 +13,13 @@ import com.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProce
 import com.jhornsb2.doclet.generator.markdown.processor.impl.RecordElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
-
+import java.io.IOException;
+import java.util.Locale;
+import java.util.Set;
+import javax.lang.model.SourceVersion;
+import javax.lang.model.element.ModuleElement;
+import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.TypeElement;
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
@@ -37,7 +34,9 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	/**
 	 * Logger for this doclet.
 	 */
-	private static final DocletLogger log = DocletLogger.forClass(MarkdownGeneratorDoclet.class);
+	private static final DocletLogger log = DocletLogger.forClass(
+		MarkdownGeneratorDoclet.class
+	);
 
 	/**
 	 * The flag to control whether to include a timestamp in the output.
@@ -45,7 +44,10 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	 * This is ignored, but is supported in order to be compatible with running in
 	 * gradle.
 	 */
-	private final Flag noTimestamp = new Flag("-notimestamp", "Do not include hidden time stamp");
+	private final Flag noTimestamp = new Flag(
+		"-notimestamp",
+		"Do not include hidden time stamp"
+	);
 	/**
 	 * The option to specify the destination directory for output files.
 	 */
@@ -82,34 +84,60 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		DocCommentUtil.setEnvironment(environment);
 
 		log.info("Running MarkdownGeneratorDoclet...");
-		environment.getIncludedElements().forEach(element -> {
-			final IDocletElementProcessor elementProcessor = switch (element.getKind()) {
-				case MODULE -> new ModuleElementProcessor((ModuleElement) element);
-				case PACKAGE -> new PackageElementProcessor((PackageElement) element);
-				case INTERFACE -> new InterfaceElementProcessor((TypeElement) element);
-				case CLASS -> new ClassElementProcessor((TypeElement) element);
-				case ENUM -> new EnumElementProcessor((TypeElement) element);
-				case RECORD -> new RecordElementProcessor((TypeElement) element);
-				case ANNOTATION_TYPE -> new AnnotationElementProcessor((TypeElement) element);
-				default -> {
-					log.warn("Unhandled element kind: {}", element.getKind());
-					yield null;
+		environment
+			.getIncludedElements()
+			.forEach(element -> {
+				final IDocletElementProcessor elementProcessor = switch (
+					element.getKind()
+				) {
+					case MODULE -> new ModuleElementProcessor(
+						(ModuleElement) element
+					);
+					case PACKAGE -> new PackageElementProcessor(
+						(PackageElement) element
+					);
+					case INTERFACE -> new InterfaceElementProcessor(
+						(TypeElement) element
+					);
+					case CLASS -> new ClassElementProcessor(
+						(TypeElement) element
+					);
+					case ENUM -> new EnumElementProcessor(
+						(TypeElement) element
+					);
+					case RECORD -> new RecordElementProcessor(
+						(TypeElement) element
+					);
+					case ANNOTATION_TYPE -> new AnnotationElementProcessor(
+						(TypeElement) element
+					);
+					default -> {
+						log.warn(
+							"Unhandled element kind: {}",
+							element.getKind()
+						);
+						yield null;
+					}
+				};
+
+				if (elementProcessor == null) {
+					log.warn(
+						"No processor found for element: {}",
+						element.getKind()
+					);
+					return;
 				}
-			};
 
-			if (elementProcessor == null) {
-				log.warn("No processor found for element: {}", element.getKind());
-				return;
-			}
-
-			try {
-				elementProcessor.processElement();
-			}
-			catch (IOException e) {
-				log.error("Error processing element: {}", element.getSimpleName(), e);
-			}
-		});
+				try {
+					elementProcessor.processElement();
+				} catch (IOException e) {
+					log.error(
+						"Error processing element: {}",
+						element.getSimpleName(),
+						e
+					);
+				}
+			});
 		return true;
 	}
-
 }

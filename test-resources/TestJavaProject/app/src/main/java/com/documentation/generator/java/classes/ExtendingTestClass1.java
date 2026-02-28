@@ -17,7 +17,12 @@ public class ExtendingTestClass1 extends AbstractTestClass1 {
 
 	@Override
 	public void abstractMethod3(String param1, int param2) {
-		System.out.println("ExtendingTestClass1.abstractMethod3(" + param1 + ", " + param2 + ")");
+		System.out.println(
+			"ExtendingTestClass1.abstractMethod3(" +
+				param1 +
+				", " +
+				param2 +
+				")"
+		);
 	}
-
 }

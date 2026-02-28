@@ -21,5 +21,4 @@ public class LombokTestClass1 {
 	 * A private field of type int.
 	 */
 	private int bar = 0;
-
 }

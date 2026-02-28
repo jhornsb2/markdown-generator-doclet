@@ -1,21 +1,20 @@
 package com.jhornsb2.doclet.generator.markdown.processor.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.lang.model.element.PackageElement;
-
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.sun.source.doctree.DocCommentTree;
-
+import java.util.List;
+import java.util.Optional;
+import javax.lang.model.element.PackageElement;
 import lombok.Value;
 
 @Value
 public class PackageElementProcessor implements IDocletElementProcessor {
 
-	private static final DocletLogger log = DocletLogger.forClass(PackageElementProcessor.class);
+	private static final DocletLogger log = DocletLogger.forClass(
+		PackageElementProcessor.class
+	);
 
 	private static final String TEMPLATE = """
 		# ${qualifiedName}
@@ -34,15 +33,36 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	PackageElement packageElement;
 
 	public String getOutputFilepath() {
-		log.debug("Generating output file path for package: {}", this.packageElement.getQualifiedName());
-		return this.packageElement.getQualifiedName().toString().replace('.', '/') + "/index.md";
+		log.debug(
+			"Generating output file path for package: {}",
+			this.packageElement.getQualifiedName()
+		);
+		return (
+			this.packageElement.getQualifiedName()
+				.toString()
+				.replace('.', '/') +
+			"/index.md"
+		);
 	}
 
 	public String toMarkdownString() {
-		log.debug("Generating markdown for package: {}", this.packageElement.getQualifiedName());
-		final Optional<DocCommentTree> docCommentTree = DocCommentUtil.getDocCommentTree(this.packageElement);
-		return PackageElementProcessor.TEMPLATE.replace("${qualifiedName}", this.packageElement.getQualifiedName())
-			.replace("${docComment}", docCommentTree.map(DocCommentTree::getFullBody).map(List::toString).orElse(""))
+		log.debug(
+			"Generating markdown for package: {}",
+			this.packageElement.getQualifiedName()
+		);
+		final Optional<DocCommentTree> docCommentTree =
+			DocCommentUtil.getDocCommentTree(this.packageElement);
+		return PackageElementProcessor.TEMPLATE.replace(
+			"${qualifiedName}",
+			this.packageElement.getQualifiedName()
+		)
+			.replace(
+				"${docComment}",
+				docCommentTree
+					.map(DocCommentTree::getFullBody)
+					.map(List::toString)
+					.orElse("")
+			)
 			.replace(
 				"${packageContents}",
 				this.packageElement.getEnclosedElements()
@@ -53,5 +73,4 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 					.orElse("")
 			);
 	}
-
 }

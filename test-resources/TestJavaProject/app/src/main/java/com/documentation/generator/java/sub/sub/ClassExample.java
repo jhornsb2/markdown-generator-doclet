@@ -9,6 +9,7 @@ public class ClassExample {
 
 	@Data
 	public static class InnerClass {
+
 		private String innerField;
 
 		public InnerClass(String innerField) {
@@ -23,5 +24,4 @@ public class ClassExample {
 			this.innerField = innerField;
 		}
 	}
-
 }

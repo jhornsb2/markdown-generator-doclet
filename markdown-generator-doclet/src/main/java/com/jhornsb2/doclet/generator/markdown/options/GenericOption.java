@@ -1,7 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.options;
 
 import java.util.List;
-
 import jdk.javadoc.doclet.Doclet.Option;
 
 public class GenericOption implements Option {
@@ -10,7 +9,11 @@ public class GenericOption implements Option {
 	private final String description;
 	private String value;
 
-	public GenericOption(final String name, final String description, final String defaultValue) {
+	public GenericOption(
+		final String name,
+		final String description,
+		final String defaultValue
+	) {
 		this.name = name;
 		this.description = description;
 		this.value = defaultValue;
@@ -46,8 +49,7 @@ public class GenericOption implements Option {
 		if (values.size() >= 1) {
 			this.value = values.get(0);
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -55,5 +57,4 @@ public class GenericOption implements Option {
 	public String getValue() {
 		return this.value;
 	}
-
 }

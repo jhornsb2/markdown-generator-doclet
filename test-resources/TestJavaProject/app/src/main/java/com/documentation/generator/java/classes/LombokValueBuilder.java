@@ -28,5 +28,4 @@ public class LombokValueBuilder {
 	 */
 	@Builder.Default
 	int bar = 0;
-
 }

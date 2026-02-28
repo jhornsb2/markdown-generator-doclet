@@ -10,7 +10,6 @@ import java.util.stream.Stream;
  * This is a complex enum that is meant for testing a Java enum's features.
  */
 public enum TestEnum2 {
-
 	/**
 	 * This is the first value.
 	 */
@@ -31,7 +30,7 @@ public enum TestEnum2 {
 
 	/**
 	 * Constructor for the enum.
-	 * 
+	 *
 	 * @param value the value of the enum
 	 */
 	TestEnum2(String value) {
@@ -40,7 +39,7 @@ public enum TestEnum2 {
 
 	/**
 	 * Returns the value of the enum.
-	 * 
+	 *
 	 * @return the value of the enum
 	 */
 	public String getValue() {
@@ -49,7 +48,7 @@ public enum TestEnum2 {
 
 	/**
 	 * Returns whether the enum is {@link #VALUE1}.
-	 * 
+	 *
 	 * @return <code>true</code> if the enum is {@link #VALUE1}, <code>false</code>
 	 *         otherwise
 	 */
@@ -59,7 +58,7 @@ public enum TestEnum2 {
 
 	/**
 	 * Returns whether the enum is {@link #VALUE2}.
-	 * 
+	 *
 	 * @return <code>true</code> if the enum is {@link #VALUE2}, <code>false</code>
 	 *         otherwise
 	 */
@@ -69,7 +68,7 @@ public enum TestEnum2 {
 
 	/**
 	 * Returns whether the enum is {@link #VALUE3}.
-	 * 
+	 *
 	 * @return <code>true</code> if the enum is {@link #VALUE3}, <code>false</code>
 	 *         otherwise
 	 */
@@ -80,12 +79,16 @@ public enum TestEnum2 {
 	/**
 	 * A simple map that maps the {@link #value} to the enum value.
 	 */
-	private static final Map<String, TestEnum2> VALUE_TO_ENUM_MAP = Collections.unmodifiableMap(
-			Stream.of(values()).collect(Collectors.toMap(TestEnum2::getValue, Function.identity())));
+	private static final Map<String, TestEnum2> VALUE_TO_ENUM_MAP =
+		Collections.unmodifiableMap(
+			Stream.of(values()).collect(
+				Collectors.toMap(TestEnum2::getValue, Function.identity())
+			)
+		);
 
 	/**
 	 * Returns the enum value from the given {@link #value}.
-	 * 
+	 *
 	 * @param value the {@link #value} to get the enum from
 	 * @return the enum value from the given {@link #value}
 	 */
@@ -95,7 +98,7 @@ public enum TestEnum2 {
 
 	/**
 	 * Converts the given {@link TestEnum2} to {@link TestEnum1}.
-	 * 
+	 *
 	 * @param testEnum2 the {@link TestEnum2} to convert
 	 * @return the converted {@link TestEnum1}
 	 */
@@ -108,13 +111,15 @@ public enum TestEnum2 {
 			case VALUE3:
 				return TestEnum1.VALUE3;
 			default:
-				throw new IllegalArgumentException("Invalid enum value: " + testEnum2);
+				throw new IllegalArgumentException(
+					"Invalid enum value: " + testEnum2
+				);
 		}
 	}
 
 	/**
 	 * Converts the given {@link TestEnum1} to {@link TestEnum2}.
-	 * 
+	 *
 	 * @param testEnum1 the {@link TestEnum1} to convert
 	 * @return the converted {@link TestEnum2}
 	 */
@@ -127,8 +132,9 @@ public enum TestEnum2 {
 			case VALUE3:
 				return TestEnum2.VALUE3;
 			default:
-				throw new IllegalArgumentException("Invalid enum value: " + testEnum1);
+				throw new IllegalArgumentException(
+					"Invalid enum value: " + testEnum1
+				);
 		}
 	}
-
 }

@@ -1,7 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.options;
 
 import java.util.List;
-
 import jdk.javadoc.doclet.Doclet.Option;
 
 public class Flag implements Option {
@@ -50,5 +49,4 @@ public class Flag implements Option {
 	public boolean isSet() {
 		return this.value;
 	}
-
 }

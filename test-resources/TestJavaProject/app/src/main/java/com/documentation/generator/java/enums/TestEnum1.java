@@ -4,7 +4,6 @@ package com.documentation.generator.java.enums;
  * This is a simple enum that is meant for testing a basic Java enum.
  */
 public enum TestEnum1 {
-
 	/**
 	 * This is the first value.
 	 */
@@ -16,6 +15,5 @@ public enum TestEnum1 {
 	/**
 	 * This is the third value.
 	 */
-	VALUE3;
-
+	VALUE3
 }

@@ -1,7 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.util;
 
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
@@ -13,20 +12,23 @@ public class OptionUtil {
 
 	public static void initialize(GenericOption destinationDir) {
 		if (instance != null) {
-			throw new IllegalStateException("OptionUtil has already been initialized.");
+			throw new IllegalStateException(
+				"OptionUtil has already been initialized."
+			);
 		}
 		instance = new OptionUtil(destinationDir);
 	}
 
 	public static OptionUtil getInstance() {
 		if (instance == null) {
-			throw new IllegalStateException("OptionUtil has not been initialized. Call initialize() first.");
+			throw new IllegalStateException(
+				"OptionUtil has not been initialized. Call initialize() first."
+			);
 		}
 		return instance;
 	}
 
-	public String getDestinationDirectory()	{
+	public String getDestinationDirectory() {
 		return destinationDir.getValue();
 	}
-
 }
