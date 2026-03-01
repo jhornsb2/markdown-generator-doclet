@@ -34,3 +34,6 @@ build
 
 # Ignore Node Modules
 node_modules/
+
+# Keep Gradle Wrapper JAR
+!gradle/wrapper/gradle-wrapper.jar
