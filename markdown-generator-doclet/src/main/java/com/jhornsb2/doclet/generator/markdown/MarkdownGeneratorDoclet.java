@@ -79,39 +79,10 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		// Initialize the run
 		DocCommentUtil.setEnvironment(environment);
 
-		final ElementDataCache elementDataCache = new ElementDataCache();
-		final InterfaceDataFactory interfaceDataFactory =
-			new InterfaceDataFactory(elementDataCache);
-		final AnnotationDataFactory annotationDataFactory =
-			new AnnotationDataFactory(elementDataCache);
-		final ClassDataFactory classDataFactory = new ClassDataFactory(
-			elementDataCache
-		);
-		final EnumDataFactory enumDataFactory = new EnumDataFactory(
-			elementDataCache
-		);
-		final PackageDataFactory packageDataFactory = new PackageDataFactory(
-			elementDataCache
-		);
-		final ModuleDataFactory moduleDataFactory = new ModuleDataFactory(
-			elementDataCache
-		);
-		final IElementDataFactory elementDataFactory = new IElementDataFactory(
-			elementDataCache,
-			moduleDataFactory,
-			packageDataFactory,
-			interfaceDataFactory,
-			annotationDataFactory,
-			classDataFactory,
-			enumDataFactory
-		);
+		// Create and run the generator
+		final MarkdownGenerator generator = new MarkdownGenerator(environment);
+		generator.generate();
 
-		log.info("Running MarkdownGeneratorDoclet...");
-		environment
-			.getIncludedElements()
-			.parallelStream()
-			.map(elementDataFactory::create)
-			.forEach(e -> log.info("Processed element: {}", e.toString()));
 		return true;
 	}
 }
