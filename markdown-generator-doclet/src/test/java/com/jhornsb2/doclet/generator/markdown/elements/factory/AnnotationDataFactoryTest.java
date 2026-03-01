@@ -27,7 +27,9 @@ class AnnotationDataFactoryTest {
 		AnnotationDataFactory factory = new AnnotationDataFactory(
 			new ElementDataCache()
 		);
-		AnnotationData annotationData = factory.createUncached(annotationElement);
+		AnnotationData annotationData = factory.createUncached(
+			annotationElement
+		);
 
 		assertEquals("MyAnnotation", annotationData.getSimpleName());
 		assertEquals("example.MyAnnotation", annotationData.getQualifiedName());

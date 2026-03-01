@@ -103,16 +103,22 @@ class IElementDataFactoryTest {
 			() -> factory.create(unsupported)
 		);
 
-		assertEquals("Unsupported element kind: METHOD", exception.getMessage());
+		assertEquals(
+			"Unsupported element kind: METHOD",
+			exception.getMessage()
+		);
 	}
 
 	private static IElementDataFactory createFactory() {
 		ElementDataCache cache = new ElementDataCache();
 		ModuleDataFactory moduleDataFactory = new ModuleDataFactory(cache);
 		PackageDataFactory packageDataFactory = new PackageDataFactory(cache);
-		InterfaceDataFactory interfaceDataFactory = new InterfaceDataFactory(cache);
-		AnnotationDataFactory annotationDataFactory =
-			new AnnotationDataFactory(cache);
+		InterfaceDataFactory interfaceDataFactory = new InterfaceDataFactory(
+			cache
+		);
+		AnnotationDataFactory annotationDataFactory = new AnnotationDataFactory(
+			cache
+		);
 		ClassDataFactory classDataFactory = new ClassDataFactory(cache);
 		EnumDataFactory enumDataFactory = new EnumDataFactory(cache);
 

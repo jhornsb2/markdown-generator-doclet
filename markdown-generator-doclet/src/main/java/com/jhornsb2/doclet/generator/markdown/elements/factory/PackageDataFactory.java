@@ -59,8 +59,9 @@ public class PackageDataFactory {
 	 */
 	PackageData createUncached(@NonNull final Element element) {
 		final PackageElement packageElement = (PackageElement) element;
-		final Set<String> packageContents =
-			this.resolvePackageContents(packageElement);
+		final Set<String> packageContents = this.resolvePackageContents(
+			packageElement
+		);
 		final String simpleName = packageElement.getSimpleName().toString();
 		final String qualifiedName = packageElement
 			.getQualifiedName()
@@ -121,10 +122,12 @@ public class PackageDataFactory {
 	 *         type; {@code false} otherwise.
 	 */
 	private boolean isPackageContentKind(final ElementKind kind) {
-		return kind == ElementKind.CLASS ||
+		return (
+			kind == ElementKind.CLASS ||
 			kind == ElementKind.INTERFACE ||
 			kind == ElementKind.ENUM ||
 			kind == ElementKind.ANNOTATION_TYPE ||
-			kind == ElementKind.RECORD;
+			kind == ElementKind.RECORD
+		);
 	}
 }

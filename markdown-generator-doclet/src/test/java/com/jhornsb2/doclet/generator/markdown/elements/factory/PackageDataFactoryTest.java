@@ -43,14 +43,19 @@ class PackageDataFactoryTest {
 			List.of(classElement, interfaceElement, fieldElement, classElement)
 		);
 
-		PackageDataFactory factory = new PackageDataFactory(new ElementDataCache());
+		PackageDataFactory factory = new PackageDataFactory(
+			new ElementDataCache()
+		);
 		PackageData packageData = factory.createUncached(packageElement);
 
 		assertEquals("example", packageData.getSimpleName());
 		assertEquals("example", packageData.getQualifiedName());
 		assertEquals("package", packageData.getKind());
 		assertEquals("", packageData.getDocComment());
-		assertEquals(Set.of("example.A", "example.B"), packageData.getPackageContents());
+		assertEquals(
+			Set.of("example.A", "example.B"),
+			packageData.getPackageContents()
+		);
 	}
 
 	@Test

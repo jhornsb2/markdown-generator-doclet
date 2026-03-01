@@ -59,12 +59,17 @@ public class ModuleDataFactory {
 	 */
 	ModuleData createUncached(@NonNull final Element element) {
 		final ModuleElement moduleElement = (ModuleElement) element;
-		final Set<String> moduleContents =
-			this.resolveModuleContents(moduleElement);
+		final Set<String> moduleContents = this.resolveModuleContents(
+			moduleElement
+		);
 		final String simpleName = moduleElement.getSimpleName().toString();
-		final String qualifiedName = moduleElement.getQualifiedName().toString();
+		final String qualifiedName = moduleElement
+			.getQualifiedName()
+			.toString();
 		final String kind = moduleElement.getKind().name().toLowerCase();
-		final String docComment = DocCommentUtil.getDocCommentTree(moduleElement)
+		final String docComment = DocCommentUtil.getDocCommentTree(
+			moduleElement
+		)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");
@@ -102,9 +107,7 @@ public class ModuleDataFactory {
 			.filter(element -> element.getKind() == ElementKind.PACKAGE)
 			.filter(PackageElement.class::isInstance)
 			.map(PackageElement.class::cast)
-			.map(packageElement ->
-				packageElement.getQualifiedName().toString()
-			)
+			.map(packageElement -> packageElement.getQualifiedName().toString())
 			.collect(Collectors.toCollection(LinkedHashSet::new));
 		return Collections.unmodifiableSet(contents);
 	}

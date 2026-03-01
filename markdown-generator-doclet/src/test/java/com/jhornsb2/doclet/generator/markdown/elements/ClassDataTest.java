@@ -33,7 +33,13 @@ class ClassDataTest {
 			.superInterfaces(Set.of("java.io.Serializable"))
 			.build();
 
-		assertEquals(Optional.of("java.lang.Object"), classData.getSuperClass());
-		assertEquals(Set.of("java.io.Serializable"), classData.getSuperInterfaces());
+		assertEquals(
+			Optional.of("java.lang.Object"),
+			classData.getSuperClass()
+		);
+		assertEquals(
+			Set.of("java.io.Serializable"),
+			classData.getSuperInterfaces()
+		);
 	}
 }

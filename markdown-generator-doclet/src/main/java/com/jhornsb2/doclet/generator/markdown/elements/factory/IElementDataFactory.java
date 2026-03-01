@@ -52,8 +52,9 @@ public class IElementDataFactory {
 			case CLASS -> this.classDataFactory.createUncached(element);
 			case ENUM -> this.enumDataFactory.createUncached(element);
 			case INTERFACE -> this.interfaceDataFactory.createUncached(element);
-			case ANNOTATION_TYPE ->
-				this.annotationDataFactory.createUncached(element);
+			case ANNOTATION_TYPE -> this.annotationDataFactory.createUncached(
+				element
+			);
 			case PACKAGE -> this.packageDataFactory.createUncached(element);
 			case MODULE -> this.moduleDataFactory.createUncached(element);
 			default -> throw new IllegalArgumentException(

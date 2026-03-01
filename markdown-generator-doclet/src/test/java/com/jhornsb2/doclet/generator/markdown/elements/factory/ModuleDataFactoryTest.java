@@ -39,10 +39,17 @@ class ModuleDataFactoryTest {
 		Element moduleElement = FactoryTestFixtures.moduleElement(
 			"example.module",
 			"example.module",
-			List.of(firstPackage, nonPackageElement, secondPackage, firstPackage)
+			List.of(
+				firstPackage,
+				nonPackageElement,
+				secondPackage,
+				firstPackage
+			)
 		);
 
-		ModuleDataFactory factory = new ModuleDataFactory(new ElementDataCache());
+		ModuleDataFactory factory = new ModuleDataFactory(
+			new ElementDataCache()
+		);
 		ModuleData moduleData = factory.createUncached(moduleElement);
 
 		assertEquals("example.module", moduleData.getSimpleName());

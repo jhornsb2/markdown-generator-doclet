@@ -27,7 +27,9 @@ class InterfaceDataTest {
 			.qualifiedName("example.MyInterface")
 			.kind("interface")
 			.docComment("docs")
-			.superInterfaces(Set.of("java.io.Closeable", "java.io.Serializable"))
+			.superInterfaces(
+				Set.of("java.io.Closeable", "java.io.Serializable")
+			)
 			.build();
 
 		assertEquals(

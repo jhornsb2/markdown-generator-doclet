@@ -34,6 +34,9 @@ class EnumDataTest {
 			.build();
 
 		assertEquals(Optional.of("java.lang.Enum"), enumData.getSuperClass());
-		assertEquals(Set.of("java.io.Serializable"), enumData.getSuperInterfaces());
+		assertEquals(
+			Set.of("java.io.Serializable"),
+			enumData.getSuperInterfaces()
+		);
 	}
 }

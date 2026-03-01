@@ -1,11 +1,11 @@
 package com.jhornsb2.doclet.generator.markdown;
 
+import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.EnumDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.IElementDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;

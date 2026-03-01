@@ -56,7 +56,10 @@ class EnumDataFactoryTest {
 		assertEquals("enum", enumData.getKind());
 		assertEquals("", enumData.getDocComment());
 		assertEquals(Optional.of("java.lang.Enum"), enumData.getSuperClass());
-		assertEquals(Set.of("java.io.Serializable"), enumData.getSuperInterfaces());
+		assertEquals(
+			Set.of("java.io.Serializable"),
+			enumData.getSuperInterfaces()
+		);
 	}
 
 	@Test
