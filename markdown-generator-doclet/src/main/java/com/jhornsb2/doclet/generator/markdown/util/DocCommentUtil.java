@@ -5,14 +5,12 @@ import java.util.Optional;
 import javax.lang.model.element.Element;
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.NonNull;
+import lombok.Value;
 
+@Value
 public class DocCommentUtil {
 
-	private final DocletEnvironment environment;
-
-	public DocCommentUtil(@NonNull final DocletEnvironment environment) {
-		this.environment = environment;
-	}
+	DocletEnvironment environment;
 
 	public Optional<DocCommentTree> getDocCommentTree(
 		@NonNull final Element element
