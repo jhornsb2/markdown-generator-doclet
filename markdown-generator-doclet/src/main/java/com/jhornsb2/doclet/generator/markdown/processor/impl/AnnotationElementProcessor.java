@@ -36,9 +36,9 @@ public class AnnotationElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for annotation: {}",
 			this.annotationElement.getQualifiedName()
 		);
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forAnnotationElement(this.annotationElement);
+		return this.docletOptions.getOutputFilepathStrategy().forAnnotationElement(
+			this.annotationElement
+		);
 	}
 
 	public String toMarkdownString() {

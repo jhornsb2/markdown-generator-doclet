@@ -11,7 +11,8 @@ import javax.lang.model.element.TypeElement;
  * based on qualified names.
  */
 public class HierarchicalOutputFilepathStrategy
-	implements OutputFilepathStrategy {
+	implements OutputFilepathStrategy
+{
 
 	@Override
 	public String forAnnotationElement(final TypeElement annotationElement) {

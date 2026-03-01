@@ -50,9 +50,9 @@ public class InterfaceElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for interface: {}",
 			this.interfaceElement.getQualifiedName()
 		);
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forInterfaceElement(this.interfaceElement);
+		return this.docletOptions.getOutputFilepathStrategy().forInterfaceElement(
+			this.interfaceElement
+		);
 	}
 
 	public String toMarkdownString() {

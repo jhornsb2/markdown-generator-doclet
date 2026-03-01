@@ -54,9 +54,9 @@ public class EnumElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for enum: {}",
 			this.enumElement.getQualifiedName()
 		);
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forEnumElement(this.enumElement);
+		return this.docletOptions.getOutputFilepathStrategy().forEnumElement(
+			this.enumElement
+		);
 	}
 
 	public String toMarkdownString() {

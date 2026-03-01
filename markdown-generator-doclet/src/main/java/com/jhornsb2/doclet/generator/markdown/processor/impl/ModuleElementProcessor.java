@@ -28,9 +28,9 @@ public class ModuleElementProcessor implements IDocletElementProcessor {
 	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forModuleElement(this.moduleElement);
+		return this.docletOptions.getOutputFilepathStrategy().forModuleElement(
+			this.moduleElement
+		);
 	}
 
 	public String toMarkdownString() {

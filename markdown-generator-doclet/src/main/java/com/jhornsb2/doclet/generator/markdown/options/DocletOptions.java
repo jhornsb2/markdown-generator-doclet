@@ -10,6 +10,7 @@ public class DocletOptions {
 
 	@NonNull
 	GenericOption destinationDir;
+
 	@NonNull
 	GenericOption pathLayout;
 

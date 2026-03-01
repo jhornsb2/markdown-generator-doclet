@@ -41,9 +41,9 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for package: {}",
 			QualifiedNameResolver.qualifiedNameOf(this.packageElement)
 		);
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forPackageElement(this.packageElement);
+		return this.docletOptions.getOutputFilepathStrategy().forPackageElement(
+			this.packageElement
+		);
 	}
 
 	public String toMarkdownString() {

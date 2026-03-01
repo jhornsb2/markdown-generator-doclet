@@ -56,9 +56,9 @@ public class RecordElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for record: {}",
 			this.recordElement.getQualifiedName()
 		);
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forRecordElement(this.recordElement);
+		return this.docletOptions.getOutputFilepathStrategy().forRecordElement(
+			this.recordElement
+		);
 	}
 
 	public String toMarkdownString() {

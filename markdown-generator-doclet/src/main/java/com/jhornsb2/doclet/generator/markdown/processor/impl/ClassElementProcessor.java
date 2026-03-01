@@ -59,9 +59,9 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for class: {}",
 			this.classElement.getQualifiedName()
 		);
-		return this.docletOptions
-			.getOutputFilepathStrategy()
-			.forClassElement(this.classElement);
+		return this.docletOptions.getOutputFilepathStrategy().forClassElement(
+			this.classElement
+		);
 	}
 
 	public String toMarkdownString() {
