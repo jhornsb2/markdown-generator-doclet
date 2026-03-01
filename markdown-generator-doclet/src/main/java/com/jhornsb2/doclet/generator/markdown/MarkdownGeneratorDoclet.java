@@ -1,25 +1,21 @@
 package com.jhornsb2.doclet.generator.markdown;
 
+import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.EnumDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.IElementDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
-import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.AnnotationElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.ClassElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.EnumElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.InterfaceElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.ModuleElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.PackageElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.processor.impl.RecordElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.Set;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.ModuleElement;
-import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
@@ -41,8 +37,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	/**
 	 * The flag to control whether to include a timestamp in the output.
 	 * <p>
-	 * This is ignored, but is supported in order to be compatible with running in
-	 * gradle.
+	 * This is ignored, but is supported in order to be compatible with running
+	 * in Gradle.
 	 */
 	private final Flag noTimestamp = new Flag(
 		"-notimestamp",
@@ -83,61 +79,39 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		// Initialize the run
 		DocCommentUtil.setEnvironment(environment);
 
+		final ElementDataCache elementDataCache = new ElementDataCache();
+		final InterfaceDataFactory interfaceDataFactory =
+			new InterfaceDataFactory(elementDataCache);
+		final AnnotationDataFactory annotationDataFactory =
+			new AnnotationDataFactory(elementDataCache);
+		final ClassDataFactory classDataFactory = new ClassDataFactory(
+			elementDataCache
+		);
+		final EnumDataFactory enumDataFactory = new EnumDataFactory(
+			elementDataCache
+		);
+		final PackageDataFactory packageDataFactory = new PackageDataFactory(
+			elementDataCache
+		);
+		final ModuleDataFactory moduleDataFactory = new ModuleDataFactory(
+			elementDataCache
+		);
+		final IElementDataFactory elementDataFactory = new IElementDataFactory(
+			elementDataCache,
+			moduleDataFactory,
+			packageDataFactory,
+			interfaceDataFactory,
+			annotationDataFactory,
+			classDataFactory,
+			enumDataFactory
+		);
+
 		log.info("Running MarkdownGeneratorDoclet...");
 		environment
 			.getIncludedElements()
-			.forEach(element -> {
-				final IDocletElementProcessor elementProcessor = switch (
-					element.getKind()
-				) {
-					case MODULE -> new ModuleElementProcessor(
-						(ModuleElement) element
-					);
-					case PACKAGE -> new PackageElementProcessor(
-						(PackageElement) element
-					);
-					case INTERFACE -> new InterfaceElementProcessor(
-						(TypeElement) element
-					);
-					case CLASS -> new ClassElementProcessor(
-						(TypeElement) element
-					);
-					case ENUM -> new EnumElementProcessor(
-						(TypeElement) element
-					);
-					case RECORD -> new RecordElementProcessor(
-						(TypeElement) element
-					);
-					case ANNOTATION_TYPE -> new AnnotationElementProcessor(
-						(TypeElement) element
-					);
-					default -> {
-						log.warn(
-							"Unhandled element kind: {}",
-							element.getKind()
-						);
-						yield null;
-					}
-				};
-
-				if (elementProcessor == null) {
-					log.warn(
-						"No processor found for element: {}",
-						element.getKind()
-					);
-					return;
-				}
-
-				try {
-					elementProcessor.processElement();
-				} catch (IOException e) {
-					log.error(
-						"Error processing element: {}",
-						element.getSimpleName(),
-						e
-					);
-				}
-			});
+			.parallelStream()
+			.map(elementDataFactory::create)
+			.forEach(e -> log.info("Processed element: {}", e.toString()));
 		return true;
 	}
 }
