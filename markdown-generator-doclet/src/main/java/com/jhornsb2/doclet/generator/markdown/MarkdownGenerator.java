@@ -107,6 +107,10 @@ public class MarkdownGenerator {
 	 * Markdown.
 	 */
 	DocletEnvironment environment;
+	/**
+	 * Options provided to the doclet, which may include various settings and
+	 * configurations for how the Markdown should be generated.
+	 */
 	DocletOptions docletOptions;
 	/**
 	 * Utility for working with Javadoc comments, providing methods to extract
