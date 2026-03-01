@@ -136,7 +136,7 @@ public class MarkdownGenerator {
 	IElementDataFactory elementDataFactory;
 
 	public void generate() {
-		log.info("Running MarkdownGeneratorDoclet...");
+		log.debug(String.format("%s.generate()", this.getClass().getName()));
 		environment
 			.getIncludedElements()
 			.parallelStream()
