@@ -12,6 +12,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import com.jhornsb2.doclet.generator.markdown.elements.InterfaceData;
 import com.jhornsb2.doclet.generator.markdown.elements.ModuleData;
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
+import com.jhornsb2.doclet.generator.markdown.elements.RecordData;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
@@ -39,6 +40,11 @@ class IElementDataFactoryTest {
 			"example.Status",
 			ElementKind.ENUM
 		);
+		TypeElement recordElement = FactoryTestFixtures.minimalTypeElement(
+			"UserRecord",
+			"example.UserRecord",
+			ElementKind.RECORD
+		);
 		TypeElement interfaceElement = FactoryTestFixtures.minimalTypeElement(
 			"Api",
 			"example.Api",
@@ -62,6 +68,7 @@ class IElementDataFactoryTest {
 
 		IElementData classData = factory.create(classElement);
 		IElementData enumData = factory.create(enumElement);
+		IElementData recordData = factory.create(recordElement);
 		IElementData interfaceData = factory.create(interfaceElement);
 		IElementData annotationData = factory.create(annotationElement);
 		IElementData packageData = factory.create(packageElement);
@@ -69,6 +76,7 @@ class IElementDataFactoryTest {
 
 		assertInstanceOf(ClassData.class, classData);
 		assertInstanceOf(EnumData.class, enumData);
+		assertInstanceOf(RecordData.class, recordData);
 		assertInstanceOf(InterfaceData.class, interfaceData);
 		assertInstanceOf(AnnotationData.class, annotationData);
 		assertInstanceOf(PackageData.class, packageData);
@@ -132,6 +140,10 @@ class IElementDataFactoryTest {
 			cache,
 			docCommentUtil
 		);
+		RecordDataFactory recordDataFactory = new RecordDataFactory(
+			cache,
+			docCommentUtil
+		);
 		EnumDataFactory enumDataFactory = new EnumDataFactory(
 			cache,
 			docCommentUtil
@@ -144,6 +156,7 @@ class IElementDataFactoryTest {
 			interfaceDataFactory,
 			annotationDataFactory,
 			classDataFactory,
+			recordDataFactory,
 			enumDataFactory
 		);
 	}

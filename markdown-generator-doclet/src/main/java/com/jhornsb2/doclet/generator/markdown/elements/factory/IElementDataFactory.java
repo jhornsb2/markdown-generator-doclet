@@ -20,6 +20,7 @@ public class IElementDataFactory {
 	InterfaceDataFactory interfaceDataFactory;
 	AnnotationDataFactory annotationDataFactory;
 	ClassDataFactory classDataFactory;
+	RecordDataFactory recordDataFactory;
 	EnumDataFactory enumDataFactory;
 
 	/**
@@ -46,10 +47,25 @@ public class IElementDataFactory {
 		);
 	}
 
+	/**
+	 * Creates an instance of {@link IElementData} based on the provided element
+	 * without checking the cache. This method is intended to be called
+	 * internally by the caching mechanism when a cache miss occurs.
+	 *
+	 * @param element The element for which to create the element data. This can
+	 *                be any kind of element (e.g., class, interface, enum,
+	 *                package, module). This parameter must not be null.
+	 * @return An instance of {@link IElementData} representing the provided
+	 *         element.
+	 * @throws IllegalArgumentException If the element kind is not supported, an
+	 *                                  IllegalArgumentException is thrown with a
+	 *                                  message indicating the unsupported kind.
+	 */
 	IElementData createUncached(@NonNull final Element element) {
 		final ElementKind kind = element.getKind();
 		return switch (kind) {
 			case CLASS -> this.classDataFactory.createUncached(element);
+			case RECORD -> this.recordDataFactory.createUncached(element);
 			case ENUM -> this.enumDataFactory.createUncached(element);
 			case INTERFACE -> this.interfaceDataFactory.createUncached(element);
 			case ANNOTATION_TYPE -> this.annotationDataFactory.createUncached(

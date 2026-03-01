@@ -9,6 +9,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.IElementDataFacto
 import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.RecordDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
@@ -57,6 +58,10 @@ public class MarkdownGenerator {
 			elementDataCache,
 			docCommentUtil
 		);
+		RecordDataFactory recordDataFactory = new RecordDataFactory(
+			elementDataCache,
+			docCommentUtil
+		);
 		EnumDataFactory enumDataFactory = new EnumDataFactory(
 			elementDataCache,
 			docCommentUtil
@@ -76,6 +81,7 @@ public class MarkdownGenerator {
 			interfaceDataFactory,
 			annotationDataFactory,
 			classDataFactory,
+			recordDataFactory,
 			enumDataFactory
 		);
 
@@ -87,6 +93,7 @@ public class MarkdownGenerator {
 			.interfaceDataFactory(interfaceDataFactory)
 			.annotationDataFactory(annotationDataFactory)
 			.classDataFactory(classDataFactory)
+			.recordDataFactory(recordDataFactory)
 			.enumDataFactory(enumDataFactory)
 			.packageDataFactory(packageDataFactory)
 			.moduleDataFactory(moduleDataFactory)
@@ -126,6 +133,10 @@ public class MarkdownGenerator {
 	 */
 	ClassDataFactory classDataFactory;
 	/**
+	 * Factory for creating data representations of record elements.
+	 */
+	RecordDataFactory recordDataFactory;
+	/**
 	 * Factory for creating data representations of enum elements.
 	 */
 	EnumDataFactory enumDataFactory;
@@ -151,7 +162,7 @@ public class MarkdownGenerator {
 			.forEach(e -> log.info("Processed element: {}", e.toString()));
 	}
 
-	void extractElementData(Element element) {
+	void extractElementData(@NonNull final Element element) {
 		log.debug("Extracting data for element: {}", element.toString());
 
 		final String qualifiedName = QualifiedNameResolver.qualifiedNameOf(
