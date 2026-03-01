@@ -1,5 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown;
 
+import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
@@ -10,6 +11,8 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.jhornsb2.doclet.generator.markdown.util.QualifedNameResolver;
+import javax.lang.model.element.Element;
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -142,5 +145,17 @@ public class MarkdownGenerator {
 			.parallelStream()
 			.map(elementDataFactory::create)
 			.forEach(e -> log.info("Processed element: {}", e.toString()));
+	}
+
+	void extractElementData(Element element) {
+		log.debug("Extracting data for element: {}", element.toString());
+
+		final String qualifiedName = QualifedNameResolver.qualifiedNameOf(
+			element
+		);
+
+		// TODO update this so it uses the filepath resolver final String documentationFilePath;
+
+		final IElementData elementData = elementDataFactory.create(element);
 	}
 }

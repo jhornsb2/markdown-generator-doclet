@@ -3,6 +3,7 @@ package com.jhornsb2.doclet.generator.markdown.processor.impl;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import com.sun.source.doctree.DocCommentTree;
 import java.util.List;
 import javax.lang.model.element.TypeElement;
@@ -54,10 +55,9 @@ public class RecordElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for record: {}",
 			this.recordElement.getQualifiedName()
 		);
-		return (
-			this.recordElement.getQualifiedName().toString().replace('.', '/') +
-			"/index.md"
-		);
+		return OptionUtil.getInstance()
+			.getOutputFilepathFactory()
+			.forRecordElement(this.recordElement);
 	}
 
 	public String toMarkdownString() {

@@ -1,20 +1,22 @@
 package com.jhornsb2.doclet.generator.markdown;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
+import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class MarkdownGeneratorDocletTest {
 
@@ -42,6 +44,15 @@ class MarkdownGeneratorDocletTest {
 		doclet.init(null, REPORTER);
 	}
 
+	@BeforeEach
+	void beforeEach() throws Exception {
+		Field optionUtilInstanceField = OptionUtil.class.getDeclaredField(
+			"instance"
+		);
+		optionUtilInstanceField.setAccessible(true);
+		optionUtilInstanceField.set(null, null);
+	}
+
 	@Test
 	void getNameReturnsSimpleClassName() {
 		MarkdownGeneratorDoclet doclet = new MarkdownGeneratorDoclet();
@@ -67,15 +78,33 @@ class MarkdownGeneratorDocletTest {
 			.flatMap(List::stream)
 			.collect(java.util.stream.Collectors.toSet());
 
-		assertEquals(Set.of("-d", "-notimestamp"), optionNames);
+		assertEquals(Set.of("-d", "-notimestamp", "-path-layout"), optionNames);
 	}
 
 	@Test
 	void runReturnsTrueWhenEnvironmentIsEmpty() {
 		MarkdownGeneratorDoclet doclet = new MarkdownGeneratorDoclet();
+		doclet.getSupportedOptions();
 
 		boolean result = doclet.run(EMPTY_ENVIRONMENT);
 
 		assertTrue(result);
+	}
+
+	@Test
+	void runReturnsFalseWhenPathLayoutOptionIsInvalid() {
+		MarkdownGeneratorDoclet doclet = new MarkdownGeneratorDoclet();
+
+		Set<? extends Doclet.Option> options = doclet.getSupportedOptions();
+		Doclet.Option pathLayoutOption = options
+			.stream()
+			.filter(option -> option.getNames().contains("-path-layout"))
+			.findFirst()
+			.orElseThrow();
+
+		pathLayoutOption.process("-path-layout", List.of("invalid-layout"));
+		boolean result = doclet.run(EMPTY_ENVIRONMENT);
+
+		assertFalse(result);
 	}
 }

@@ -1,6 +1,9 @@
 package com.jhornsb2.doclet.generator.markdown.util;
 
+import com.jhornsb2.doclet.generator.markdown.factory.IOutputFilepathFactory;
+import com.jhornsb2.doclet.generator.markdown.factory.OutputFilepathFactoryResolver;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
+import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
@@ -9,14 +12,18 @@ public class OptionUtil {
 
 	private static OptionUtil instance;
 	private final GenericOption destinationDir;
+	private final GenericOption pathLayout;
 
-	public static void initialize(GenericOption destinationDir) {
+	public static void initialize(
+		GenericOption destinationDir,
+		GenericOption pathLayout
+	) {
 		if (instance != null) {
 			throw new IllegalStateException(
 				"OptionUtil has already been initialized."
 			);
 		}
-		instance = new OptionUtil(destinationDir);
+		instance = new OptionUtil(destinationDir, pathLayout);
 	}
 
 	public static OptionUtil getInstance() {
@@ -30,5 +37,15 @@ public class OptionUtil {
 
 	public String getDestinationDirectory() {
 		return destinationDir.getValue();
+	}
+
+	public OutputPathLayout getOutputPathLayout() {
+		return OutputPathLayout.fromOptionValue(this.pathLayout.getValue());
+	}
+
+	public IOutputFilepathFactory getOutputFilepathFactory() {
+		return OutputFilepathFactoryResolver.resolve(
+			this.getOutputPathLayout()
+		);
 	}
 }

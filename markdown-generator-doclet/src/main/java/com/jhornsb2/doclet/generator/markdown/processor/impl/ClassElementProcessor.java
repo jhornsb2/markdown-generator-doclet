@@ -3,9 +3,9 @@ package com.jhornsb2.doclet.generator.markdown.processor.impl;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import com.sun.source.doctree.DocCommentTree;
 import java.io.IOException;
-import java.lang.reflect.Executable;
 import java.util.List;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -58,10 +58,9 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 			"Generating output file path for class: {}",
 			this.classElement.getQualifiedName()
 		);
-		return (
-			this.classElement.getQualifiedName().toString().replace('.', '/') +
-			"/index.md"
-		);
+		return OptionUtil.getInstance()
+			.getOutputFilepathFactory()
+			.forClassElement(this.classElement);
 	}
 
 	public String toMarkdownString() {

@@ -3,6 +3,7 @@ package com.jhornsb2.doclet.generator.markdown;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
+import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
 import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import java.util.Locale;
 import java.util.Set;
@@ -44,6 +45,17 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		"/tmp"
 	);
 
+	/**
+	 * The option to specify output path layout for generated docs.
+	 * <p>
+	 * Supported values are: hierarchical, flat.
+	 */
+	private final GenericOption pathLayout = new GenericOption(
+		"-path-layout",
+		"Output path layout for generated docs: hierarchical|h|flat|f",
+		OutputPathLayout.HIERARCHICAL.getOptionValue()
+	);
+
 	@Override
 	public void init(final Locale locale, final Reporter reporter) {
 		DocletLogger.setReporter(reporter);
@@ -56,8 +68,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public Set<Option> getSupportedOptions() {
-		OptionUtil.initialize(this.destinationDir);
-		return Set.of(this.noTimestamp, this.destinationDir);
+		OptionUtil.initialize(this.destinationDir, this.pathLayout);
+		return Set.of(this.noTimestamp, this.destinationDir, this.pathLayout);
 	}
 
 	@Override
@@ -67,9 +79,25 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public boolean run(final DocletEnvironment environment) {
+		final OutputPathLayout resolvedPathLayout;
+		try {
+			resolvedPathLayout = OptionUtil.getInstance().getOutputPathLayout();
+		} catch (IllegalArgumentException ex) {
+			log.error(
+				"Invalid -path-layout option: {}",
+				this.pathLayout.getValue()
+			);
+			log.error(
+				"Supported values are: {}",
+				OutputPathLayout.supportedOptionValues()
+			);
+			return false;
+		}
+
 		log.info(
-			"Starting Markdown generation with destination directory: {}",
-			this.destinationDir.getValue()
+			"Starting Markdown generation with destination directory: {}, path layout: {}",
+			this.destinationDir.getValue(),
+			resolvedPathLayout.getOptionValue()
 		);
 
 		// Create and run the generator
