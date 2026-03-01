@@ -1,4 +1,4 @@
-package com.jhornsb2.doclet.generator.markdown.util;
+package com.jhornsb2.doclet.generator.markdown.naming;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -14,7 +14,7 @@ import lombok.NonNull;
  * Resolves simple and qualified names for {@link Element} instances.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class QualifedNameResolver {
+public final class QualifiedNameResolver {
 
 	/**
 	 * Resolves a fully-qualified-like name for the supplied element.

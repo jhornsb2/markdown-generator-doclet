@@ -1,10 +1,10 @@
 package com.jhornsb2.doclet.generator.markdown.processor.impl;
 
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
-import com.jhornsb2.doclet.generator.markdown.util.QualifedNameResolver;
 import com.sun.source.doctree.DocCommentTree;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for package: {}",
-			QualifedNameResolver.qualifiedNameOf(this.packageElement)
+			QualifiedNameResolver.qualifiedNameOf(this.packageElement)
 		);
 		return this.docletOptions
 			.getOutputFilepathStrategy()
@@ -49,13 +49,13 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	public String toMarkdownString() {
 		log.debug(
 			"Generating markdown for package: {}",
-			QualifedNameResolver.qualifiedNameOf(this.packageElement)
+			QualifiedNameResolver.qualifiedNameOf(this.packageElement)
 		);
 		final Optional<DocCommentTree> docCommentTree =
 			this.docCommentUtil.getDocCommentTree(this.packageElement);
 		return PackageElementProcessor.TEMPLATE.replace(
 			"${qualifiedName}",
-			QualifedNameResolver.qualifiedNameOf(this.packageElement)
+			QualifiedNameResolver.qualifiedNameOf(this.packageElement)
 		)
 			.replace(
 				"${docComment}",

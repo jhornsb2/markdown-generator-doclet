@@ -10,9 +10,9 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFact
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
-import com.jhornsb2.doclet.generator.markdown.util.QualifedNameResolver;
 import javax.lang.model.element.Element;
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.AccessLevel;
@@ -154,7 +154,7 @@ public class MarkdownGenerator {
 	void extractElementData(Element element) {
 		log.debug("Extracting data for element: {}", element.toString());
 
-		final String qualifiedName = QualifedNameResolver.qualifiedNameOf(
+		final String qualifiedName = QualifiedNameResolver.qualifiedNameOf(
 			element
 		);
 
