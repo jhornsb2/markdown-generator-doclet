@@ -43,13 +43,14 @@ public class InterfaceElementProcessor implements IDocletElementProcessor {
 
 	TypeElement interfaceElement;
 	DocCommentUtil docCommentUtil;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for interface: {}",
 			this.interfaceElement.getQualifiedName()
 		);
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forInterfaceElement(this.interfaceElement);
 	}

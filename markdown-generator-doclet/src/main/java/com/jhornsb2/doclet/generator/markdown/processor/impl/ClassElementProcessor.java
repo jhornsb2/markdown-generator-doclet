@@ -52,13 +52,14 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 
 	TypeElement classElement;
 	DocCommentUtil docCommentUtil;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for class: {}",
 			this.classElement.getQualifiedName()
 		);
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forClassElement(this.classElement);
 	}

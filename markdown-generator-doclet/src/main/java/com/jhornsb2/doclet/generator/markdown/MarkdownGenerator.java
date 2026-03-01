@@ -10,6 +10,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFact
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.jhornsb2.doclet.generator.markdown.util.QualifedNameResolver;
 import javax.lang.model.element.Element;
@@ -39,7 +40,8 @@ public class MarkdownGenerator {
 	 * @return A new instance of {@link MarkdownGenerator}.
 	 */
 	public static MarkdownGenerator createFor(
-		@NonNull final DocletEnvironment environment
+		@NonNull final DocletEnvironment environment,
+		@NonNull final DocletOptions docletOptions
 	) {
 		DocCommentUtil docCommentUtil = new DocCommentUtil(environment);
 		ElementDataCache elementDataCache = new ElementDataCache();
@@ -79,6 +81,7 @@ public class MarkdownGenerator {
 
 		return MarkdownGenerator.builder()
 			.environment(environment)
+			.docletOptions(docletOptions)
 			.docCommentUtil(docCommentUtil)
 			.elementDataCache(elementDataCache)
 			.interfaceDataFactory(interfaceDataFactory)
@@ -97,6 +100,7 @@ public class MarkdownGenerator {
 	 * Markdown.
 	 */
 	DocletEnvironment environment;
+	DocletOptions docletOptions;
 	/**
 	 * Utility for working with Javadoc comments, providing methods to extract
 	 * and process documentation from elements.

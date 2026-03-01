@@ -29,13 +29,14 @@ public class AnnotationElementProcessor implements IDocletElementProcessor {
 
 	TypeElement annotationElement;
 	DocCommentUtil docCommentUtil;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for annotation: {}",
 			this.annotationElement.getQualifiedName()
 		);
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forAnnotationElement(this.annotationElement);
 	}

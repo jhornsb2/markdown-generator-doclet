@@ -11,10 +11,12 @@ public interface IDocletElementProcessor {
 
 	String toMarkdownString();
 
+	DocletOptions getDocletOptions();
+
 	default void processElement() throws IOException {
 		String outputFilepath = this.getOutputFilepath();
 		File outputFile = new File(
-			DocletOptions.getInstance().getDestinationDirectory(),
+			this.getDocletOptions().getDestinationDirectory(),
 			outputFilepath
 		);
 		Files.createParentDirs(outputFile);

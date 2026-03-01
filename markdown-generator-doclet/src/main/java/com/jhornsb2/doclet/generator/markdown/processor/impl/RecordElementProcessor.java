@@ -49,13 +49,14 @@ public class RecordElementProcessor implements IDocletElementProcessor {
 
 	TypeElement recordElement;
 	DocCommentUtil docCommentUtil;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for record: {}",
 			this.recordElement.getQualifiedName()
 		);
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forRecordElement(this.recordElement);
 	}

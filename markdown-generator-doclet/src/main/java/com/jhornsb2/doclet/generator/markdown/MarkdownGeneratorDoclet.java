@@ -68,7 +68,6 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public Set<Option> getSupportedOptions() {
-		DocletOptions.initialize(this.destinationDir, this.pathLayout);
 		return Set.of(this.noTimestamp, this.destinationDir, this.pathLayout);
 	}
 
@@ -79,9 +78,13 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public boolean run(final DocletEnvironment environment) {
+		final DocletOptions docletOptions = new DocletOptions(
+			this.destinationDir,
+			this.pathLayout
+		);
 		final OutputPathLayout resolvedPathLayout;
 		try {
-			resolvedPathLayout = DocletOptions.getInstance().getOutputPathLayout();
+			resolvedPathLayout = docletOptions.getOutputPathLayout();
 		} catch (IllegalArgumentException ex) {
 			log.error(
 				"Invalid -path-layout option: {}",
@@ -102,7 +105,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 		// Create and run the generator
 		final MarkdownGenerator generator = MarkdownGenerator.createFor(
-			environment
+			environment,
+			docletOptions
 		);
 		generator.generate();
 

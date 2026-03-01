@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
-import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +13,6 @@ import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MarkdownGeneratorDocletTest {
@@ -42,15 +39,6 @@ class MarkdownGeneratorDocletTest {
 	static void beforeAll() {
 		MarkdownGeneratorDoclet doclet = new MarkdownGeneratorDoclet();
 		doclet.init(null, REPORTER);
-	}
-
-	@BeforeEach
-	void beforeEach() throws Exception {
-		Field docletOptionsInstanceField = DocletOptions.class.getDeclaredField(
-			"instance"
-		);
-		docletOptionsInstanceField.setAccessible(true);
-		docletOptionsInstanceField.set(null, null);
 	}
 
 	@Test

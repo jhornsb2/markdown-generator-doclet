@@ -34,13 +34,14 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	 */
 	PackageElement packageElement;
 	DocCommentUtil docCommentUtil;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for package: {}",
 			QualifedNameResolver.qualifiedNameOf(this.packageElement)
 		);
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forPackageElement(this.packageElement);
 	}

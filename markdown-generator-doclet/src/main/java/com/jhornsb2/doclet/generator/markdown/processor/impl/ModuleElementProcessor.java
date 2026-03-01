@@ -25,9 +25,10 @@ public class ModuleElementProcessor implements IDocletElementProcessor {
 		""";
 
 	ModuleElement moduleElement;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forModuleElement(this.moduleElement);
 	}

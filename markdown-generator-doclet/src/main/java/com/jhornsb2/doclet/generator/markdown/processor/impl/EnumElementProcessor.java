@@ -47,13 +47,14 @@ public class EnumElementProcessor implements IDocletElementProcessor {
 
 	TypeElement enumElement;
 	DocCommentUtil docCommentUtil;
+	DocletOptions docletOptions;
 
 	public String getOutputFilepath() {
 		log.debug(
 			"Generating output file path for enum: {}",
 			this.enumElement.getQualifiedName()
 		);
-		return DocletOptions.getInstance()
+		return this.docletOptions
 			.getOutputFilepathStrategy()
 			.forEnumElement(this.enumElement);
 	}
