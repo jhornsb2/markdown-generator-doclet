@@ -46,11 +46,11 @@ class MarkdownGeneratorDocletTest {
 
 	@BeforeEach
 	void beforeEach() throws Exception {
-		Field optionUtilInstanceField = DocletOptions.class.getDeclaredField(
+		Field docletOptionsInstanceField = DocletOptions.class.getDeclaredField(
 			"instance"
 		);
-		optionUtilInstanceField.setAccessible(true);
-		optionUtilInstanceField.set(null, null);
+		docletOptionsInstanceField.setAccessible(true);
+		docletOptionsInstanceField.set(null, null);
 	}
 
 	@Test
