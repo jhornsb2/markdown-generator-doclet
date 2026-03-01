@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
+import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
@@ -46,7 +46,7 @@ class MarkdownGeneratorDocletTest {
 
 	@BeforeEach
 	void beforeEach() throws Exception {
-		Field optionUtilInstanceField = OptionUtil.class.getDeclaredField(
+		Field optionUtilInstanceField = DocletOptions.class.getDeclaredField(
 			"instance"
 		);
 		optionUtilInstanceField.setAccessible(true);

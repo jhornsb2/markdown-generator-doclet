@@ -1,10 +1,10 @@
 package com.jhornsb2.doclet.generator.markdown;
 
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
-import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import java.util.Locale;
 import java.util.Set;
 import javax.lang.model.SourceVersion;
@@ -68,7 +68,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public Set<Option> getSupportedOptions() {
-		OptionUtil.initialize(this.destinationDir, this.pathLayout);
+		DocletOptions.initialize(this.destinationDir, this.pathLayout);
 		return Set.of(this.noTimestamp, this.destinationDir, this.pathLayout);
 	}
 
@@ -81,7 +81,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	public boolean run(final DocletEnvironment environment) {
 		final OutputPathLayout resolvedPathLayout;
 		try {
-			resolvedPathLayout = OptionUtil.getInstance().getOutputPathLayout();
+			resolvedPathLayout = DocletOptions.getInstance().getOutputPathLayout();
 		} catch (IllegalArgumentException ex) {
 			log.error(
 				"Invalid -path-layout option: {}",

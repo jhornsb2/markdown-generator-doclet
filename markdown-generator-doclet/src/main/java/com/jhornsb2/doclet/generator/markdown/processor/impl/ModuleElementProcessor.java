@@ -1,7 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown.processor.impl;
 
+import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.processor.IDocletElementProcessor;
-import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.QualifiedNameable;
 import lombok.Value;
@@ -27,7 +27,7 @@ public class ModuleElementProcessor implements IDocletElementProcessor {
 	ModuleElement moduleElement;
 
 	public String getOutputFilepath() {
-		return OptionUtil.getInstance()
+		return DocletOptions.getInstance()
 			.getOutputFilepathStrategy()
 			.forModuleElement(this.moduleElement);
 	}

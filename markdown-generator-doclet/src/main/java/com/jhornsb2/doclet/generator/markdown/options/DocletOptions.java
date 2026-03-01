@@ -1,16 +1,14 @@
-package com.jhornsb2.doclet.generator.markdown.util;
+package com.jhornsb2.doclet.generator.markdown.options;
 
 import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategy;
 import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategyResolver;
-import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
-import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class OptionUtil {
+public class DocletOptions {
 
-	private static OptionUtil instance;
+	private static DocletOptions instance;
 	private final GenericOption destinationDir;
 	private final GenericOption pathLayout;
 
@@ -20,16 +18,16 @@ public class OptionUtil {
 	) {
 		if (instance != null) {
 			throw new IllegalStateException(
-				"OptionUtil has already been initialized."
+				"DocletOptions has already been initialized."
 			);
 		}
-		instance = new OptionUtil(destinationDir, pathLayout);
+		instance = new DocletOptions(destinationDir, pathLayout);
 	}
 
-	public static OptionUtil getInstance() {
+	public static DocletOptions getInstance() {
 		if (instance == null) {
 			throw new IllegalStateException(
-				"OptionUtil has not been initialized. Call initialize() first."
+				"DocletOptions has not been initialized. Call initialize() first."
 			);
 		}
 		return instance;
