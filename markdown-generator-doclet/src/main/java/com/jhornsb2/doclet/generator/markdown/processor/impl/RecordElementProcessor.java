@@ -56,7 +56,7 @@ public class RecordElementProcessor implements IDocletElementProcessor {
 			this.recordElement.getQualifiedName()
 		);
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forRecordElement(this.recordElement);
 	}
 

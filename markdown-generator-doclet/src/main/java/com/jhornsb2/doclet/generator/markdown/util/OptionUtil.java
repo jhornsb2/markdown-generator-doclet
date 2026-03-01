@@ -1,7 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown.util;
 
-import com.jhornsb2.doclet.generator.markdown.factory.IOutputFilepathFactory;
-import com.jhornsb2.doclet.generator.markdown.factory.OutputFilepathFactoryResolver;
+import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategy;
+import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategyResolver;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
 import lombok.AccessLevel;
@@ -43,8 +43,8 @@ public class OptionUtil {
 		return OutputPathLayout.fromOptionValue(this.pathLayout.getValue());
 	}
 
-	public IOutputFilepathFactory getOutputFilepathFactory() {
-		return OutputFilepathFactoryResolver.resolve(
+	public OutputFilepathStrategy getOutputFilepathStrategy() {
+		return OutputFilepathStrategyResolver.resolve(
 			this.getOutputPathLayout()
 		);
 	}

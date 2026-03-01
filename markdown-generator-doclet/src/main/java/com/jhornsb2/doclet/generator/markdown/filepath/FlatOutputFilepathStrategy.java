@@ -1,17 +1,14 @@
-package com.jhornsb2.doclet.generator.markdown.factory;
+package com.jhornsb2.doclet.generator.markdown.filepath;
 
-import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
 
 /**
- * Standard implementation of the {@link IOutputFilepathFactory} interface that
- * generates output file paths with directories based on the qualified name of
- * the element.
+ * Flat strategy that generates output file paths as single markdown files.
  */
-public class StandardOutputFilepathFactory implements IOutputFilepathFactory {
+public class FlatOutputFilepathStrategy implements OutputFilepathStrategy {
 
 	@Override
 	public String forAnnotationElement(final TypeElement annotationElement) {
@@ -48,24 +45,9 @@ public class StandardOutputFilepathFactory implements IOutputFilepathFactory {
 		return this.containerElementFilepath(packageElement);
 	}
 
-	/**
-	 * Generates the output file path for an element based on its qualified name.
-	 * The qualified name is converted to a file path by replacing dots with
-	 * slashes and appending the standard index file name.
-	 *
-	 * @param element the element for which to generate the file path
-	 * @return the generated file path
-	 */
 	private String containerElementFilepath(final QualifiedNameable element) {
-		final String qualifiedNamePath = element
-			.getQualifiedName()
-			.toString()
-			.replace('.', '/');
+		final String qualifiedNamePath = element.getQualifiedName().toString();
 
-		return String.format(
-			"%s/%s",
-			qualifiedNamePath,
-			StandardFileNames.INDEX_FILE_NAME
-		);
+		return String.format("%s.md", qualifiedNamePath);
 	}
 }

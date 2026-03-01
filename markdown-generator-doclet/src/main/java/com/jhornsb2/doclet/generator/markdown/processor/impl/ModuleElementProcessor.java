@@ -28,7 +28,7 @@ public class ModuleElementProcessor implements IDocletElementProcessor {
 
 	public String getOutputFilepath() {
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forModuleElement(this.moduleElement);
 	}
 

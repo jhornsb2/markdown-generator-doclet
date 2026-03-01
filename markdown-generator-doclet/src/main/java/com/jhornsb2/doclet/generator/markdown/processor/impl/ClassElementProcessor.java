@@ -59,7 +59,7 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 			this.classElement.getQualifiedName()
 		);
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forClassElement(this.classElement);
 	}
 

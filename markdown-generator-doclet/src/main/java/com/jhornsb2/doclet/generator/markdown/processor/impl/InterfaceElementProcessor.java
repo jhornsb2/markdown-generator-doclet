@@ -50,7 +50,7 @@ public class InterfaceElementProcessor implements IDocletElementProcessor {
 			this.interfaceElement.getQualifiedName()
 		);
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forInterfaceElement(this.interfaceElement);
 	}
 

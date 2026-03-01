@@ -54,7 +54,7 @@ public class EnumElementProcessor implements IDocletElementProcessor {
 			this.enumElement.getQualifiedName()
 		);
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forEnumElement(this.enumElement);
 	}
 

@@ -41,7 +41,7 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 			QualifedNameResolver.qualifiedNameOf(this.packageElement)
 		);
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forPackageElement(this.packageElement);
 	}
 

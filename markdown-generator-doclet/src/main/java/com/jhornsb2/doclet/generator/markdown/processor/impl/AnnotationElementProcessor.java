@@ -36,7 +36,7 @@ public class AnnotationElementProcessor implements IDocletElementProcessor {
 			this.annotationElement.getQualifiedName()
 		);
 		return OptionUtil.getInstance()
-			.getOutputFilepathFactory()
+			.getOutputFilepathStrategy()
 			.forAnnotationElement(this.annotationElement);
 	}
 
