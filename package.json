@@ -1,7 +1,10 @@
 {
   "scripts": {
     "format": "npx prettier --write .",
-    "check-format": "npx prettier . --check"
+    "check-format": "npx prettier . --check",
+    "build": "gradlew clean build",
+    "build-full-test": "gradlew clean build test && gradlew app:generateMarkdown",
+    "precommit": "npm run format && npm run build-full-test"
   },
   "devDependencies": {
     "prettier": "3.8.1",
