@@ -19,6 +19,7 @@ import lombok.Value;
 public class InterfaceDataFactory {
 
 	ElementDataCache elementDataCache;
+	DocCommentUtil docCommentUtil;
 
 	public InterfaceData create(@NonNull final Element element) {
 		final String key = this.elementDataCache.keyFor(element);
@@ -38,7 +39,7 @@ public class InterfaceDataFactory {
 			.qualifiedName(typeElement.getQualifiedName().toString())
 			.kind(typeElement.getKind().name().toLowerCase())
 			.docComment(
-				DocCommentUtil.getDocCommentTree(typeElement)
+				this.docCommentUtil.getDocCommentTree(typeElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

@@ -31,6 +31,7 @@ public class ClassDataFactory {
 	 * efficient reuse across factories.
 	 */
 	final ElementDataCache elementDataCache;
+	final DocCommentUtil docCommentUtil;
 
 	/**
 	 * Creates a {@link ClassData} instance for the given {@link Element},
@@ -69,7 +70,9 @@ public class ClassDataFactory {
 		final String simpleName = typeElement.getSimpleName().toString();
 		final String qualifiedName = typeElement.getQualifiedName().toString();
 		final String kind = typeElement.getKind().name().toLowerCase();
-		final String docComment = DocCommentUtil.getDocCommentTree(typeElement)
+		final String docComment = this.docCommentUtil.getDocCommentTree(
+				typeElement
+			)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

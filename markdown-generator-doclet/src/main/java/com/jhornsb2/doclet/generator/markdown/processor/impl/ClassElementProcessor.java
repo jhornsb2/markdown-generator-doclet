@@ -51,6 +51,7 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 		""";
 
 	TypeElement classElement;
+	DocCommentUtil docCommentUtil;
 
 	public String getOutputFilepath() {
 		log.debug(
@@ -88,7 +89,7 @@ public class ClassElementProcessor implements IDocletElementProcessor {
 			)
 			.replace(
 				"${docComment}",
-				DocCommentUtil.getDocCommentTree(this.classElement)
+				this.docCommentUtil.getDocCommentTree(this.classElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

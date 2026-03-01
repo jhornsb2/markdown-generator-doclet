@@ -22,6 +22,7 @@ public class AnnotationDataFactory {
 	 * efficient reuse across factories.
 	 */
 	final ElementDataCache elementDataCache;
+	final DocCommentUtil docCommentUtil;
 
 	/**
 	 * Creates an {@link AnnotationData} instance for the given {@link Element},
@@ -60,7 +61,7 @@ public class AnnotationDataFactory {
 			.qualifiedName(typeElement.getQualifiedName().toString())
 			.kind(typeElement.getKind().name().toLowerCase())
 			.docComment(
-				DocCommentUtil.getDocCommentTree(typeElement)
+				this.docCommentUtil.getDocCommentTree(typeElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

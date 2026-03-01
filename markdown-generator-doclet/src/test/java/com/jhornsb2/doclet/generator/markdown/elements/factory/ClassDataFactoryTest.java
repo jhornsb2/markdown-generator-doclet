@@ -61,7 +61,10 @@ class ClassDataFactoryTest {
 			)
 		);
 
-		ClassDataFactory factory = new ClassDataFactory(new ElementDataCache());
+		ClassDataFactory factory = new ClassDataFactory(
+			new ElementDataCache(),
+			FactoryTestFixtures.docCommentUtil()
+		);
 		ClassData classData = factory.createUncached(classElement);
 
 		assertEquals("Child", classData.getSimpleName());
@@ -78,7 +81,10 @@ class ClassDataFactoryTest {
 	@Test
 	void createUsesCache() {
 		ElementDataCache cache = new ElementDataCache();
-		ClassDataFactory factory = new ClassDataFactory(cache);
+		ClassDataFactory factory = new ClassDataFactory(
+			cache,
+			FactoryTestFixtures.docCommentUtil()
+		);
 		TypeElement classElement = FactoryTestFixtures.minimalTypeElement(
 			"MyClass",
 			"example.MyClass",

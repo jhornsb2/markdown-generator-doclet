@@ -45,6 +45,7 @@ public class EnumElementProcessor implements IDocletElementProcessor {
 		""";
 
 	TypeElement enumElement;
+	DocCommentUtil docCommentUtil;
 
 	public String getOutputFilepath() {
 		log.debug(
@@ -78,7 +79,7 @@ public class EnumElementProcessor implements IDocletElementProcessor {
 			)
 			.replace(
 				"${docComment}",
-				DocCommentUtil.getDocCommentTree(this.enumElement)
+				this.docCommentUtil.getDocCommentTree(this.enumElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

@@ -48,14 +48,18 @@ import jdk.javadoc.doclet.DocletEnvironment;
 
 final class FactoryTestFixtures {
 
+	private static final DocCommentUtil DOC_COMMENT_UTIL = new DocCommentUtil(
+		new EmptyDocletEnvironment()
+	);
+
 	private FactoryTestFixtures() {}
 
 	static void ensureDocletEnvironment() {
-		try {
-			DocCommentUtil.setEnvironment(new EmptyDocletEnvironment());
-		} catch (IllegalStateException ignored) {
-			// Environment may already be initialized in other tests.
-		}
+		// No-op: preserved for backward compatibility in tests.
+	}
+
+	static DocCommentUtil docCommentUtil() {
+		return DOC_COMMENT_UTIL;
 	}
 
 	static TypeElement minimalTypeElement(

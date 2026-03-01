@@ -28,6 +28,7 @@ public class ModuleDataFactory {
 	 * efficient reuse across factories.
 	 */
 	final ElementDataCache elementDataCache;
+	final DocCommentUtil docCommentUtil;
 
 	/**
 	 * Creates a {@link ModuleData} instance for the given {@link Element},
@@ -67,9 +68,9 @@ public class ModuleDataFactory {
 			.getQualifiedName()
 			.toString();
 		final String kind = moduleElement.getKind().name().toLowerCase();
-		final String docComment = DocCommentUtil.getDocCommentTree(
-			moduleElement
-		)
+		final String docComment = this.docCommentUtil.getDocCommentTree(
+				moduleElement
+			)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

@@ -48,7 +48,10 @@ class EnumDataFactoryTest {
 			List.of(interfaceMirror)
 		);
 
-		EnumDataFactory factory = new EnumDataFactory(new ElementDataCache());
+		EnumDataFactory factory = new EnumDataFactory(
+			new ElementDataCache(),
+			FactoryTestFixtures.docCommentUtil()
+		);
 		EnumData enumData = factory.createUncached(enumElement);
 
 		assertEquals("Status", enumData.getSimpleName());
@@ -65,7 +68,10 @@ class EnumDataFactoryTest {
 	@Test
 	void createUsesCache() {
 		ElementDataCache cache = new ElementDataCache();
-		EnumDataFactory factory = new EnumDataFactory(cache);
+		EnumDataFactory factory = new EnumDataFactory(
+			cache,
+			FactoryTestFixtures.docCommentUtil()
+		);
 		TypeElement enumElement = FactoryTestFixtures.minimalTypeElement(
 			"Status",
 			"example.Status",

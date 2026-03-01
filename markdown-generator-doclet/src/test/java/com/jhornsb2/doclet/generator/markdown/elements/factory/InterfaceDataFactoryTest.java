@@ -52,7 +52,8 @@ class InterfaceDataFactoryTest {
 		);
 
 		InterfaceDataFactory factory = new InterfaceDataFactory(
-			new ElementDataCache()
+			new ElementDataCache(),
+			FactoryTestFixtures.docCommentUtil()
 		);
 		InterfaceData interfaceData = factory.createUncached(interfaceElement);
 
@@ -69,7 +70,10 @@ class InterfaceDataFactoryTest {
 	@Test
 	void createUsesCache() {
 		ElementDataCache cache = new ElementDataCache();
-		InterfaceDataFactory factory = new InterfaceDataFactory(cache);
+		InterfaceDataFactory factory = new InterfaceDataFactory(
+			cache,
+			FactoryTestFixtures.docCommentUtil()
+		);
 		TypeElement interfaceElement = FactoryTestFixtures.minimalTypeElement(
 			"MyInterface",
 			"example.MyInterface",

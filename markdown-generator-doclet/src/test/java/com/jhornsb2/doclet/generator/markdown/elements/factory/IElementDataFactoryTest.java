@@ -111,16 +111,31 @@ class IElementDataFactoryTest {
 
 	private static IElementDataFactory createFactory() {
 		ElementDataCache cache = new ElementDataCache();
-		ModuleDataFactory moduleDataFactory = new ModuleDataFactory(cache);
-		PackageDataFactory packageDataFactory = new PackageDataFactory(cache);
+		var docCommentUtil = FactoryTestFixtures.docCommentUtil();
+		ModuleDataFactory moduleDataFactory = new ModuleDataFactory(
+			cache,
+			docCommentUtil
+		);
+		PackageDataFactory packageDataFactory = new PackageDataFactory(
+			cache,
+			docCommentUtil
+		);
 		InterfaceDataFactory interfaceDataFactory = new InterfaceDataFactory(
-			cache
+			cache,
+			docCommentUtil
 		);
 		AnnotationDataFactory annotationDataFactory = new AnnotationDataFactory(
-			cache
+			cache,
+			docCommentUtil
 		);
-		ClassDataFactory classDataFactory = new ClassDataFactory(cache);
-		EnumDataFactory enumDataFactory = new EnumDataFactory(cache);
+		ClassDataFactory classDataFactory = new ClassDataFactory(
+			cache,
+			docCommentUtil
+		);
+		EnumDataFactory enumDataFactory = new EnumDataFactory(
+			cache,
+			docCommentUtil
+		);
 
 		return new IElementDataFactory(
 			cache,

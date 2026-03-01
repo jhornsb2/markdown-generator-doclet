@@ -27,6 +27,7 @@ public class AnnotationElementProcessor implements IDocletElementProcessor {
 		""";
 
 	TypeElement annotationElement;
+	DocCommentUtil docCommentUtil;
 
 	public String getOutputFilepath() {
 		log.debug(
@@ -58,7 +59,7 @@ public class AnnotationElementProcessor implements IDocletElementProcessor {
 			)
 			.replace(
 				"${docComment}",
-				DocCommentUtil.getDocCommentTree(this.annotationElement)
+				this.docCommentUtil.getDocCommentTree(this.annotationElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

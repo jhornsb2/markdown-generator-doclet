@@ -44,7 +44,8 @@ class PackageDataFactoryTest {
 		);
 
 		PackageDataFactory factory = new PackageDataFactory(
-			new ElementDataCache()
+			new ElementDataCache(),
+			FactoryTestFixtures.docCommentUtil()
 		);
 		PackageData packageData = factory.createUncached(packageElement);
 
@@ -61,7 +62,10 @@ class PackageDataFactoryTest {
 	@Test
 	void createUsesCache() {
 		ElementDataCache cache = new ElementDataCache();
-		PackageDataFactory factory = new PackageDataFactory(cache);
+		PackageDataFactory factory = new PackageDataFactory(
+			cache,
+			FactoryTestFixtures.docCommentUtil()
+		);
 		PackageElement packageElement = FactoryTestFixtures.packageElement(
 			"example",
 			"example",

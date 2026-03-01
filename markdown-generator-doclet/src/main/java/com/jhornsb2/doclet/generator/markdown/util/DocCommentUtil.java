@@ -4,29 +4,21 @@ import com.sun.source.doctree.DocCommentTree;
 import java.util.Optional;
 import javax.lang.model.element.Element;
 import jdk.javadoc.doclet.DocletEnvironment;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocCommentUtil {
 
-	private static DocletEnvironment environment;
+	private final DocletEnvironment environment;
 
-	public static void setEnvironment(DocletEnvironment env) {
-		if (environment != null) {
-			throw new IllegalStateException(
-				"DocletEnvironment has already been set."
-			);
-		}
-		environment = env;
+	public DocCommentUtil(@NonNull final DocletEnvironment environment) {
+		this.environment = environment;
 	}
 
-	public static Optional<DocCommentTree> getDocCommentTree(
-		@NonNull Element element
+	public Optional<DocCommentTree> getDocCommentTree(
+		@NonNull final Element element
 	) {
 		return Optional.ofNullable(
-			environment.getDocTrees().getDocCommentTree(element)
+			this.environment.getDocTrees().getDocCommentTree(element)
 		);
 	}
 }

@@ -25,7 +25,8 @@ class AnnotationDataFactoryTest {
 		);
 
 		AnnotationDataFactory factory = new AnnotationDataFactory(
-			new ElementDataCache()
+			new ElementDataCache(),
+			FactoryTestFixtures.docCommentUtil()
 		);
 		AnnotationData annotationData = factory.createUncached(
 			annotationElement
@@ -40,7 +41,10 @@ class AnnotationDataFactoryTest {
 	@Test
 	void createUsesCache() {
 		ElementDataCache cache = new ElementDataCache();
-		AnnotationDataFactory factory = new AnnotationDataFactory(cache);
+		AnnotationDataFactory factory = new AnnotationDataFactory(
+			cache,
+			FactoryTestFixtures.docCommentUtil()
+		);
 		TypeElement annotationElement = FactoryTestFixtures.minimalTypeElement(
 			"MyAnnotation",
 			"example.MyAnnotation",

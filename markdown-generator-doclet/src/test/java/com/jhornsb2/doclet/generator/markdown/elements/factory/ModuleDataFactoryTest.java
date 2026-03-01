@@ -48,7 +48,8 @@ class ModuleDataFactoryTest {
 		);
 
 		ModuleDataFactory factory = new ModuleDataFactory(
-			new ElementDataCache()
+			new ElementDataCache(),
+			FactoryTestFixtures.docCommentUtil()
 		);
 		ModuleData moduleData = factory.createUncached(moduleElement);
 
@@ -65,7 +66,10 @@ class ModuleDataFactoryTest {
 	@Test
 	void createUsesCache() {
 		ElementDataCache cache = new ElementDataCache();
-		ModuleDataFactory factory = new ModuleDataFactory(cache);
+		ModuleDataFactory factory = new ModuleDataFactory(
+			cache,
+			FactoryTestFixtures.docCommentUtil()
+		);
 		Element moduleElement = FactoryTestFixtures.moduleElement(
 			"example.module",
 			"example.module",

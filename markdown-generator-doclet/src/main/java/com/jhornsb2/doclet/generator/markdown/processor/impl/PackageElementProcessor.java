@@ -31,6 +31,7 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 	 * The package element to process.
 	 */
 	PackageElement packageElement;
+	DocCommentUtil docCommentUtil;
 
 	public String getOutputFilepath() {
 		log.debug(
@@ -51,7 +52,7 @@ public class PackageElementProcessor implements IDocletElementProcessor {
 			this.packageElement.getQualifiedName()
 		);
 		final Optional<DocCommentTree> docCommentTree =
-			DocCommentUtil.getDocCommentTree(this.packageElement);
+			this.docCommentUtil.getDocCommentTree(this.packageElement);
 		return PackageElementProcessor.TEMPLATE.replace(
 			"${qualifiedName}",
 			this.packageElement.getQualifiedName()

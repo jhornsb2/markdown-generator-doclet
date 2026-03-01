@@ -1,17 +1,8 @@
 package com.jhornsb2.doclet.generator.markdown;
 
-import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.EnumDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.IElementDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
-import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
-import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.jhornsb2.doclet.generator.markdown.util.OptionUtil;
 import java.util.Locale;
 import java.util.Set;
@@ -76,11 +67,15 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public boolean run(final DocletEnvironment environment) {
-		// Initialize the run
-		DocCommentUtil.setEnvironment(environment);
+		log.info(
+			"Starting Markdown generation with destination directory: {}",
+			this.destinationDir.getValue()
+		);
 
 		// Create and run the generator
-		final MarkdownGenerator generator = new MarkdownGenerator(environment);
+		final MarkdownGenerator generator = MarkdownGenerator.createFor(
+			environment
+		);
 		generator.generate();
 
 		return true;
