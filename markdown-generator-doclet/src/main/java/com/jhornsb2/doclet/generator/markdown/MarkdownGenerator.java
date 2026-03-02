@@ -370,21 +370,4 @@ public class MarkdownGenerator {
 			);
 		}
 	}
-
-	/**
-	 * Extracts and caches element metadata for a single language model element.
-	 *
-	 * @param element language model element to process.
-	 */
-	void extractElementData(@NonNull final Element element) {
-		log.debug("Extracting data for element: {}", element.toString());
-
-		final String qualifiedName = QualifiedNameResolver.qualifiedNameOf(
-			element
-		);
-
-		// TODO update this so it uses the filepath resolver final String documentationFilePath;
-
-		final IElementData elementData = elementDataFactory.create(element);
-	}
 }
