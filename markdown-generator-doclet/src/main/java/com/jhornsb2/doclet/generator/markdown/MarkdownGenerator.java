@@ -1,6 +1,10 @@
 package com.jhornsb2.doclet.generator.markdown;
 
+import com.google.common.io.Files;
+import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
 import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
+import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
+import com.jhornsb2.doclet.generator.markdown.elements.ProjectData;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
@@ -13,8 +17,28 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.RecordDataFactory
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
+import com.jhornsb2.doclet.generator.markdown.template.BuiltInTemplateRegistry;
+import com.jhornsb2.doclet.generator.markdown.template.DefaultTemplateRenderer;
+import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
+import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
+import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderer;
+import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
+import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
+import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ModuleElement;
+import javax.lang.model.element.PackageElement;
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -84,6 +108,14 @@ public class MarkdownGenerator {
 			recordDataFactory,
 			enumDataFactory
 		);
+		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
+			new BuiltInTemplateRegistry(),
+			List.of(
+				new CommonBookmarkResolver(),
+				new ProjectBookmarkResolver(),
+				new PackageBookmarkResolver()
+			)
+		);
 
 		return MarkdownGenerator.builder()
 			.environment(environment)
@@ -98,6 +130,7 @@ public class MarkdownGenerator {
 			.packageDataFactory(packageDataFactory)
 			.moduleDataFactory(moduleDataFactory)
 			.elementDataFactory(elementDataFactory)
+			.templateRenderer(templateRenderer)
 			.build();
 	}
 
@@ -157,13 +190,171 @@ public class MarkdownGenerator {
 	 */
 	IElementDataFactory elementDataFactory;
 
+	/**
+	 * Renders markdown content from templates and bookmark resolvers.
+	 */
+	TemplateRenderer templateRenderer;
+
 	public void generate() {
 		log.debug(String.format("%s.generate()", this.getClass().getName()));
-		environment
-			.getIncludedElements()
-			.parallelStream()
-			.map(elementDataFactory::create)
-			.forEach(e -> log.info("Processed element: {}", e.toString()));
+		final Set<PackageElement> packageElements =
+			this.collectPackageElements();
+		final Map<String, PackageData> packageDataByQualifiedName =
+			this.createPackageDataByQualifiedName(packageElements);
+		final List<IElementData> allElements = packageDataByQualifiedName
+			.values()
+			.stream()
+			.map(IElementData.class::cast)
+			.toList();
+
+		final ProjectData projectData = this.createProjectData(
+			packageDataByQualifiedName.keySet(),
+			this.collectModuleNames()
+		);
+
+		this.writeProjectDocumentation(projectData, allElements);
+		this.writePackageDocumentation(
+			packageElements,
+			packageDataByQualifiedName
+		);
+		log.info(
+			"Generated project and {} package markdown files",
+			packageDataByQualifiedName.size()
+		);
+	}
+
+	private Set<PackageElement> collectPackageElements() {
+		final Set<PackageElement> packageElements = new LinkedHashSet<>();
+		for (Element includedElement : this.environment.getIncludedElements()) {
+			if (
+				includedElement.getKind() == ElementKind.PACKAGE &&
+				includedElement instanceof PackageElement packageElement
+			) {
+				packageElements.add(packageElement);
+				continue;
+			}
+
+			final PackageElement packageElement =
+				this.environment.getElementUtils().getPackageOf(
+					includedElement
+				);
+			if (packageElement != null && !packageElement.isUnnamed()) {
+				packageElements.add(packageElement);
+			}
+		}
+		return packageElements;
+	}
+
+	private Set<String> collectModuleNames() {
+		final Set<String> moduleNames = new LinkedHashSet<>();
+		for (Element includedElement : this.environment.getIncludedElements()) {
+			final ModuleElement moduleElement =
+				this.environment.getElementUtils().getModuleOf(includedElement);
+			if (
+				moduleElement != null &&
+				!moduleElement.isUnnamed() &&
+				!moduleElement.getQualifiedName().toString().isBlank()
+			) {
+				moduleNames.add(moduleElement.getQualifiedName().toString());
+			}
+		}
+		return moduleNames;
+	}
+
+	private Map<String, PackageData> createPackageDataByQualifiedName(
+		final Set<PackageElement> packageElements
+	) {
+		final Map<String, PackageData> packageDataByQualifiedName =
+			new LinkedHashMap<>();
+		for (PackageElement packageElement : packageElements) {
+			final PackageData packageData =
+				(PackageData) this.elementDataFactory.create(packageElement);
+			packageDataByQualifiedName.put(
+				packageData.getQualifiedName(),
+				packageData
+			);
+		}
+		return packageDataByQualifiedName;
+	}
+
+	private ProjectData createProjectData(
+		final Set<String> packageNames,
+		final Set<String> moduleNames
+	) {
+		final ProjectData.ProjectDataBuilder builder = ProjectData.builder()
+			.simpleName("Project Documentation")
+			.qualifiedName("project")
+			.kind("project")
+			.docComment("Generated markdown documentation.");
+		moduleNames.forEach(builder::moduleName);
+		packageNames.forEach(builder::packageName);
+		return builder.build();
+	}
+
+	private void writeProjectDocumentation(
+		final ProjectData projectData,
+		final List<IElementData> allElements
+	) {
+		final String markdown = this.templateRenderer.render(
+			TemplateKind.PROJECT,
+			TemplateRenderContext.builder()
+				.templateKind(TemplateKind.PROJECT)
+				.elementData(projectData)
+				.allElements(allElements)
+				.build()
+		);
+		this.writeMarkdownFile(StandardFileNames.INDEX_FILE_NAME, markdown);
+	}
+
+	private void writePackageDocumentation(
+		final Set<PackageElement> packageElements,
+		final Map<String, PackageData> packageDataByQualifiedName
+	) {
+		for (PackageElement packageElement : packageElements) {
+			final String qualifiedName = packageElement
+				.getQualifiedName()
+				.toString();
+			final PackageData packageData = packageDataByQualifiedName.get(
+				qualifiedName
+			);
+			if (packageData == null) {
+				continue;
+			}
+
+			final String markdown = this.templateRenderer.render(
+				TemplateKind.PACKAGE,
+				TemplateRenderContext.builder()
+					.templateKind(TemplateKind.PACKAGE)
+					.elementData(packageData)
+					.build()
+			);
+			final String outputFilepath =
+				this.docletOptions.getOutputFilepathStrategy().forPackageElement(
+					packageElement
+				);
+			this.writeMarkdownFile(outputFilepath, markdown);
+		}
+	}
+
+	private void writeMarkdownFile(
+		final String relativeOutputFilepath,
+		final String markdownContent
+	) {
+		final File outputFile = new File(
+			this.docletOptions.getDestinationDirectory(),
+			relativeOutputFilepath
+		);
+		try {
+			Files.createParentDirs(outputFile);
+			Files.asCharSink(outputFile, StandardCharsets.UTF_8).write(
+				markdownContent
+			);
+		} catch (IOException exception) {
+			throw new IllegalStateException(
+				"Failed to write markdown file: " + outputFile,
+				exception
+			);
+		}
 	}
 
 	void extractElementData(@NonNull final Element element) {
