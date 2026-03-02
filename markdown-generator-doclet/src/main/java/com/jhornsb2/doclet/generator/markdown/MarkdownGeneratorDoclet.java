@@ -68,16 +68,32 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		""
 	);
 
+	/**
+	 * Initializes doclet locale/reporting integration.
+	 *
+	 * @param locale active locale for doclet execution.
+	 * @param reporter reporter instance used for diagnostics.
+	 */
 	@Override
 	public void init(final Locale locale, final Reporter reporter) {
 		DocletLogger.setReporter(reporter);
 	}
 
+	/**
+	 * Returns this doclet implementation name.
+	 *
+	 * @return simple class name used by tooling output.
+	 */
 	@Override
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
 
+	/**
+	 * Returns all supported command-line options.
+	 *
+	 * @return immutable set of supported options.
+	 */
 	@Override
 	public Set<Option> getSupportedOptions() {
 		return Set.of(
@@ -88,11 +104,26 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		);
 	}
 
+	/**
+	 * Declares the newest supported Java source version.
+	 *
+	 * @return latest source version from the running JDK.
+	 */
 	@Override
 	public SourceVersion getSupportedSourceVersion() {
 		return SourceVersion.latest();
 	}
 
+	/**
+	 * Executes markdown generation for the provided doclet environment.
+	 * <p>
+	 * The method validates option values, builds a configured
+	 * {@link MarkdownGenerator}, and runs generation.
+	 *
+	 * @param environment doclet environment containing included language model
+	 *                    elements.
+	 * @return {@code true} when generation succeeds, otherwise {@code false}.
+	 */
 	@Override
 	public boolean run(final DocletEnvironment environment) {
 		final DocletOptions docletOptions = new DocletOptions(

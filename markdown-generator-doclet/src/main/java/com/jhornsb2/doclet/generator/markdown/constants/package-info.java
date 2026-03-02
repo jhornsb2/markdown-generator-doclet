@@ -1,7 +1,7 @@
 /**
- * This package contains the constants used throughout the Markdown
- * generator doclet. These constants may include file extensions, directory
- * names, and other fixed values that are referenced in multiple places
- * within the codebase.
+ * Shared constants used across markdown generation components.
+ * <p>
+ * The package centralizes stable string values (for example output filenames)
+ * so path strategies and renderers remain consistent as features evolve.
  */
 package com.jhornsb2.doclet.generator.markdown.constants;

@@ -208,6 +208,12 @@ public class MarkdownGenerator {
 	 */
 	TemplateRenderer templateRenderer;
 
+	/**
+	 * Executes markdown generation for all included package elements.
+	 * <p>
+	 * The method collects package elements, builds package metadata, renders
+	 * markdown pages, and writes those pages to the configured destination.
+	 */
 	public void generate() {
 		log.debug(String.format("%s.generate()", this.getClass().getName()));
 		final Set<PackageElement> packageElements =
@@ -230,6 +236,11 @@ public class MarkdownGenerator {
 		);
 	}
 
+	/**
+	 * Collects distinct named packages represented by included doclet elements.
+	 *
+	 * @return ordered set of named package elements.
+	 */
 	private Set<PackageElement> collectPackageElements() {
 		final Set<PackageElement> packageElements = new LinkedHashSet<>();
 		for (Element includedElement : this.environment.getIncludedElements()) {
@@ -252,6 +263,11 @@ public class MarkdownGenerator {
 		return packageElements;
 	}
 
+	/**
+	 * Collects distinct named modules represented by included doclet elements.
+	 *
+	 * @return ordered set of module qualified names.
+	 */
 	private Set<String> collectModuleNames() {
 		final Set<String> moduleNames = new LinkedHashSet<>();
 		for (Element includedElement : this.environment.getIncludedElements()) {
@@ -268,6 +284,12 @@ public class MarkdownGenerator {
 		return moduleNames;
 	}
 
+	/**
+	 * Creates package metadata indexed by package qualified name.
+	 *
+	 * @param packageElements package elements to transform.
+	 * @return ordered map of package metadata by qualified name.
+	 */
 	private Map<String, PackageData> createPackageDataByQualifiedName(
 		final Set<PackageElement> packageElements
 	) {
@@ -284,6 +306,12 @@ public class MarkdownGenerator {
 		return packageDataByQualifiedName;
 	}
 
+	/**
+	 * Renders and writes package markdown files.
+	 *
+	 * @param packageElements package elements to render.
+	 * @param packageDataByQualifiedName package metadata map by qualified name.
+	 */
 	private void writePackageDocumentation(
 		final Set<PackageElement> packageElements,
 		final Map<String, PackageData> packageDataByQualifiedName
@@ -316,6 +344,12 @@ public class MarkdownGenerator {
 		}
 	}
 
+	/**
+	 * Writes rendered markdown content to a destination file.
+	 *
+	 * @param relativeOutputFilepath output path relative to destination root.
+	 * @param markdownContent rendered markdown content.
+	 */
 	private void writeMarkdownFile(
 		final String relativeOutputFilepath,
 		final String markdownContent
@@ -337,6 +371,11 @@ public class MarkdownGenerator {
 		}
 	}
 
+	/**
+	 * Extracts and caches element metadata for a single language model element.
+	 *
+	 * @param element language model element to process.
+	 */
 	void extractElementData(@NonNull final Element element) {
 		log.debug("Extracting data for element: {}", element.toString());
 

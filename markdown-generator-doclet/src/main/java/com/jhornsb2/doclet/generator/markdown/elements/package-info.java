@@ -1,7 +1,8 @@
 /**
- * This package contains the data classes that represent the Java elements
- * (classes, methods, fields, etc.) that are used to generate the Markdown
- * documentation. These classes are typically created by the doclet and then
- * used by the template engine to produce the final output.
+ * Immutable data models representing Java language elements.
+ * <p>
+ * Types in this package are created from
+ * {@link javax.lang.model.element.Element} values by factory classes and are
+ * then consumed by template rendering code to produce markdown documentation.
  */
 package com.jhornsb2.doclet.generator.markdown.elements;

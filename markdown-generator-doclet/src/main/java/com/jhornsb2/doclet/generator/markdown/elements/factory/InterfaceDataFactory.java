@@ -15,12 +15,27 @@ import javax.lang.model.type.TypeMirror;
 import lombok.NonNull;
 import lombok.Value;
 
+/**
+ * Creates cached {@link InterfaceData} instances from interface
+ * {@link javax.lang.model.element.TypeElement} values.
+ * <p>
+ * This factory extracts naming, kind, Javadoc body text, and declared
+ * super-interface metadata for template rendering.
+ */
 @Value
 public class InterfaceDataFactory {
 
+	/** Shared cache for element-data instances keyed by element identity. */
 	ElementDataCache elementDataCache;
+	/** Utility used to read parsed Javadoc comments for language model elements. */
 	DocCommentUtil docCommentUtil;
 
+	/**
+	 * Returns cached or newly-created interface metadata.
+	 *
+	 * @param element interface element to transform.
+	 * @return cached or computed {@link InterfaceData} representation.
+	 */
 	public InterfaceData create(@NonNull final Element element) {
 		final String key = this.elementDataCache.keyFor(element);
 		return (InterfaceData) this.elementDataCache.getOrCompute(key, () ->
@@ -28,6 +43,12 @@ public class InterfaceDataFactory {
 		);
 	}
 
+	/**
+	 * Builds interface metadata without consulting the cache.
+	 *
+	 * @param element interface element to transform.
+	 * @return new {@link InterfaceData} instance.
+	 */
 	InterfaceData createUncached(@NonNull final Element element) {
 		final TypeElement typeElement = (TypeElement) element;
 		final Set<String> superInterfaces = this.resolveSuperInterfaces(
@@ -48,6 +69,12 @@ public class InterfaceDataFactory {
 			.build();
 	}
 
+	/**
+	 * Resolves all directly-declared super-interface qualified names.
+	 *
+	 * @param typeElement interface element to inspect.
+	 * @return immutable ordered set of declared super-interface names.
+	 */
 	private Set<String> resolveSuperInterfaces(final TypeElement typeElement) {
 		final List<? extends TypeMirror> interfaceMirrors =
 			typeElement.getInterfaces();
