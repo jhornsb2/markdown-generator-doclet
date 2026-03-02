@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
-import com.jhornsb2.doclet.generator.markdown.elements.ProjectData;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
-import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -18,35 +16,30 @@ class DefaultTemplateRendererTest {
 	void rendersProjectAndPackageTemplatesWithResolvedBookmarks() {
 		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			new BuiltInTemplateRegistry(),
-			List.of(
-				new CommonBookmarkResolver(),
-				new ProjectBookmarkResolver(),
-				new PackageBookmarkResolver()
-			)
+			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
 		);
 
-		ProjectData projectData = ProjectData.builder()
+		PackageData projectTemplateData = PackageData.builder()
 			.simpleName("Test Project")
 			.qualifiedName("project")
-			.kind("project")
+			.kind("package")
 			.docComment("Generated markdown documentation.")
-			.moduleNames(Set.of("app.core"))
-			.packageNames(Set.of("com.example", "com.example.api"))
+			.packageContents(Set.of("com.example.Api", "com.example.Impl"))
 			.build();
 
 		String projectMarkdown = templateRenderer.render(
 			TemplateKind.PROJECT,
 			TemplateRenderContext.builder()
 				.templateKind(TemplateKind.PROJECT)
-				.elementData(projectData)
+				.elementData(projectTemplateData)
 				.build()
 		);
 
 		assertTrue(projectMarkdown.contains("# Test Project"));
-		assertTrue(projectMarkdown.contains("## Modules (1)"));
-		assertTrue(projectMarkdown.contains("- app.core"));
-		assertTrue(projectMarkdown.contains("## Packages (2)"));
-		assertTrue(projectMarkdown.contains("- com.example"));
+		assertTrue(projectMarkdown.contains("## Modules ()"));
+		assertTrue(projectMarkdown.contains("## Packages ()"));
+		assertFalse(projectMarkdown.contains("${project.moduleCount}"));
+		assertFalse(projectMarkdown.contains("${project.packageCount}"));
 
 		PackageData packageData = PackageData.builder()
 			.simpleName("example")
@@ -95,18 +88,19 @@ class DefaultTemplateRendererTest {
 			)
 		);
 
-		ProjectData projectData = ProjectData.builder()
+		PackageData packageData = PackageData.builder()
 			.simpleName("Test Project")
 			.qualifiedName("project")
-			.kind("project")
+			.kind("package")
 			.docComment("")
+			.packageContents(Set.of())
 			.build();
 
 		String rendered = templateRenderer.render(
 			TemplateKind.PROJECT,
 			TemplateRenderContext.builder()
 				.templateKind(TemplateKind.PROJECT)
-				.elementData(projectData)
+				.elementData(packageData)
 				.build()
 		);
 

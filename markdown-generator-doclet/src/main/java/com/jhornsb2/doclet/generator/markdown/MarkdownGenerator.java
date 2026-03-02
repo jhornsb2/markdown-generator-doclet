@@ -1,10 +1,8 @@
 package com.jhornsb2.doclet.generator.markdown;
 
 import com.google.common.io.Files;
-import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
 import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
-import com.jhornsb2.doclet.generator.markdown.elements.ProjectData;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
@@ -24,7 +22,6 @@ import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderer;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
-import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +31,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ModuleElement;
@@ -110,11 +106,7 @@ public class MarkdownGenerator {
 		);
 		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			new BuiltInTemplateRegistry(),
-			List.of(
-				new CommonBookmarkResolver(),
-				new ProjectBookmarkResolver(),
-				new PackageBookmarkResolver()
-			)
+			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
 		);
 
 		return MarkdownGenerator.builder()
@@ -207,12 +199,6 @@ public class MarkdownGenerator {
 			.map(IElementData.class::cast)
 			.toList();
 
-		final ProjectData projectData = this.createProjectData(
-			packageDataByQualifiedName.keySet(),
-			this.collectModuleNames()
-		);
-
-		this.writeProjectDocumentation(projectData, allElements);
 		this.writePackageDocumentation(
 			packageElements,
 			packageDataByQualifiedName
@@ -275,35 +261,6 @@ public class MarkdownGenerator {
 			);
 		}
 		return packageDataByQualifiedName;
-	}
-
-	private ProjectData createProjectData(
-		final Set<String> packageNames,
-		final Set<String> moduleNames
-	) {
-		final ProjectData.ProjectDataBuilder builder = ProjectData.builder()
-			.simpleName("Project Documentation")
-			.qualifiedName("project")
-			.kind("project")
-			.docComment("Generated markdown documentation.");
-		moduleNames.forEach(builder::moduleName);
-		packageNames.forEach(builder::packageName);
-		return builder.build();
-	}
-
-	private void writeProjectDocumentation(
-		final ProjectData projectData,
-		final List<IElementData> allElements
-	) {
-		final String markdown = this.templateRenderer.render(
-			TemplateKind.PROJECT,
-			TemplateRenderContext.builder()
-				.templateKind(TemplateKind.PROJECT)
-				.elementData(projectData)
-				.allElements(allElements)
-				.build()
-		);
-		this.writeMarkdownFile(StandardFileNames.INDEX_FILE_NAME, markdown);
 	}
 
 	private void writePackageDocumentation(
