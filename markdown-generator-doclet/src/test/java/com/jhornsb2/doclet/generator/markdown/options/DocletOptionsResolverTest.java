@@ -20,7 +20,10 @@ class DocletOptionsResolverTest {
 
 		ResolvedDocletOptions resolved = this.resolver.resolve(options);
 
-		assertEquals(OutputPathLayout.HIERARCHICAL, resolved.getOutputPathLayout());
+		assertEquals(
+			OutputPathLayout.HIERARCHICAL,
+			resolved.getOutputPathLayout()
+		);
 		assertFalse(resolved.hasTemplateDirectory());
 		assertTrue(resolved.getTemplateDirectoryPath().isEmpty());
 	}
@@ -72,11 +75,7 @@ class DocletOptionsResolverTest {
 			() -> this.resolver.resolve(options)
 		);
 
-		assertTrue(
-			ex
-				.getMessage()
-				.contains("is not an existing directory")
-		);
+		assertTrue(ex.getMessage().contains("is not an existing directory"));
 	}
 
 	@Test
@@ -91,7 +90,10 @@ class DocletOptionsResolverTest {
 
 		assertEquals(OutputPathLayout.FLAT, resolved.getOutputPathLayout());
 		assertTrue(resolved.hasTemplateDirectory());
-		assertEquals(tempDir, resolved.getTemplateDirectoryPath().orElseThrow());
+		assertEquals(
+			tempDir,
+			resolved.getTemplateDirectoryPath().orElseThrow()
+		);
 	}
 
 	private DocletOptions createOptions(
@@ -119,7 +121,10 @@ class DocletOptionsResolverTest {
 			""
 		);
 		if (!templateDirectory.isBlank()) {
-			templateDirOption.process("-template-dir", List.of(templateDirectory));
+			templateDirOption.process(
+				"-template-dir",
+				List.of(templateDirectory)
+			);
 		}
 
 		return new DocletOptions(

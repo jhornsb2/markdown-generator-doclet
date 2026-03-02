@@ -1,9 +1,9 @@
 package com.jhornsb2.doclet.generator.markdown;
 
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.options.DocletOptionValidationException;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptionsResolver;
-import com.jhornsb2.doclet.generator.markdown.options.DocletOptionValidationException;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;

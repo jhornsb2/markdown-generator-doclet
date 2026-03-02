@@ -27,9 +27,9 @@ public class DocletOptionsResolver {
 		} catch (IllegalArgumentException ex) {
 			throw new DocletOptionValidationException(
 				"Invalid -path-layout option: " +
-				docletOptions.getPathLayout().getValue() +
-				". Supported values are: " +
-				OutputPathLayout.supportedOptionValues(),
+					docletOptions.getPathLayout().getValue() +
+					". Supported values are: " +
+					OutputPathLayout.supportedOptionValues(),
 				ex
 			);
 		}
@@ -57,6 +57,9 @@ public class DocletOptionsResolver {
 			templateDirectoryPath = Optional.of(candidatePath);
 		}
 
-		return new ResolvedDocletOptions(outputPathLayout, templateDirectoryPath);
+		return new ResolvedDocletOptions(
+			outputPathLayout,
+			templateDirectoryPath
+		);
 	}
 }
