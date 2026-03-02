@@ -20,5 +20,12 @@ public class TemplateRenderContext {
 	IElementData elementData;
 
 	@Builder.Default
+	String outputRelativeFilepath = "";
+
+	@Builder.Default
 	List<IElementData> allElements = List.of();
+
+	public boolean hasOutputRelativeFilepath() {
+		return !this.outputRelativeFilepath.isBlank();
+	}
 }

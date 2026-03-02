@@ -49,7 +49,10 @@ public class BuiltInTemplateRegistry implements TemplateRegistry {
 	}
 
 	@Override
-	public String getTemplate(@NonNull final TemplateKind templateKind) {
+	public String getTemplate(
+		@NonNull final TemplateKind templateKind,
+		@NonNull final TemplateRenderContext context
+	) {
 		return this.templates.getOrDefault(templateKind, "");
 	}
 }

@@ -5,6 +5,9 @@ import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Set;
 import javax.lang.model.SourceVersion;
@@ -56,6 +59,15 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		OutputPathLayout.HIERARCHICAL.getOptionValue()
 	);
 
+	/**
+	 * The option to specify a directory containing custom template files.
+	 */
+	private final GenericOption templateDir = new GenericOption(
+		"-template-dir",
+		"Directory containing custom templates (*.md)",
+		""
+	);
+
 	@Override
 	public void init(final Locale locale, final Reporter reporter) {
 		DocletLogger.setReporter(reporter);
@@ -68,7 +80,12 @@ public class MarkdownGeneratorDoclet implements Doclet {
 
 	@Override
 	public Set<Option> getSupportedOptions() {
-		return Set.of(this.noTimestamp, this.destinationDir, this.pathLayout);
+		return Set.of(
+			this.noTimestamp,
+			this.destinationDir,
+			this.pathLayout,
+			this.templateDir
+		);
 	}
 
 	@Override
@@ -80,7 +97,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	public boolean run(final DocletEnvironment environment) {
 		final DocletOptions docletOptions = new DocletOptions(
 			this.destinationDir,
-			this.pathLayout
+			this.pathLayout,
+			this.templateDir
 		);
 		final OutputPathLayout resolvedPathLayout;
 		try {
@@ -97,10 +115,36 @@ public class MarkdownGeneratorDoclet implements Doclet {
 			return false;
 		}
 
+		if (docletOptions.hasTemplateDirectory()) {
+			final Path templateDirectoryPath;
+			try {
+				templateDirectoryPath = Path.of(
+					docletOptions.getTemplateDirectory()
+				);
+			} catch (InvalidPathException ex) {
+				log.error(
+					"Invalid -template-dir option: {}",
+					docletOptions.getTemplateDirectory()
+				);
+				return false;
+			}
+
+			if (!Files.isDirectory(templateDirectoryPath)) {
+				log.error(
+					"Invalid -template-dir option: {} is not an existing directory",
+					templateDirectoryPath
+				);
+				return false;
+			}
+		}
+
 		log.info(
-			"Starting Markdown generation with destination directory: {}, path layout: {}",
+			"Starting Markdown generation with destination directory: {}, path layout: {}, template directory: {}",
 			this.destinationDir.getValue(),
-			resolvedPathLayout.getOptionValue()
+			resolvedPathLayout.getOptionValue(),
+			docletOptions.hasTemplateDirectory()
+				? docletOptions.getTemplateDirectory()
+				: "<built-in>"
 		);
 
 		// Create and run the generator

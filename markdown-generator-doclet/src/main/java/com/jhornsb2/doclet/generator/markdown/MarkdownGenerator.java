@@ -17,15 +17,18 @@ import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.template.BuiltInTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.DefaultTemplateRenderer;
+import com.jhornsb2.doclet.generator.markdown.template.FileSystemTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderer;
+import com.jhornsb2.doclet.generator.markdown.template.TemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -104,8 +107,9 @@ public class MarkdownGenerator {
 			recordDataFactory,
 			enumDataFactory
 		);
+		TemplateRegistry templateRegistry = createTemplateRegistry(docletOptions);
 		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
-			new BuiltInTemplateRegistry(),
+			templateRegistry,
 			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
 		);
 
@@ -124,6 +128,21 @@ public class MarkdownGenerator {
 			.elementDataFactory(elementDataFactory)
 			.templateRenderer(templateRenderer)
 			.build();
+	}
+
+	private static TemplateRegistry createTemplateRegistry(
+		@NonNull final DocletOptions docletOptions
+	) {
+		final TemplateRegistry builtInTemplateRegistry =
+			new BuiltInTemplateRegistry();
+		if (!docletOptions.hasTemplateDirectory()) {
+			return builtInTemplateRegistry;
+		}
+
+		return new FileSystemTemplateRegistry(
+			Path.of(docletOptions.getTemplateDirectory()),
+			builtInTemplateRegistry
+		);
 	}
 
 	/**
@@ -278,17 +297,19 @@ public class MarkdownGenerator {
 				continue;
 			}
 
+			final String outputFilepath =
+				this.docletOptions.getOutputFilepathStrategy().forPackageElement(
+					packageElement
+				);
+
 			final String markdown = this.templateRenderer.render(
 				TemplateKind.PACKAGE,
 				TemplateRenderContext.builder()
 					.templateKind(TemplateKind.PACKAGE)
 					.elementData(packageData)
+					.outputRelativeFilepath(outputFilepath)
 					.build()
 			);
-			final String outputFilepath =
-				this.docletOptions.getOutputFilepathStrategy().forPackageElement(
-					packageElement
-				);
 			this.writeMarkdownFile(outputFilepath, markdown);
 		}
 	}

@@ -6,5 +6,8 @@ import lombok.NonNull;
  * Registry for loading templates by kind.
  */
 public interface TemplateRegistry {
-	String getTemplate(@NonNull TemplateKind templateKind);
+	String getTemplate(
+		@NonNull TemplateKind templateKind,
+		@NonNull TemplateRenderContext context
+	);
 }

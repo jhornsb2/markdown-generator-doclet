@@ -29,7 +29,10 @@ public class DefaultTemplateRenderer implements TemplateRenderer {
 		@NonNull final TemplateKind templateKind,
 		@NonNull final TemplateRenderContext context
 	) {
-		final String template = this.templateRegistry.getTemplate(templateKind);
+		final String template = this.templateRegistry.getTemplate(
+			templateKind,
+			context
+		);
 		final Map<String, String> resolvedBookmarks = new LinkedHashMap<>();
 
 		this.bookmarkResolvers.stream()

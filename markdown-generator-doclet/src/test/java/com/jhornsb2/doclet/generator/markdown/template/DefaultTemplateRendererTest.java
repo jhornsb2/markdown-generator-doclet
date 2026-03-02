@@ -65,7 +65,7 @@ class DefaultTemplateRendererTest {
 
 	@Test
 	void unresolvedBookmarksAreRenderedAsEmptyStrings() {
-		TemplateRegistry templateRegistry = templateKind ->
+		TemplateRegistry templateRegistry = (templateKind, context) ->
 			"A ${known} B ${unknown}";
 		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			templateRegistry,

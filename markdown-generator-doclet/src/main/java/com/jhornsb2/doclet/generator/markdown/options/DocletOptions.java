@@ -14,6 +14,9 @@ public class DocletOptions {
 	@NonNull
 	GenericOption pathLayout;
 
+	@NonNull
+	GenericOption templateDir;
+
 	public String getDestinationDirectory() {
 		return this.destinationDir.getValue();
 	}
@@ -26,5 +29,13 @@ public class DocletOptions {
 		return OutputFilepathStrategyResolver.resolve(
 			this.getOutputPathLayout()
 		);
+	}
+
+	public String getTemplateDirectory() {
+		return this.templateDir.getValue();
+	}
+
+	public boolean hasTemplateDirectory() {
+		return !this.getTemplateDirectory().isBlank();
 	}
 }

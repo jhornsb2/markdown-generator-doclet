@@ -66,7 +66,10 @@ class MarkdownGeneratorDocletTest {
 			.flatMap(List::stream)
 			.collect(java.util.stream.Collectors.toSet());
 
-		assertEquals(Set.of("-d", "-notimestamp", "-path-layout"), optionNames);
+		assertEquals(
+			Set.of("-d", "-notimestamp", "-path-layout", "-template-dir"),
+			optionNames
+		);
 	}
 
 	@Test
@@ -91,6 +94,26 @@ class MarkdownGeneratorDocletTest {
 			.orElseThrow();
 
 		pathLayoutOption.process("-path-layout", List.of("invalid-layout"));
+		boolean result = doclet.run(EMPTY_ENVIRONMENT);
+
+		assertFalse(result);
+	}
+
+	@Test
+	void runReturnsFalseWhenTemplateDirectoryDoesNotExist() {
+		MarkdownGeneratorDoclet doclet = new MarkdownGeneratorDoclet();
+
+		Set<? extends Doclet.Option> options = doclet.getSupportedOptions();
+		Doclet.Option templateDirOption = options
+			.stream()
+			.filter(option -> option.getNames().contains("-template-dir"))
+			.findFirst()
+			.orElseThrow();
+
+		templateDirOption.process(
+			"-template-dir",
+			List.of("missing-template-dir-" + System.nanoTime())
+		);
 		boolean result = doclet.run(EMPTY_ENVIRONMENT);
 
 		assertFalse(result);
