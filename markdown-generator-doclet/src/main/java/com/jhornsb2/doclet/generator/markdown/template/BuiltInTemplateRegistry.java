@@ -7,7 +7,7 @@ import lombok.NonNull;
 /**
  * Default template registry backed by predefined template strings.
  */
-public class BuiltInTemplateRegistry implements TemplateRegistry {
+public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 	private static final String PROJECT_TEMPLATE = """
 		# ${common.simpleName}

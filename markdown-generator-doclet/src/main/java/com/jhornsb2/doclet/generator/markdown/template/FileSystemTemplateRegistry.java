@@ -13,13 +13,13 @@ import lombok.Value;
  * Missing templates are resolved from a fallback registry.
  */
 @Value
-public class FileSystemTemplateRegistry implements TemplateRegistry {
+public class FileSystemTemplateRegistry implements ITemplateRegistry {
 
 	@NonNull
 	Path templateDirectory;
 
 	@NonNull
-	TemplateRegistry fallbackTemplateRegistry;
+	ITemplateRegistry fallbackTemplateRegistry;
 
 	@Override
 	public String getTemplate(

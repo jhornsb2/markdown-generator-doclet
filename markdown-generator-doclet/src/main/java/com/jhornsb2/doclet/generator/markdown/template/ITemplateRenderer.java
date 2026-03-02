@@ -5,10 +5,10 @@ import lombok.NonNull;
 /**
  * Renders markdown text for a template kind and render context.
  * <p>
- * Implementations combine a {@link TemplateRegistry} and one or more
+ * Implementations combine a {@link ITemplateRegistry} and one or more
  * bookmark-resolver collaborators to replace placeholders in template content.
  */
-public interface TemplateRenderer {
+public interface ITemplateRenderer {
 	/**
 	 * Renders markdown for a specific template kind.
 	 *

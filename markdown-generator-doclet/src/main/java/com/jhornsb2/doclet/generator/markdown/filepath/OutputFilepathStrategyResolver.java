@@ -11,12 +11,12 @@ import lombok.NonNull;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OutputFilepathStrategyResolver {
 
-	private static final OutputFilepathStrategy HIERARCHICAL_STRATEGY =
+	private static final IOutputFilepathStrategy HIERARCHICAL_STRATEGY =
 		new HierarchicalOutputFilepathStrategy();
-	private static final OutputFilepathStrategy FLAT_STRATEGY =
+	private static final IOutputFilepathStrategy FLAT_STRATEGY =
 		new FlatOutputFilepathStrategy();
 
-	public static OutputFilepathStrategy resolve(
+	public static IOutputFilepathStrategy resolve(
 		@NonNull final OutputPathLayout outputPathLayout
 	) {
 		return switch (outputPathLayout) {

@@ -11,7 +11,7 @@ import javax.lang.model.element.TypeElement;
  * based on qualified names.
  */
 public class HierarchicalOutputFilepathStrategy
-	implements OutputFilepathStrategy
+	implements IOutputFilepathStrategy
 {
 
 	@Override

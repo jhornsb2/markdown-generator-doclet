@@ -6,7 +6,7 @@ import lombok.NonNull;
 /**
  * Resolves bookmark values for a render context.
  */
-public interface BookmarkResolver {
+public interface IBookmarkResolver {
 	boolean supports(@NonNull TemplateRenderContext context);
 
 	Map<String, String> resolve(@NonNull TemplateRenderContext context);

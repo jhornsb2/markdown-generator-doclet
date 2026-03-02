@@ -18,10 +18,10 @@ import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.template.BuiltInTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.DefaultTemplateRenderer;
 import com.jhornsb2.doclet.generator.markdown.template.FileSystemTemplateRegistry;
+import com.jhornsb2.doclet.generator.markdown.template.ITemplateRegistry;
+import com.jhornsb2.doclet.generator.markdown.template.ITemplateRenderer;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
-import com.jhornsb2.doclet.generator.markdown.template.TemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
-import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderer;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
@@ -107,10 +107,10 @@ public class MarkdownGenerator {
 			recordDataFactory,
 			enumDataFactory
 		);
-		TemplateRegistry templateRegistry = createTemplateRegistry(
+		ITemplateRegistry templateRegistry = createTemplateRegistry(
 			docletOptions
 		);
-		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
+		ITemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			templateRegistry,
 			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
 		);
@@ -132,10 +132,10 @@ public class MarkdownGenerator {
 			.build();
 	}
 
-	private static TemplateRegistry createTemplateRegistry(
+	private static ITemplateRegistry createTemplateRegistry(
 		@NonNull final DocletOptions docletOptions
 	) {
-		final TemplateRegistry builtInTemplateRegistry =
+		final ITemplateRegistry builtInTemplateRegistry =
 			new BuiltInTemplateRegistry();
 		if (!docletOptions.hasTemplateDirectory()) {
 			return builtInTemplateRegistry;
@@ -206,7 +206,7 @@ public class MarkdownGenerator {
 	/**
 	 * Renders markdown content from templates and bookmark resolvers.
 	 */
-	TemplateRenderer templateRenderer;
+	ITemplateRenderer templateRenderer;
 
 	/**
 	 * Executes markdown generation for all included package elements.

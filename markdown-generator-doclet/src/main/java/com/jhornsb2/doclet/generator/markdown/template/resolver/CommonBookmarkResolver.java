@@ -4,7 +4,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.IDocComment;
 import com.jhornsb2.doclet.generator.markdown.elements.IKind;
 import com.jhornsb2.doclet.generator.markdown.elements.IQualifiedName;
 import com.jhornsb2.doclet.generator.markdown.elements.ISimpleName;
-import com.jhornsb2.doclet.generator.markdown.template.BookmarkResolver;
+import com.jhornsb2.doclet.generator.markdown.template.IBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import java.util.Map;
 import lombok.NonNull;
@@ -12,7 +12,7 @@ import lombok.NonNull;
 /**
  * Resolves common bookmarks shared across template kinds.
  */
-public class CommonBookmarkResolver implements BookmarkResolver {
+public class CommonBookmarkResolver implements IBookmarkResolver {
 
 	@Override
 	public boolean supports(@NonNull final TemplateRenderContext context) {

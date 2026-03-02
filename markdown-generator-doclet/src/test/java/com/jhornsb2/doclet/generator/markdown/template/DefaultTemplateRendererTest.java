@@ -14,7 +14,7 @@ class DefaultTemplateRendererTest {
 
 	@Test
 	void rendersProjectAndPackageTemplatesWithResolvedBookmarks() {
-		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
+		ITemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			new BuiltInTemplateRegistry(),
 			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
 		);
@@ -65,12 +65,12 @@ class DefaultTemplateRendererTest {
 
 	@Test
 	void unresolvedBookmarksAreRenderedAsEmptyStrings() {
-		TemplateRegistry templateRegistry = (templateKind, context) ->
+		ITemplateRegistry templateRegistry = (templateKind, context) ->
 			"A ${known} B ${unknown}";
-		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
+		ITemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			templateRegistry,
 			List.of(
-				new BookmarkResolver() {
+				new IBookmarkResolver() {
 					@Override
 					public boolean supports(
 						final TemplateRenderContext context

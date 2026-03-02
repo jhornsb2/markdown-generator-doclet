@@ -8,13 +8,13 @@ import lombok.NonNull;
  * Registries may load built-in templates, filesystem overrides, or delegate to
  * chained fallback registries.
  */
-public interface TemplateRegistry {
+public interface ITemplateRegistry {
 	/**
 	 * Returns template text for the supplied template kind.
 	 *
 	 * @param templateKind kind of template to resolve.
 	 * @param context render context that can influence template selection.
-	 * @return template content used by a {@link TemplateRenderer}.
+	 * @return template content used by a {@link ITemplateRenderer}.
 	 */
 	String getTemplate(
 		@NonNull TemplateKind templateKind,

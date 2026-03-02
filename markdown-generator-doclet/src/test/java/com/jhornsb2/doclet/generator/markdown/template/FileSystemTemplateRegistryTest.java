@@ -32,9 +32,9 @@ class FileSystemTemplateRegistryTest {
 			"# Custom Project Template",
 			StandardCharsets.UTF_8
 		);
-		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+		ITemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
 			"fallback";
-		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
+		ITemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
 		);
@@ -51,9 +51,9 @@ class FileSystemTemplateRegistryTest {
 	void fallsBackToBuiltInWhenCustomTemplateFileIsMissing(
 		@TempDir Path tempDir
 	) {
-		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+		ITemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
 			"fallback";
-		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
+		ITemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
 		);
@@ -82,9 +82,9 @@ class FileSystemTemplateRegistryTest {
 			"# Kind Template",
 			StandardCharsets.UTF_8
 		);
-		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+		ITemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
 			"fallback";
-		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
+		ITemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
 		);
@@ -110,9 +110,9 @@ class FileSystemTemplateRegistryTest {
 			"# Kind Template",
 			StandardCharsets.UTF_8
 		);
-		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+		ITemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
 			"fallback";
-		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
+		ITemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
 		);

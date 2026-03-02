@@ -1,7 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown.template.resolver;
 
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
-import com.jhornsb2.doclet.generator.markdown.template.BookmarkResolver;
+import com.jhornsb2.doclet.generator.markdown.template.IBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import java.util.Map;
@@ -11,7 +11,7 @@ import lombok.NonNull;
 /**
  * Resolves package-specific bookmarks.
  */
-public class PackageBookmarkResolver implements BookmarkResolver {
+public class PackageBookmarkResolver implements IBookmarkResolver {
 
 	@Override
 	public boolean supports(@NonNull final TemplateRenderContext context) {

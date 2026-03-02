@@ -1,6 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.options;
 
-import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategy;
+import com.jhornsb2.doclet.generator.markdown.filepath.IOutputFilepathStrategy;
 import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategyResolver;
 import lombok.NonNull;
 import lombok.Value;
@@ -51,7 +51,7 @@ public class DocletOptions {
 	 *
 	 * @return the output filepath strategy implementation to use for generation.
 	 */
-	public OutputFilepathStrategy getOutputFilepathStrategy() {
+	public IOutputFilepathStrategy getOutputFilepathStrategy() {
 		return OutputFilepathStrategyResolver.resolve(
 			this.getOutputPathLayout()
 		);

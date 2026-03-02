@@ -8,7 +8,7 @@ import javax.lang.model.element.TypeElement;
 /**
  * Flat strategy that generates output file paths as single markdown files.
  */
-public class FlatOutputFilepathStrategy implements OutputFilepathStrategy {
+public class FlatOutputFilepathStrategy implements IOutputFilepathStrategy {
 
 	@Override
 	public String forAnnotationElement(final TypeElement annotationElement) {

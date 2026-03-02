@@ -8,7 +8,7 @@ import javax.lang.model.element.TypeElement;
  * Strategy interface for generating output file paths for different element
  * types.
  */
-public interface OutputFilepathStrategy {
+public interface IOutputFilepathStrategy {
 	String forAnnotationElement(TypeElement annotationElement);
 
 	String forInterfaceElement(TypeElement interfaceElement);

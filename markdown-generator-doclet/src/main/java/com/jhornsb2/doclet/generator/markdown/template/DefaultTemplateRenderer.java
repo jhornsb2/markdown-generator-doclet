@@ -12,17 +12,17 @@ import lombok.Value;
  * Template renderer that replaces ${bookmark} tokens with resolved values.
  */
 @Value
-public class DefaultTemplateRenderer implements TemplateRenderer {
+public class DefaultTemplateRenderer implements ITemplateRenderer {
 
 	private static final Pattern BOOKMARK_PATTERN = Pattern.compile(
 		"\\$\\{([^}]+)}"
 	);
 
 	@NonNull
-	TemplateRegistry templateRegistry;
+	ITemplateRegistry templateRegistry;
 
 	@NonNull
-	List<BookmarkResolver> bookmarkResolvers;
+	List<IBookmarkResolver> bookmarkResolvers;
 
 	@Override
 	public String render(
