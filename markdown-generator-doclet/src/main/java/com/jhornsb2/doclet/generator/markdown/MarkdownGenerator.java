@@ -19,9 +19,9 @@ import com.jhornsb2.doclet.generator.markdown.template.BuiltInTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.DefaultTemplateRenderer;
 import com.jhornsb2.doclet.generator.markdown.template.FileSystemTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
+import com.jhornsb2.doclet.generator.markdown.template.TemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderer;
-import com.jhornsb2.doclet.generator.markdown.template.TemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
@@ -107,7 +107,9 @@ public class MarkdownGenerator {
 			recordDataFactory,
 			enumDataFactory
 		);
-		TemplateRegistry templateRegistry = createTemplateRegistry(docletOptions);
+		TemplateRegistry templateRegistry = createTemplateRegistry(
+			docletOptions
+		);
 		TemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			templateRegistry,
 			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())

@@ -32,8 +32,8 @@ class FileSystemTemplateRegistryTest {
 			"# Custom Project Template",
 			StandardCharsets.UTF_8
 		);
-		TemplateRegistry fallbackTemplateRegistry =
-			(templateKind, context) -> "fallback";
+		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+			"fallback";
 		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
@@ -48,9 +48,11 @@ class FileSystemTemplateRegistryTest {
 	}
 
 	@Test
-	void fallsBackToBuiltInWhenCustomTemplateFileIsMissing(@TempDir Path tempDir) {
-		TemplateRegistry fallbackTemplateRegistry =
-			(templateKind, context) -> "fallback";
+	void fallsBackToBuiltInWhenCustomTemplateFileIsMissing(
+		@TempDir Path tempDir
+	) {
+		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+			"fallback";
 		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
@@ -68,9 +70,7 @@ class FileSystemTemplateRegistryTest {
 	void returnsSpecificTemplateWhenOutputRelativePathTemplateExists(
 		@TempDir Path tempDir
 	) throws IOException {
-		Path specificTemplatePath = tempDir.resolve(
-			"com/example/README.md"
-		);
+		Path specificTemplatePath = tempDir.resolve("com/example/README.md");
 		Files.createDirectories(specificTemplatePath.getParent());
 		Files.writeString(
 			specificTemplatePath,
@@ -82,8 +82,8 @@ class FileSystemTemplateRegistryTest {
 			"# Kind Template",
 			StandardCharsets.UTF_8
 		);
-		TemplateRegistry fallbackTemplateRegistry =
-			(templateKind, context) -> "fallback";
+		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+			"fallback";
 		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry
@@ -110,8 +110,8 @@ class FileSystemTemplateRegistryTest {
 			"# Kind Template",
 			StandardCharsets.UTF_8
 		);
-		TemplateRegistry fallbackTemplateRegistry =
-			(templateKind, context) -> "fallback";
+		TemplateRegistry fallbackTemplateRegistry = (templateKind, context) ->
+			"fallback";
 		TemplateRegistry templateRegistry = new FileSystemTemplateRegistry(
 			tempDir,
 			fallbackTemplateRegistry

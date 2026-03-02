@@ -50,9 +50,8 @@ public class FileSystemTemplateRegistry implements TemplateRegistry {
 			return null;
 		}
 
-		final Path templateDirectoryPath = this.templateDirectory
-			.toAbsolutePath()
-			.normalize();
+		final Path templateDirectoryPath =
+			this.templateDirectory.toAbsolutePath().normalize();
 		final Path candidatePath = templateDirectoryPath
 			.resolve(context.getOutputRelativeFilepath())
 			.normalize();
