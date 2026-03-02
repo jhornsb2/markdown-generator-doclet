@@ -3,6 +3,7 @@ package com.jhornsb2.doclet.generator.markdown.logging;
 import java.util.stream.Stream;
 import javax.tools.Diagnostic.Kind;
 import jdk.javadoc.doclet.Reporter;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -48,6 +49,7 @@ public class DocletLogger {
 	/**
 	 * The class that is using this logger.
 	 */
+	@NonNull
 	Class<?> clazz;
 
 	/**
@@ -59,7 +61,10 @@ public class DocletLogger {
 	 */
 	public void debug(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.NOTE, this.formatMessage(message, args));
+		reporter.print(
+			Kind.NOTE,
+			this.formatMessage(DocletLoggingLevel.DEBUG, message, args)
+		);
 	}
 
 	/**
@@ -71,7 +76,10 @@ public class DocletLogger {
 	 */
 	public void info(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.NOTE, this.formatMessage(message, args));
+		reporter.print(
+			Kind.NOTE,
+			this.formatMessage(DocletLoggingLevel.INFO, message, args)
+		);
 	}
 
 	/**
@@ -83,7 +91,10 @@ public class DocletLogger {
 	 */
 	public void warn(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.WARNING, this.formatMessage(message, args));
+		reporter.print(
+			Kind.WARNING,
+			this.formatMessage(DocletLoggingLevel.WARN, message, args)
+		);
 	}
 
 	/**
@@ -95,7 +106,10 @@ public class DocletLogger {
 	 */
 	public void error(final String message, final Object... args) {
 		checkReporter();
-		reporter.print(Kind.ERROR, this.formatMessage(message, args));
+		reporter.print(
+			Kind.ERROR,
+			this.formatMessage(DocletLoggingLevel.ERROR, message, args)
+		);
 	}
 
 	/**
@@ -111,7 +125,11 @@ public class DocletLogger {
 		final Object... args
 	) {
 		checkReporter();
-		final String formattedMessage = this.formatMessage(message, args);
+		final String formattedMessage = this.formatMessage(
+			DocletLoggingLevel.ERROR,
+			message,
+			args
+		);
 		reporter.print(
 			Kind.ERROR,
 			formattedMessage + "\n" + throwable.getMessage()
@@ -134,16 +152,33 @@ public class DocletLogger {
 	 * @param args    the arguments to replace the placeholders
 	 * @return the formatted message
 	 */
-	private String formatMessage(final String message, final Object... args) {
-		if (args == null || args.length == 0) return message;
+	private String formatMessage(
+		final DocletLoggingLevel level,
+		final String message,
+		final Object... args
+	) {
+		// Create a logging message prefix with timestamp, logging level, and logger name
+		final String logTimestamp = java.time.LocalDateTime.now().toString();
+		final String loggingLevel = level.getNormalizedPrefix();
+		final String loggerName = this.clazz.getName();
+		final String loggingMessagePrefix = String.format(
+			"%s %s [%s] ",
+			logTimestamp,
+			loggingLevel,
+			loggerName
+		);
 
-		final String messagePrefix =
-			this.clazz != null ? this.clazz.getSimpleName() + ": " : "";
-		final String formattedMessage =
-			messagePrefix + message.replace("{}", "%s");
+		// Create the formatted message by replacing placeholders with the provided arguments
+		final String providedMessageTemplate = message.replace("{}", "%s");
 		final Object[] formattedArgs = Stream.of(args)
 			.map(arg -> arg == null ? "null" : arg.toString())
 			.toArray(Object[]::new);
-		return String.format(formattedMessage, formattedArgs);
+		final String formattedMessage = String.format(
+			providedMessageTemplate,
+			formattedArgs
+		);
+
+		// The final log message includes the logging message prefix and the formatted message
+		return loggingMessagePrefix + formattedMessage;
 	}
 }
