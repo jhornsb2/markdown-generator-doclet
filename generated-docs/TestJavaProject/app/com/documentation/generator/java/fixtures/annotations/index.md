@@ -9,4 +9,6 @@ Annotation fixtures used to validate annotation rendering and metadata extractio
 ## Contents
 
 - com.documentation.generator.java.fixtures.annotations.DocTag
+- com.documentation.generator.java.fixtures.annotations.Label
+- com.documentation.generator.java.fixtures.annotations.Labels
 - com.documentation.generator.java.fixtures.annotations.Range
