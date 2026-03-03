@@ -49,6 +49,7 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			elementData instanceof IModifiers data
 				? data.getModifiers()
 				: Set.of();
+		final String modifiersText = this.createModifiers(modifiers);
 		final String kindWithModifiers = this.createKindWithModifiers(
 			kind,
 			modifiers
@@ -63,11 +64,23 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			qualifiedName,
 			"common.kind",
 			kind,
+			"common.modifiers",
+			modifiersText,
 			"common.kindWithModifiers",
 			kindWithModifiers,
 			"common.docComment",
 			docComment
 		);
+	}
+
+	private String createModifiers(final Set<JavaModifier> modifiers) {
+		if (modifiers.isEmpty()) {
+			return "";
+		}
+		return java.util.Arrays.stream(JavaModifier.values())
+			.filter(modifiers::contains)
+			.map(JavaModifier::getKeyword)
+			.collect(Collectors.joining(" "));
 	}
 
 	private String createKindWithModifiers(

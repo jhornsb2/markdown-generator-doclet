@@ -17,7 +17,7 @@ Priority legend:
 | [x]  | P0       | `common.kind`              | Request the base kind (`class`, `interface`, `enum`, etc.).                          |
 | [x]  | P0       | `common.kindWithModifiers` | Request kind prefixed by important modifiers (`abstract class`, `sealed interface`). |
 | [x]  | P0       | `common.docComment`        | Request normalized top-level doc comment text for the element.                       |
-| [ ]  | P1       | `common.modifiers`         | Request canonical modifier list for the element declaration.                         |
+| [x]  | P1       | `common.modifiers`         | Request canonical modifier list for the element declaration.                         |
 | [ ]  | P1       | `common.visibility`        | Request effective visibility (`public`, `protected`, `package`, `private`).          |
 | [ ]  | P1       | `common.annotations`       | Request annotations applied to the element.                                          |
 | [ ]  | P2       | `common.isDeprecated`      | Request whether the element is deprecated.                                           |
