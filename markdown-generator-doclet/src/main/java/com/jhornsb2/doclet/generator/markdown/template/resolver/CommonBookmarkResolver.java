@@ -75,9 +75,7 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			"common.modifiers",
 			modifiersText,
 			"common.kindWithModifiers",
-			kindWithModifiers,
-			"common.docComment",
-			docComment
+			kindWithModifiers
 		);
 	}
 

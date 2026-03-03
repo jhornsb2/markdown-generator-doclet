@@ -57,6 +57,10 @@ Examples:
 - Avoid synonyms for the same concept (`tree` vs `hierarchical`); choose one canonical token.
 - Do not use uppercase, spaces, or separators other than `.`.
 
+## Common Domain Notes
+
+- Use `common.description` as the canonical bookmark for element description text.
+
 ## Recommended Canonical Tokens
 
 ### Visibility

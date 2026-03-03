@@ -30,7 +30,7 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 		## Description
 
-		${common.docComment}
+		${common.description}
 
 		## Contents
 
@@ -44,7 +44,7 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 		## Description
 
-		${common.docComment}
+		${common.description}
 
 		## Public Methods
 
@@ -58,7 +58,7 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 		## Description
 
-		${common.docComment}
+		${common.description}
 
 		## Public Methods
 

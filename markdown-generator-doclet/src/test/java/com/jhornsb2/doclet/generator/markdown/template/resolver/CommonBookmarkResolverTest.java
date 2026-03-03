@@ -1,6 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown.template.resolver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jhornsb2.doclet.generator.markdown.elements.ClassData;
@@ -40,6 +41,7 @@ class CommonBookmarkResolverTest {
 
 		assertEquals("class", bookmarks.get("common.kind"));
 		assertEquals("docs", bookmarks.get("common.description"));
+		assertFalse(bookmarks.containsKey("common.docComment"));
 		assertEquals("public", bookmarks.get("common.visibility"));
 		assertEquals(
 			"public abstract sealed",
