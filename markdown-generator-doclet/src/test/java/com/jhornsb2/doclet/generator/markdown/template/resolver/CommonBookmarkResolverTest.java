@@ -39,6 +39,7 @@ class CommonBookmarkResolverTest {
 		Map<String, String> bookmarks = resolver.resolve(context);
 
 		assertEquals("class", bookmarks.get("common.kind"));
+		assertEquals("public", bookmarks.get("common.visibility"));
 		assertEquals(
 			"public abstract sealed",
 			bookmarks.get("common.modifiers")
@@ -66,6 +67,7 @@ class CommonBookmarkResolverTest {
 
 		Map<String, String> bookmarks = resolver.resolve(context);
 
+		assertEquals("package", bookmarks.get("common.visibility"));
 		assertTrue(bookmarks.get("common.modifiers").isEmpty());
 		assertEquals("class", bookmarks.get("common.kindWithModifiers"));
 	}
@@ -88,6 +90,7 @@ class CommonBookmarkResolverTest {
 
 		Map<String, String> bookmarks = resolver.resolve(context);
 
+		assertTrue(bookmarks.get("common.visibility").isEmpty());
 		assertTrue(bookmarks.get("common.modifiers").isEmpty());
 		assertTrue(bookmarks.get("common.kindWithModifiers").isEmpty());
 	}

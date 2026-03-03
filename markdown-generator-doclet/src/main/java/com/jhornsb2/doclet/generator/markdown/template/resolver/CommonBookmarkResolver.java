@@ -49,6 +49,10 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			elementData instanceof IModifiers data
 				? data.getModifiers()
 				: Set.of();
+		final String visibility =
+			elementData instanceof IModifiers
+				? this.createVisibility(modifiers)
+				: "";
 		final String modifiersText = this.createModifiers(modifiers);
 		final String kindWithModifiers = this.createKindWithModifiers(
 			kind,
@@ -64,6 +68,8 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			qualifiedName,
 			"common.kind",
 			kind,
+			"common.visibility",
+			visibility,
 			"common.modifiers",
 			modifiersText,
 			"common.kindWithModifiers",
@@ -81,6 +87,19 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			.filter(modifiers::contains)
 			.map(JavaModifier::getKeyword)
 			.collect(Collectors.joining(" "));
+	}
+
+	private String createVisibility(final Set<JavaModifier> modifiers) {
+		if (modifiers.contains(JavaModifier.PUBLIC)) {
+			return JavaModifier.PUBLIC.getKeyword();
+		}
+		if (modifiers.contains(JavaModifier.PROTECTED)) {
+			return JavaModifier.PROTECTED.getKeyword();
+		}
+		if (modifiers.contains(JavaModifier.PRIVATE)) {
+			return JavaModifier.PRIVATE.getKeyword();
+		}
+		return "package";
 	}
 
 	private String createKindWithModifiers(
