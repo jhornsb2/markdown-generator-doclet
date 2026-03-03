@@ -1,8 +1,24 @@
 package com.jhornsb2.doclet.generator.markdown;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ModuleElement;
+import javax.lang.model.element.PackageElement;
+
 import com.google.common.io.Files;
-import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
+import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
+import com.jhornsb2.doclet.generator.markdown.elements.ProjectData;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
@@ -13,7 +29,6 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.RecordDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
-import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.template.BuiltInTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.DefaultTemplateRenderer;
@@ -24,20 +39,9 @@ import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
+import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ModuleElement;
-import javax.lang.model.element.PackageElement;
+
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -112,7 +116,11 @@ public class MarkdownGenerator {
 		);
 		ITemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			templateRegistry,
-			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
+			List.of(
+				new CommonBookmarkResolver(),
+				new ProjectBookmarkResolver(),
+				new PackageBookmarkResolver()
+			)
 		);
 
 		return MarkdownGenerator.builder()
@@ -218,13 +226,18 @@ public class MarkdownGenerator {
 		log.debug(String.format("%s.generate()", this.getClass().getName()));
 		final Set<PackageElement> packageElements =
 			this.collectPackageElements();
+		final Set<String> moduleNames = this.collectModuleNames();
 		final Map<String, PackageData> packageDataByQualifiedName =
 			this.createPackageDataByQualifiedName(packageElements);
-		final List<IElementData> allElements = packageDataByQualifiedName
-			.values()
-			.stream()
-			.map(IElementData.class::cast)
-			.toList();
+		final ProjectData projectData = ProjectData.builder()
+			.simpleName(this.resolveProjectName())
+			.kind("project")
+			.description("")
+			.modules(moduleNames)
+			.packages(packageDataByQualifiedName.keySet())
+			.build();
+
+		this.writeProjectDocumentation(projectData);
 
 		this.writePackageDocumentation(
 			packageElements,
@@ -234,6 +247,25 @@ public class MarkdownGenerator {
 			"Generated project and {} package markdown files",
 			packageDataByQualifiedName.size()
 		);
+	}
+
+	/**
+	 * Renders and writes project markdown file.
+	 *
+	 * @param projectData project-level metadata to render.
+	 */
+	private void writeProjectDocumentation(final ProjectData projectData) {
+		final String outputFilepath = StandardFileNames.INDEX_FILE_NAME;
+		final String markdown = this.templateRenderer.render(
+			TemplateKind.PROJECT,
+			TemplateRenderContext.builder()
+				.templateKind(TemplateKind.PROJECT)
+				.elementData(projectData)
+				.outputRelativeFilepath(outputFilepath)
+				.build()
+		);
+
+		this.writeMarkdownFile(outputFilepath, markdown);
 	}
 
 	/**
@@ -369,5 +401,26 @@ public class MarkdownGenerator {
 				exception
 			);
 		}
+	}
+
+	/**
+	 * Resolves a display name for project-level documentation.
+	 *
+	 * @return project name derived from the current working directory.
+	 */
+	private String resolveProjectName() {
+		final String userDirectory = System.getProperty("user.dir", "");
+		if (userDirectory.isBlank()) {
+			return "Project";
+		}
+
+		final Path directoryPath = Path.of(userDirectory).normalize();
+		final Path fileName = directoryPath.getFileName();
+		if (fileName == null) {
+			return "Project";
+		}
+
+		final String projectName = fileName.toString().trim();
+		return projectName.isBlank() ? "Project" : projectName;
 	}
 }

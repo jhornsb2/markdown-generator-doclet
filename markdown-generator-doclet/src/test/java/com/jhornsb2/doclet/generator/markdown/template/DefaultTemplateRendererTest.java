@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
+import com.jhornsb2.doclet.generator.markdown.elements.ProjectData;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
+import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -16,15 +18,19 @@ class DefaultTemplateRendererTest {
 	void rendersProjectAndPackageTemplatesWithResolvedBookmarks() {
 		ITemplateRenderer templateRenderer = new DefaultTemplateRenderer(
 			new BuiltInTemplateRegistry(),
-			List.of(new CommonBookmarkResolver(), new PackageBookmarkResolver())
+			List.of(
+				new CommonBookmarkResolver(),
+				new ProjectBookmarkResolver(),
+				new PackageBookmarkResolver()
+			)
 		);
 
-		PackageData projectTemplateData = PackageData.builder()
+		ProjectData projectTemplateData = ProjectData.builder()
 			.simpleName("Test Project")
-			.qualifiedName("project")
-			.kind("package")
-			.docComment("Generated markdown documentation.")
-			.packageContents(Set.of("com.example.Api", "com.example.Impl"))
+			.kind("project")
+			.description("Generated markdown documentation.")
+			.modules(Set.of("example.alpha", "example.beta"))
+			.packages(Set.of("com.example", "com.example.sub"))
 			.build();
 
 		String projectMarkdown = templateRenderer.render(
@@ -36,8 +42,13 @@ class DefaultTemplateRendererTest {
 		);
 
 		assertTrue(projectMarkdown.contains("# Test Project"));
-		assertTrue(projectMarkdown.contains("## Modules ()"));
-		assertTrue(projectMarkdown.contains("## Packages ()"));
+		assertTrue(
+			projectMarkdown.contains("Generated markdown documentation.")
+		);
+		assertTrue(projectMarkdown.contains("## Modules (2)"));
+		assertTrue(projectMarkdown.contains("## Packages (2)"));
+		assertTrue(projectMarkdown.contains("- example.alpha"));
+		assertTrue(projectMarkdown.contains("- com.example"));
 		assertFalse(projectMarkdown.contains("${project.moduleCount}"));
 		assertFalse(projectMarkdown.contains("${project.packageCount}"));
 

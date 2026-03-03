@@ -12,7 +12,7 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 	private static final String PROJECT_TEMPLATE = """
 		# ${common.simpleName}
 
-		${common.docComment}
+		${project.description}
 
 		## Modules (${project.moduleCount})
 
