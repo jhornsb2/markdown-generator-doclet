@@ -14,14 +14,12 @@ class ProjectDataTest {
 
 		ProjectData projectData = ProjectData.builder()
 			.name("example-project")
-			.kind("project")
 			.description("project docs")
 			.modules(modules)
 			.packages(packages)
 			.build();
 
 		assertEquals("example-project", projectData.getName());
-		assertEquals("project", projectData.getKind());
 		assertEquals("project docs", projectData.getDescription());
 		assertEquals(modules, projectData.getModules());
 		assertEquals(packages, projectData.getPackages());

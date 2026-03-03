@@ -9,17 +9,12 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class ProjectData implements IElementData, IKind {
+public class ProjectData implements IElementData {
 
 	/**
 	 * The project name.
 	 */
 	String name;
-
-	/**
-	 * The kind represented by this data.
-	 */
-	String kind;
 
 	/**
 	 * The project description.

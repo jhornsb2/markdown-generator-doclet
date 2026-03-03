@@ -80,7 +80,6 @@ class CommonBookmarkResolverTest {
 			.elementData(
 				ProjectData.builder()
 					.name("example")
-					.kind("")
 					.description("")
 					.modules(Set.of())
 					.packages(Set.of())

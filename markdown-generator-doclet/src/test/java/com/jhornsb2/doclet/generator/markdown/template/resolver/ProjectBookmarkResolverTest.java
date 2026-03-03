@@ -23,7 +23,6 @@ class ProjectBookmarkResolverTest {
 			.elementData(
 				ProjectData.builder()
 					.name("example")
-					.kind("project")
 					.description("")
 					.modules(Set.of())
 					.packages(Set.of())
@@ -56,7 +55,6 @@ class ProjectBookmarkResolverTest {
 			.elementData(
 				ProjectData.builder()
 					.name("example")
-					.kind("project")
 					.description("project description")
 					.modules(Set.of("z.module", "a.module"))
 					.packages(Set.of("com.zeta", "com.alpha"))
