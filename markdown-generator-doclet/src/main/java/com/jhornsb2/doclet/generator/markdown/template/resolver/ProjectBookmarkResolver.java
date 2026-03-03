@@ -40,6 +40,8 @@ public class ProjectBookmarkResolver implements IBookmarkResolver {
 			.collect(Collectors.joining("\n"));
 
 		return Map.of(
+			"project.name",
+			projectData.getName(),
 			"project.description",
 			projectData.getDescription(),
 			"project.moduleCount",

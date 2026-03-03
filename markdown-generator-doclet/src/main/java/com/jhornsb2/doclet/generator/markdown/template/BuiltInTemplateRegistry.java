@@ -10,7 +10,7 @@ import lombok.NonNull;
 public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 	private static final String PROJECT_TEMPLATE = """
-		# ${common.simpleName}
+		# ${project.name}
 
 		${project.description}
 

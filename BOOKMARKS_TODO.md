@@ -27,7 +27,7 @@ Priority legend:
 
 | Done | Priority | Bookmark                   | Description                                          |
 | ---- | -------- | -------------------------- | ---------------------------------------------------- |
-| [ ]  | P0       | `project.name`             | Request project display name.                        |
+| [x]  | P0       | `project.name`             | Request project display name.                        |
 | [x]  | P0       | `project.description`      | Request project-level summary/description text.      |
 | [x]  | P0       | `project.moduleCount`      | Request total module count in project scope.         |
 | [x]  | P0       | `project.packageCount`     | Request total package count in project scope.        |

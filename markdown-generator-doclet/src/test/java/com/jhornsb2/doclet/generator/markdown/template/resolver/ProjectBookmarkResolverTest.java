@@ -22,7 +22,7 @@ class ProjectBookmarkResolverTest {
 			.templateKind(TemplateKind.PROJECT)
 			.elementData(
 				ProjectData.builder()
-					.simpleName("example")
+					.name("example")
 					.kind("project")
 					.description("")
 					.modules(Set.of())
@@ -55,7 +55,7 @@ class ProjectBookmarkResolverTest {
 			.templateKind(TemplateKind.PROJECT)
 			.elementData(
 				ProjectData.builder()
-					.simpleName("example")
+					.name("example")
 					.kind("project")
 					.description("project description")
 					.modules(Set.of("z.module", "a.module"))
@@ -65,6 +65,8 @@ class ProjectBookmarkResolverTest {
 			.build();
 
 		Map<String, String> bookmarks = resolver.resolve(context);
+
+		assertEquals("example", bookmarks.get("project.name"));
 
 		assertEquals(
 			"project description",

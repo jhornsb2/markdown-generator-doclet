@@ -227,7 +227,7 @@ public class MarkdownGenerator {
 		final Map<String, PackageData> packageDataByQualifiedName =
 			this.createPackageDataByQualifiedName(packageElements);
 		final ProjectData projectData = ProjectData.builder()
-			.simpleName(this.resolveProjectName())
+			.name(this.resolveProjectName())
 			.kind("project")
 			.description("")
 			.modules(moduleNames)

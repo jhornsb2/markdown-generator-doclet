@@ -79,7 +79,7 @@ class CommonBookmarkResolverTest {
 			.templateKind(TemplateKind.PROJECT)
 			.elementData(
 				ProjectData.builder()
-					.simpleName("example")
+					.name("example")
 					.kind("")
 					.description("")
 					.modules(Set.of())

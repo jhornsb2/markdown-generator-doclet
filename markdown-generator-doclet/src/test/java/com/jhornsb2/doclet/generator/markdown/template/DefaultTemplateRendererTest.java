@@ -26,7 +26,7 @@ class DefaultTemplateRendererTest {
 		);
 
 		ProjectData projectTemplateData = ProjectData.builder()
-			.simpleName("Test Project")
+			.name("Test Project")
 			.kind("project")
 			.description("Generated markdown documentation.")
 			.modules(Set.of("example.alpha", "example.beta"))
