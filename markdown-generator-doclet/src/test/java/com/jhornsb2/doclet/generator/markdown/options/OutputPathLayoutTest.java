@@ -41,6 +41,18 @@ class OutputPathLayoutTest {
 	}
 
 	@Test
+	void fromOptionValueTrimsWhitespaceAroundAliases() {
+		assertEquals(
+			OutputPathLayout.HIERARCHICAL,
+			OutputPathLayout.fromOptionValue("  H  ")
+		);
+		assertEquals(
+			OutputPathLayout.FLAT,
+			OutputPathLayout.fromOptionValue("  f  ")
+		);
+	}
+
+	@Test
 	void fromOptionValueDefaultsToHierarchicalWhenBlank() {
 		assertEquals(
 			OutputPathLayout.HIERARCHICAL,

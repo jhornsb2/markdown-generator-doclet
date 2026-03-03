@@ -117,4 +117,47 @@ class DefaultTemplateRendererTest {
 		assertTrue(rendered.contains("A value B"));
 		assertFalse(rendered.contains("${unknown}"));
 	}
+
+	@Test
+	void malformedBookmarkTokensRemainUnchanged() {
+		ITemplateRegistry templateRegistry = (templateKind, context) ->
+			"valid=${known}; malformed=${missing close";
+		ITemplateRenderer templateRenderer = new DefaultTemplateRenderer(
+			templateRegistry,
+			List.of(
+				new IBookmarkResolver() {
+					@Override
+					public boolean supports(final TemplateRenderContext context) {
+						return true;
+					}
+
+					@Override
+					public java.util.Map<String, String> resolve(
+						final TemplateRenderContext context
+					) {
+						return java.util.Map.of("known", "value");
+					}
+				}
+			)
+		);
+
+		PackageData packageData = PackageData.builder()
+			.simpleName("sample")
+			.qualifiedName("sample")
+			.kind("package")
+			.docComment("")
+			.packageContents(Set.of())
+			.build();
+
+		String rendered = templateRenderer.render(
+			TemplateKind.PACKAGE,
+			TemplateRenderContext.builder()
+				.templateKind(TemplateKind.PACKAGE)
+				.elementData(packageData)
+				.build()
+		);
+
+		assertTrue(rendered.contains("malformed=${missing close"));
+		assertTrue(rendered.contains("value"));
+	}
 }
