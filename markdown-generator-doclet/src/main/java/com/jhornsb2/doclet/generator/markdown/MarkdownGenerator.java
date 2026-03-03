@@ -1,20 +1,5 @@
 package com.jhornsb2.doclet.generator.markdown;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ModuleElement;
-import javax.lang.model.element.PackageElement;
-
 import com.google.common.io.Files;
 import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
@@ -41,7 +26,19 @@ import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkRe
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ModuleElement;
+import javax.lang.model.element.PackageElement;
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.AccessLevel;
 import lombok.Builder;
