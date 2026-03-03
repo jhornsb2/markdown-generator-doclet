@@ -32,6 +32,11 @@ public class PackageBookmarkResolver implements IBookmarkResolver {
 			.sorted()
 			.map(content -> "- " + content)
 			.collect(Collectors.joining("\n"));
-		return Map.of("package.contents", packageContents);
+		return Map.of(
+			"package.contents",
+			packageContents,
+			"package.contents.flat",
+			packageContents
+		);
 	}
 }

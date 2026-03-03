@@ -57,7 +57,7 @@ Priority legend:
 | Done | Priority | Bookmark                          | Description                                          |
 | ---- | -------- | --------------------------------- | ---------------------------------------------------- |
 | [x]  | P0       | `package.contents`                | Request all package members in default list format.  |
-| [ ]  | P1       | `package.contents.flat`           | Request package contents as explicit flat list view. |
+| [x]  | P1       | `package.contents.flat`           | Request package contents as explicit flat list view. |
 | [ ]  | P1       | `package.contents.tree`           | Request package contents in hierarchical/tree view.  |
 | [ ]  | P2       | `package.contents.grouped.byKind` | Request package contents grouped by type kind.       |
 | [ ]  | P1       | `package.contents.class`          | Request package classes only.                        |
