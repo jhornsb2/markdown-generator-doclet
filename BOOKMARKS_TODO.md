@@ -42,7 +42,6 @@ Priority legend:
 
 | Done | Priority | Bookmark                               | Description                                                        |
 | ---- | -------- | -------------------------------------- | ------------------------------------------------------------------ |
-| [ ]  | P0       | `module.name`                          | Request module name.                                               |
 | [ ]  | P0       | `module.description`                   | Request module-level documentation summary.                        |
 | [ ]  | P1       | `module.isOpen`                        | Request whether module is declared as `open`.                      |
 | [ ]  | P1       | `module.requires`                      | Request required module dependencies.                              |
@@ -58,7 +57,6 @@ Priority legend:
 
 | Done | Priority | Bookmark                          | Description                                          |
 | ---- | -------- | --------------------------------- | ---------------------------------------------------- |
-| [ ]  | P0       | `package.name`                    | Request package name.                                |
 | [ ]  | P0       | `package.description`             | Request package-level doc summary.                   |
 | [x]  | P0       | `package.contents`                | Request all package members in default list format.  |
 | [ ]  | P1       | `package.contents.flat`           | Request package contents as explicit flat list view. |
@@ -138,7 +136,6 @@ Priority legend:
 
 | Done | Priority | Bookmark                  | Description                                                |
 | ---- | -------- | ------------------------- | ---------------------------------------------------------- |
-| [ ]  | P0       | `method.name`             | Request method simple name.                                |
 | [ ]  | P0       | `method.signature`        | Request full method signature (name, params, return type). |
 | [ ]  | P0       | `method.returnType`       | Request method return type.                                |
 | [ ]  | P0       | `method.parameters`       | Request ordered method parameter list.                     |
