@@ -16,6 +16,7 @@ Priority legend:
 | [x]  | P0       | `common.qualifiedName`     | Request the fully qualified name of the current element.                             |
 | [x]  | P0       | `common.kind`              | Request the base kind (`class`, `interface`, `enum`, etc.).                          |
 | [x]  | P0       | `common.kindWithModifiers` | Request kind prefixed by important modifiers (`abstract class`, `sealed interface`). |
+| [x]  | P0       | `common.description`       | Request normalized element description text (canonical alias for doc comment body).   |
 | [x]  | P0       | `common.docComment`        | Request normalized top-level doc comment text for the element.                       |
 | [x]  | P1       | `common.modifiers`         | Request canonical modifier list for the element declaration.                         |
 | [x]  | P1       | `common.visibility`        | Request effective visibility (`public`, `protected`, `package`, `private`).          |
@@ -42,7 +43,6 @@ Priority legend:
 
 | Done | Priority | Bookmark                               | Description                                                        |
 | ---- | -------- | -------------------------------------- | ------------------------------------------------------------------ |
-| [ ]  | P0       | `module.description`                   | Request module-level documentation summary.                        |
 | [ ]  | P1       | `module.isOpen`                        | Request whether module is declared as `open`.                      |
 | [ ]  | P1       | `module.requires`                      | Request required module dependencies.                              |
 | [ ]  | P1       | `module.exports`                       | Request exported packages and targets.                             |
@@ -57,7 +57,6 @@ Priority legend:
 
 | Done | Priority | Bookmark                          | Description                                          |
 | ---- | -------- | --------------------------------- | ---------------------------------------------------- |
-| [ ]  | P0       | `package.description`             | Request package-level doc summary.                   |
 | [x]  | P0       | `package.contents`                | Request all package members in default list format.  |
 | [ ]  | P1       | `package.contents.flat`           | Request package contents as explicit flat list view. |
 | [ ]  | P1       | `package.contents.tree`           | Request package contents in hierarchical/tree view.  |

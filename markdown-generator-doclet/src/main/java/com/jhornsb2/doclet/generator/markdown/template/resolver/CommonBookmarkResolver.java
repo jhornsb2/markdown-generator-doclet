@@ -68,6 +68,8 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 			qualifiedName,
 			"common.kind",
 			kind,
+			"common.description",
+			docComment,
 			"common.visibility",
 			visibility,
 			"common.modifiers",
