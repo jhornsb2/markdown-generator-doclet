@@ -380,8 +380,8 @@ public class MarkdownGenerator {
 	 * @param markdownContent rendered markdown content.
 	 */
 	private void writeMarkdownFile(
-		final String relativeOutputFilepath,
-		final String markdownContent
+		@NonNull final String relativeOutputFilepath,
+		@NonNull final String markdownContent
 	) {
 		final File outputFile = new File(
 			this.docletOptions.getDestinationDirectory(),
