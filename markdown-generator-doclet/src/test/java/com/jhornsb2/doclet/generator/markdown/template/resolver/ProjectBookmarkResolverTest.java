@@ -73,11 +73,15 @@ class ProjectBookmarkResolverTest {
 		assertEquals("2", bookmarks.get("project.moduleCount"));
 		assertEquals("2", bookmarks.get("project.packageCount"));
 		assertEquals(
-			"- a.module\n- z.module",
+			"""
+				- a.module
+				- z.module""",
 			bookmarks.get("project.modules")
 		);
 		assertEquals(
-			"- com.alpha\n- com.zeta",
+			"""
+				- com.alpha
+				- com.zeta""",
 			bookmarks.get("project.packages")
 		);
 	}
