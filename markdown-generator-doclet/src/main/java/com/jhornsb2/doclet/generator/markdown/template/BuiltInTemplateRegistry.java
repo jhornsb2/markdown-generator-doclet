@@ -73,6 +73,8 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 		);
 		configuredTemplates.put(TemplateKind.PROJECT, PROJECT_TEMPLATE);
 		configuredTemplates.put(TemplateKind.PACKAGE, PACKAGE_TEMPLATE);
+		configuredTemplates.put(TemplateKind.INTERFACE, INTERFACE_TEMPLATE);
+		configuredTemplates.put(TemplateKind.CLASS, CLASS_TEMPLATE);
 		this.templates = Map.copyOf(configuredTemplates);
 	}
 

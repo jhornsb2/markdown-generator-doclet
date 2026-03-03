@@ -15,7 +15,7 @@ Priority legend:
 | [x]  | P0       | `common.simpleName`        | Request the short display name of the current element.                               |
 | [x]  | P0       | `common.qualifiedName`     | Request the fully qualified name of the current element.                             |
 | [x]  | P0       | `common.kind`              | Request the base kind (`class`, `interface`, `enum`, etc.).                          |
-| [ ]  | P0       | `common.kindWithModifiers` | Request kind prefixed by important modifiers (`abstract class`, `sealed interface`). |
+| [x]  | P0       | `common.kindWithModifiers` | Request kind prefixed by important modifiers (`abstract class`, `sealed interface`). |
 | [x]  | P0       | `common.docComment`        | Request normalized top-level doc comment text for the element.                       |
 | [ ]  | P1       | `common.modifiers`         | Request canonical modifier list for the element declaration.                         |
 | [ ]  | P1       | `common.visibility`        | Request effective visibility (`public`, `protected`, `package`, `private`).          |
