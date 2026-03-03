@@ -18,6 +18,7 @@ public class RecordData
 		IQualifiedName,
 		IKind,
 		IDocComment,
+		IModifiers,
 		ISuperClass,
 		ISuperInterfaces
 {
@@ -41,6 +42,12 @@ public class RecordData
 	 * The documentation comment of the record.
 	 */
 	String docComment;
+
+	/**
+	 * The {@link Set} of declaration modifiers on the record.
+	 */
+	@Builder.Default
+	Set<JavaModifier> modifiers = Collections.emptySet();
 
 	/**
 	 * The fully qualified name of the superclass, if any.

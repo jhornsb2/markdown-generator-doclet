@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import com.jhornsb2.doclet.generator.markdown.elements.AnnotationData;
+import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
+import java.util.Set;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,8 @@ class AnnotationDataFactoryTest {
 		TypeElement annotationElement = FactoryTestFixtures.minimalTypeElement(
 			"MyAnnotation",
 			"example.MyAnnotation",
-			ElementKind.ANNOTATION_TYPE
+			ElementKind.ANNOTATION_TYPE,
+			Set.of(Modifier.PUBLIC)
 		);
 
 		AnnotationDataFactory factory = new AnnotationDataFactory(
@@ -36,6 +40,7 @@ class AnnotationDataFactoryTest {
 		assertEquals("example.MyAnnotation", annotationData.getQualifiedName());
 		assertEquals("annotation_type", annotationData.getKind());
 		assertEquals("", annotationData.getDocComment());
+		assertEquals(Set.of(JavaModifier.PUBLIC), annotationData.getModifiers());
 	}
 
 	@Test

@@ -20,6 +20,7 @@ class RecordDataTest {
 
 		assertEquals(Optional.empty(), recordData.getSuperClass());
 		assertTrue(recordData.getSuperInterfaces().isEmpty());
+		assertTrue(recordData.getModifiers().isEmpty());
 	}
 
 	@Test
@@ -29,6 +30,7 @@ class RecordDataTest {
 			.qualifiedName("example.MyRecord")
 			.kind("record")
 			.docComment("docs")
+			.modifiers(Set.of(JavaModifier.PUBLIC, JavaModifier.FINAL))
 			.superClass(Optional.of("java.lang.Record"))
 			.superInterfaces(Set.of("java.io.Serializable"))
 			.build();
@@ -40,6 +42,10 @@ class RecordDataTest {
 		assertEquals(
 			Set.of("java.io.Serializable"),
 			recordData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.FINAL),
+			recordData.getModifiers()
 		);
 	}
 }

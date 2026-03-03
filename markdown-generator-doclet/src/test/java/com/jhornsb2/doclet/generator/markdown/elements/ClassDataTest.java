@@ -20,6 +20,7 @@ class ClassDataTest {
 
 		assertEquals(Optional.empty(), classData.getSuperClass());
 		assertTrue(classData.getSuperInterfaces().isEmpty());
+		assertTrue(classData.getModifiers().isEmpty());
 	}
 
 	@Test
@@ -29,6 +30,7 @@ class ClassDataTest {
 			.qualifiedName("example.MyClass")
 			.kind("class")
 			.docComment("docs")
+			.modifiers(Set.of(JavaModifier.PUBLIC, JavaModifier.ABSTRACT))
 			.superClass(Optional.of("java.lang.Object"))
 			.superInterfaces(Set.of("java.io.Serializable"))
 			.build();
@@ -40,6 +42,10 @@ class ClassDataTest {
 		assertEquals(
 			Set.of("java.io.Serializable"),
 			classData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.ABSTRACT),
+			classData.getModifiers()
 		);
 	}
 }

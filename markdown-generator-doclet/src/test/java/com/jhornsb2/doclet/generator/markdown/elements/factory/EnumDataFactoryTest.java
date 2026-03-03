@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import com.jhornsb2.doclet.generator.markdown.elements.EnumData;
+import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +47,8 @@ class EnumDataFactoryTest {
 			"example.Status",
 			ElementKind.ENUM,
 			superClassMirror,
-			List.of(interfaceMirror)
+			List.of(interfaceMirror),
+			Set.of(Modifier.PUBLIC, Modifier.FINAL)
 		);
 
 		EnumDataFactory factory = new EnumDataFactory(
@@ -62,6 +65,10 @@ class EnumDataFactoryTest {
 		assertEquals(
 			Set.of("java.io.Serializable"),
 			enumData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.FINAL),
+			enumData.getModifiers()
 		);
 	}
 

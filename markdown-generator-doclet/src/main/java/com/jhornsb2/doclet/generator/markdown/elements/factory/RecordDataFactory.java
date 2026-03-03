@@ -82,6 +82,7 @@ public class RecordDataFactory {
 			.qualifiedName(qualifiedName)
 			.kind(kind)
 			.docComment(docComment)
+			.modifiers(ModifierMapper.toJavaModifiers(typeElement.getModifiers()))
 			.superClass(superClass)
 			.superInterfaces(superInterfaces)
 			.build();

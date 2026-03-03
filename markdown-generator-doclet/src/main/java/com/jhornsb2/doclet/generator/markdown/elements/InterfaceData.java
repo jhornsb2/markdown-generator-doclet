@@ -14,6 +14,7 @@ public class InterfaceData
 		IQualifiedName,
 		IKind,
 		IDocComment,
+		IModifiers,
 		ISuperInterfaces
 {
 
@@ -36,6 +37,12 @@ public class InterfaceData
 	 * The documentation comment of the interface.
 	 */
 	String docComment;
+
+	/**
+	 * The {@link Set} of declaration modifiers on the interface.
+	 */
+	@Builder.Default
+	Set<JavaModifier> modifiers = Collections.emptySet();
 
 	/**
 	 * The {@link Set} of fully qualified names of interfaces that this

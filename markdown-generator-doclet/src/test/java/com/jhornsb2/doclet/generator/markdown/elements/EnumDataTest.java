@@ -20,6 +20,7 @@ class EnumDataTest {
 
 		assertEquals(Optional.empty(), enumData.getSuperClass());
 		assertTrue(enumData.getSuperInterfaces().isEmpty());
+		assertTrue(enumData.getModifiers().isEmpty());
 	}
 
 	@Test
@@ -29,6 +30,7 @@ class EnumDataTest {
 			.qualifiedName("example.Status")
 			.kind("enum")
 			.docComment("docs")
+			.modifiers(Set.of(JavaModifier.PUBLIC, JavaModifier.FINAL))
 			.superClass(Optional.of("java.lang.Enum"))
 			.superInterfaces(Set.of("java.io.Serializable"))
 			.build();
@@ -37,6 +39,10 @@ class EnumDataTest {
 		assertEquals(
 			Set.of("java.io.Serializable"),
 			enumData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.FINAL),
+			enumData.getModifiers()
 		);
 	}
 }

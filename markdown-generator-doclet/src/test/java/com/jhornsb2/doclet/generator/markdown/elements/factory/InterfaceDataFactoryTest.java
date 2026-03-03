@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import com.jhornsb2.doclet.generator.markdown.elements.InterfaceData;
+import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
 import java.util.List;
 import java.util.Set;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import org.junit.jupiter.api.BeforeAll;
@@ -48,7 +50,8 @@ class InterfaceDataFactoryTest {
 				firstInterfaceMirror,
 				FactoryTestFixtures.nonDeclaredTypeMirror(),
 				secondInterfaceMirror
-			)
+			),
+			Set.of(Modifier.PUBLIC, Modifier.SEALED)
 		);
 
 		InterfaceDataFactory factory = new InterfaceDataFactory(
@@ -64,6 +67,10 @@ class InterfaceDataFactoryTest {
 		assertEquals(
 			Set.of("java.io.Closeable", "java.io.Serializable"),
 			interfaceData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.SEALED),
+			interfaceData.getModifiers()
 		);
 	}
 

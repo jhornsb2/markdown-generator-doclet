@@ -83,6 +83,7 @@ public class ClassDataFactory {
 			.qualifiedName(qualifiedName)
 			.kind(kind)
 			.docComment(docComment)
+			.modifiers(ModifierMapper.toJavaModifiers(typeElement.getModifiers()))
 			.superClass(superClass)
 			.superInterfaces(superInterfaces)
 			.build();

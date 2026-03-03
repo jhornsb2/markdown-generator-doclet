@@ -18,6 +18,7 @@ public class ClassData
 		IQualifiedName,
 		IKind,
 		IDocComment,
+		IModifiers,
 		ISuperClass,
 		ISuperInterfaces
 {
@@ -41,6 +42,12 @@ public class ClassData
 	 * The documentation comment of the class.
 	 */
 	String docComment;
+
+	/**
+	 * The {@link Set} of declaration modifiers on the class.
+	 */
+	@Builder.Default
+	Set<JavaModifier> modifiers = Collections.emptySet();
 
 	/**
 	 * The fully qualified name of the superclass, if any.

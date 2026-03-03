@@ -3,11 +3,13 @@ package com.jhornsb2.doclet.generator.markdown.elements.factory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
 import com.jhornsb2.doclet.generator.markdown.elements.RecordData;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import org.junit.jupiter.api.BeforeAll;
@@ -58,7 +60,8 @@ class RecordDataFactoryTest {
 				FactoryTestFixtures.nonDeclaredTypeMirror(),
 				interfaceTwoMirror,
 				interfaceOneMirror
-			)
+			),
+			Set.of(Modifier.PUBLIC, Modifier.FINAL)
 		);
 
 		RecordDataFactory factory = new RecordDataFactory(
@@ -78,6 +81,10 @@ class RecordDataFactoryTest {
 		assertEquals(
 			Set.of("java.io.Serializable", "java.lang.Comparable"),
 			recordData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.FINAL),
+			recordData.getModifiers()
 		);
 	}
 

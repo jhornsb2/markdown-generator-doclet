@@ -18,6 +18,7 @@ class InterfaceDataTest {
 			.build();
 
 		assertTrue(interfaceData.getSuperInterfaces().isEmpty());
+		assertTrue(interfaceData.getModifiers().isEmpty());
 	}
 
 	@Test
@@ -27,6 +28,7 @@ class InterfaceDataTest {
 			.qualifiedName("example.MyInterface")
 			.kind("interface")
 			.docComment("docs")
+			.modifiers(Set.of(JavaModifier.PUBLIC, JavaModifier.SEALED))
 			.superInterfaces(
 				Set.of("java.io.Closeable", "java.io.Serializable")
 			)
@@ -35,6 +37,10 @@ class InterfaceDataTest {
 		assertEquals(
 			Set.of("java.io.Closeable", "java.io.Serializable"),
 			interfaceData.getSuperInterfaces()
+		);
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC, JavaModifier.SEALED),
+			interfaceData.getModifiers()
 		);
 	}
 }

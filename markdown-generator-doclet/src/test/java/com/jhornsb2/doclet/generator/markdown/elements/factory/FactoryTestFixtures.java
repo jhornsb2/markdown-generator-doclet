@@ -32,6 +32,7 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
@@ -67,12 +68,27 @@ final class FactoryTestFixtures {
 		String qualifiedName,
 		ElementKind kind
 	) {
+		return minimalTypeElement(
+			simpleName,
+			qualifiedName,
+			kind,
+			Collections.emptySet()
+		);
+	}
+
+	static TypeElement minimalTypeElement(
+		String simpleName,
+		String qualifiedName,
+		ElementKind kind,
+		Set<Modifier> modifiers
+	) {
 		return typeElement(
 			simpleName,
 			qualifiedName,
 			kind,
 			noneTypeMirror(),
-			Collections.emptyList()
+			Collections.emptyList(),
+			modifiers
 		);
 	}
 
@@ -83,12 +99,31 @@ final class FactoryTestFixtures {
 		TypeMirror superClass,
 		List<? extends TypeMirror> interfaces
 	) {
+		return typeElement(
+			simpleName,
+			qualifiedName,
+			kind,
+			superClass,
+			interfaces,
+			Collections.emptySet()
+		);
+	}
+
+	static TypeElement typeElement(
+		String simpleName,
+		String qualifiedName,
+		ElementKind kind,
+		TypeMirror superClass,
+		List<? extends TypeMirror> interfaces,
+		Set<Modifier> modifiers
+	) {
 		Map<String, Object> values = new LinkedHashMap<>();
 		values.put("getSimpleName", new SimpleName(simpleName));
 		values.put("getQualifiedName", new SimpleName(qualifiedName));
 		values.put("getKind", kind);
 		values.put("getSuperclass", superClass);
 		values.put("getInterfaces", interfaces);
+		values.put("getModifiers", modifiers);
 		values.put("toString", qualifiedName);
 		return proxy(TypeElement.class, values);
 	}

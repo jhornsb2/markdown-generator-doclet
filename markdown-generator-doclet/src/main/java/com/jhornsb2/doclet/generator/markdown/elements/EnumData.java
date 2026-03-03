@@ -15,6 +15,7 @@ public class EnumData
 		IQualifiedName,
 		IKind,
 		IDocComment,
+		IModifiers,
 		ISuperClass,
 		ISuperInterfaces
 {
@@ -38,6 +39,12 @@ public class EnumData
 	 * The documentation comment of the enum.
 	 */
 	String docComment;
+
+	/**
+	 * The {@link Set} of declaration modifiers on the enum.
+	 */
+	@Builder.Default
+	Set<JavaModifier> modifiers = Collections.emptySet();
 
 	/**
 	 * The fully qualified name of the superclass, if any.
