@@ -37,6 +37,34 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 		${package.contents}
 		""";
 
+	private static final String INTERFACE_TEMPLATE = """
+		# ${common.simpleName}
+
+		${common.kindWithModifiers}
+
+		## Description
+
+		${common.docComment}
+
+		## Public Methods
+
+		${interface.methods}
+		""";
+
+	private static final String CLASS_TEMPLATE = """
+		# ${common.simpleName}
+
+		${common.kindWithModifiers}
+
+		## Description
+
+		${common.docComment}
+
+		## Public Methods
+
+		${class.methods}
+		""";
+
 	private final Map<TemplateKind, String> templates;
 
 	public BuiltInTemplateRegistry() {
