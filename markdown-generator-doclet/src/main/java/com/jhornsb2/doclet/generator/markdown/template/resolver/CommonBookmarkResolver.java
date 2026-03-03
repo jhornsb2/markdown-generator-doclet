@@ -3,9 +3,9 @@ package com.jhornsb2.doclet.generator.markdown.template.resolver;
 import com.jhornsb2.doclet.generator.markdown.elements.IDocComment;
 import com.jhornsb2.doclet.generator.markdown.elements.IKind;
 import com.jhornsb2.doclet.generator.markdown.elements.IModifiers;
-import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
 import com.jhornsb2.doclet.generator.markdown.elements.IQualifiedName;
 import com.jhornsb2.doclet.generator.markdown.elements.ISimpleName;
+import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
 import com.jhornsb2.doclet.generator.markdown.template.IBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import java.util.List;
@@ -109,8 +109,7 @@ public class CommonBookmarkResolver implements IBookmarkResolver {
 		if (kind.isBlank()) {
 			return "";
 		}
-		final String modifierPrefix = KIND_MODIFIER_ORDER
-			.stream()
+		final String modifierPrefix = KIND_MODIFIER_ORDER.stream()
 			.filter(modifiers::contains)
 			.map(JavaModifier::getKeyword)
 			.collect(Collectors.joining(" "));

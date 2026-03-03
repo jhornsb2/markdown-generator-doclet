@@ -40,7 +40,10 @@ class AnnotationDataFactoryTest {
 		assertEquals("example.MyAnnotation", annotationData.getQualifiedName());
 		assertEquals("annotation_type", annotationData.getKind());
 		assertEquals("", annotationData.getDocComment());
-		assertEquals(Set.of(JavaModifier.PUBLIC), annotationData.getModifiers());
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC),
+			annotationData.getModifiers()
+		);
 	}
 
 	@Test

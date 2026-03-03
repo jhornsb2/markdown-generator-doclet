@@ -4,7 +4,6 @@ package com.jhornsb2.doclet.generator.markdown.elements;
  * Java language modifiers with canonical keyword text.
  */
 public enum JavaModifier {
-
 	PUBLIC("public"),
 	PROTECTED("protected"),
 	PRIVATE("private"),

@@ -60,7 +60,9 @@ public class AnnotationDataFactory {
 			.simpleName(typeElement.getSimpleName().toString())
 			.qualifiedName(typeElement.getQualifiedName().toString())
 			.kind(typeElement.getKind().name().toLowerCase())
-			.modifiers(ModifierMapper.toJavaModifiers(typeElement.getModifiers()))
+			.modifiers(
+				ModifierMapper.toJavaModifiers(typeElement.getModifiers())
+			)
 			.docComment(
 				this.docCommentUtil.getDocCommentTree(typeElement)
 					.map(DocCommentTree::getFullBody)

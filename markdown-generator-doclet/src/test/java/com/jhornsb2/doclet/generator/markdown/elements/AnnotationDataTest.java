@@ -33,6 +33,9 @@ class AnnotationDataTest {
 			.modifiers(Set.of(JavaModifier.PUBLIC))
 			.build();
 
-		assertEquals(Set.of(JavaModifier.PUBLIC), annotationData.getModifiers());
+		assertEquals(
+			Set.of(JavaModifier.PUBLIC),
+			annotationData.getModifiers()
+		);
 	}
 }
