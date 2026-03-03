@@ -58,15 +58,36 @@ class PackageBookmarkResolverTest {
 					.qualifiedName("com.example")
 					.kind("package")
 					.docComment("package docs")
-					.packageContents(Set.of("com.zeta.Beta", "com.alpha.Alpha"))
+					.packageContents(
+						Set.of(
+							"com.zeta.Beta",
+							"com.alpha.Alpha",
+							"com.example.Api",
+							"com.example.nested.Internal"
+						)
+					)
 					.build()
 			)
 			.build();
 
 		Map<String, String> bookmarks = resolver.resolve(context);
-		String expectedContents = "- com.alpha.Alpha\n- com.zeta.Beta";
+		String expectedContents = """
+			- com.alpha.Alpha
+			- com.example.Api
+			- com.example.nested.Internal
+			- com.zeta.Beta""";
+		String expectedTree = """
+			- Api
+			- com
+			  - alpha
+			    - Alpha
+			  - zeta
+			    - Beta
+			- nested
+			  - Internal""";
 
 		assertEquals(expectedContents, bookmarks.get("package.contents"));
 		assertEquals(expectedContents, bookmarks.get("package.contents.flat"));
+		assertEquals(expectedTree, bookmarks.get("package.contents.tree"));
 	}
 }
