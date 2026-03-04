@@ -60,9 +60,60 @@ public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 		${common.description}
 
+		## Public Constants
+
+		${class.constants.public}
+
+		## Static Methods
+
+		${class.methods.static}
+
+		## Properties
+
+		${class.properties.public}
+
 		## Public Methods
 
-		${class.methods}
+		${class.methods.public}
+
+		## Inherited Members
+
+		### Static Methods
+
+		${class.inheritedMethods.static}
+
+		### Properties
+
+		${class.inheritedProperties.public}
+
+		### Public Methods
+
+		${class.inheritedMethods.public}
+
+		""";
+
+	private static final String METHOD_TEMPLATE = """
+		#  ${method.className}.${method.simpleName}
+
+		${method.overloads}
+		""";
+
+	private static final String METHOD_OVERLOAD_BLOCK_TEMPLATE = """
+		## Declaration
+
+		${method.signature}
+
+		## Parameters
+
+		${method.parameters.table}
+
+		## Returns
+
+		${method.returns}
+
+		## Description
+
+		${method.description}
 		""";
 
 	private final Map<TemplateKind, String> templates;

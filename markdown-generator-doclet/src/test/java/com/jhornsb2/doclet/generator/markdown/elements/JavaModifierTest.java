@@ -14,7 +14,13 @@ class JavaModifierTest {
 
 	@Test
 	void toStringMatchesKeyword() {
-		assertEquals(JavaModifier.STATIC.getKeyword(), JavaModifier.STATIC.toString());
-		assertEquals(JavaModifier.STRICTFP.getKeyword(), JavaModifier.STRICTFP.toString());
+		assertEquals(
+			JavaModifier.STATIC.getKeyword(),
+			JavaModifier.STATIC.toString()
+		);
+		assertEquals(
+			JavaModifier.STRICTFP.getKeyword(),
+			JavaModifier.STRICTFP.toString()
+		);
 	}
 }

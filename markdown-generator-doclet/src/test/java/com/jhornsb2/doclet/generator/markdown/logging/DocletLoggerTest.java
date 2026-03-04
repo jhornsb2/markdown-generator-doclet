@@ -66,7 +66,11 @@ class DocletLoggerTest {
 			Reporter.class.getClassLoader(),
 			new Class<?>[] { Reporter.class },
 			(proxy, method, args) -> {
-				if ("print".equals(method.getName()) && args != null && args.length >= 2) {
+				if (
+					"print".equals(method.getName()) &&
+					args != null &&
+					args.length >= 2
+				) {
 					sink.add(args[0] + ":" + args[1]);
 				}
 				return null;

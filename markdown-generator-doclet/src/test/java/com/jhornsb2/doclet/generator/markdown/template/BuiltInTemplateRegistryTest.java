@@ -25,10 +25,22 @@ class BuiltInTemplateRegistryTest {
 	void returnsTemplateForSupportedKinds() {
 		BuiltInTemplateRegistry registry = new BuiltInTemplateRegistry();
 
-		String projectTemplate = registry.getTemplate(TemplateKind.PROJECT, CONTEXT);
-		String packageTemplate = registry.getTemplate(TemplateKind.PACKAGE, CONTEXT);
-		String interfaceTemplate = registry.getTemplate(TemplateKind.INTERFACE, CONTEXT);
-		String classTemplate = registry.getTemplate(TemplateKind.CLASS, CONTEXT);
+		String projectTemplate = registry.getTemplate(
+			TemplateKind.PROJECT,
+			CONTEXT
+		);
+		String packageTemplate = registry.getTemplate(
+			TemplateKind.PACKAGE,
+			CONTEXT
+		);
+		String interfaceTemplate = registry.getTemplate(
+			TemplateKind.INTERFACE,
+			CONTEXT
+		);
+		String classTemplate = registry.getTemplate(
+			TemplateKind.CLASS,
+			CONTEXT
+		);
 
 		assertTrue(projectTemplate.contains("${project.name}"));
 		assertTrue(packageTemplate.contains("${package.contents}"));
@@ -41,9 +53,11 @@ class BuiltInTemplateRegistryTest {
 		BuiltInTemplateRegistry registry = new BuiltInTemplateRegistry();
 
 		assertEquals("", registry.getTemplate(TemplateKind.MODULE, CONTEXT));
-		assertEquals("", registry.getTemplate(TemplateKind.ANNOTATION, CONTEXT));
+		assertEquals(
+			"",
+			registry.getTemplate(TemplateKind.ANNOTATION, CONTEXT)
+		);
 		assertEquals("", registry.getTemplate(TemplateKind.RECORD, CONTEXT));
 		assertEquals("", registry.getTemplate(TemplateKind.ENUM, CONTEXT));
 	}
-
 }

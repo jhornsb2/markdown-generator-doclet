@@ -30,7 +30,9 @@ class TemplateKindTest {
 			)
 			.build();
 
-		assertFalse(registry.getTemplate(TemplateKind.PROJECT, context).isBlank());
+		assertFalse(
+			registry.getTemplate(TemplateKind.PROJECT, context).isBlank()
+		);
 		assertEquals("", registry.getTemplate(TemplateKind.ENUM, context));
 	}
 }

@@ -14,14 +14,13 @@ class DocletOptionsTest {
 
 	@Test
 	void resolvesDefaultValuesWhenNotOverridden() {
-		DocletOptions options = createOptions(
-			"build/docs",
-			"hierarchical",
-			""
-		);
+		DocletOptions options = createOptions("build/docs", "hierarchical", "");
 
 		assertEquals("build/docs", options.getDestinationDirectory());
-		assertEquals(OutputPathLayout.HIERARCHICAL, options.getOutputPathLayout());
+		assertEquals(
+			OutputPathLayout.HIERARCHICAL,
+			options.getOutputPathLayout()
+		);
 		assertInstanceOf(
 			HierarchicalOutputFilepathStrategy.class,
 			options.getOutputFilepathStrategy()
@@ -31,7 +30,11 @@ class DocletOptionsTest {
 
 	@Test
 	void resolvesConfiguredFlatLayoutAndTemplateDirectory() {
-		DocletOptions options = createOptions("build/docs", "flat", "templates");
+		DocletOptions options = createOptions(
+			"build/docs",
+			"flat",
+			"templates"
+		);
 
 		assertEquals(OutputPathLayout.FLAT, options.getOutputPathLayout());
 		assertInstanceOf(

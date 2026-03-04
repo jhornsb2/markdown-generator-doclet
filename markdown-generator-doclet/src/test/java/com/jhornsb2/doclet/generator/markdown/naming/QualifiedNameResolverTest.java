@@ -11,14 +11,20 @@ class QualifiedNameResolverTest {
 
 	@Test
 	void toPathReplacesDotsWithForwardSlashes() {
-		assertEquals("com/example/api", QualifiedNameResolver.toPath("com.example.api"));
+		assertEquals(
+			"com/example/api",
+			QualifiedNameResolver.toPath("com.example.api")
+		);
 	}
 
 	@Test
 	void pathOfUsesQualifiedPackageName() {
 		PackageElement packageElement = packageElement("com.example.pkg");
 
-		assertEquals("com/example/pkg", QualifiedNameResolver.pathOf(packageElement));
+		assertEquals(
+			"com/example/pkg",
+			QualifiedNameResolver.pathOf(packageElement)
+		);
 	}
 
 	private static PackageElement packageElement(final String qualifiedName) {

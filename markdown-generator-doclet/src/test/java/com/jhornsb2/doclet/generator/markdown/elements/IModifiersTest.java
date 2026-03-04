@@ -26,9 +26,14 @@ class IModifiersTest {
 			.qualifiedName("com.example.Api")
 			.kind("interface")
 			.docComment("")
-			.modifiers(java.util.Set.of(JavaModifier.PUBLIC, JavaModifier.STATIC))
+			.modifiers(
+				java.util.Set.of(JavaModifier.PUBLIC, JavaModifier.STATIC)
+			)
 			.build();
 
-		assertEquals(java.util.Set.of(JavaModifier.PUBLIC, JavaModifier.STATIC), data.getModifiers());
+		assertEquals(
+			java.util.Set.of(JavaModifier.PUBLIC, JavaModifier.STATIC),
+			data.getModifiers()
+		);
 	}
 }

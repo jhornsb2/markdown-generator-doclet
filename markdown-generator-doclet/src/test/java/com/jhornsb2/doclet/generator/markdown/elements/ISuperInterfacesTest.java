@@ -29,6 +29,9 @@ class ISuperInterfacesTest {
 			.superInterfaces(java.util.Set.of("java.io.Serializable"))
 			.build();
 
-		assertEquals(java.util.Set.of("java.io.Serializable"), data.getSuperInterfaces());
+		assertEquals(
+			java.util.Set.of("java.io.Serializable"),
+			data.getSuperInterfaces()
+		);
 	}
 }

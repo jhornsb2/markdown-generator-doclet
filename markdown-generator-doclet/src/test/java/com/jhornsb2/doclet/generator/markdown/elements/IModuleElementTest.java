@@ -3,7 +3,6 @@ package com.jhornsb2.doclet.generator.markdown.elements;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.lang.reflect.Proxy;
-
 import org.junit.jupiter.api.Test;
 
 class IModuleElementTest {

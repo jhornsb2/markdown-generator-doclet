@@ -127,7 +127,9 @@ class DefaultTemplateRendererTest {
 			List.of(
 				new IBookmarkResolver() {
 					@Override
-					public boolean supports(final TemplateRenderContext context) {
+					public boolean supports(
+						final TemplateRenderContext context
+					) {
 						return true;
 					}
 

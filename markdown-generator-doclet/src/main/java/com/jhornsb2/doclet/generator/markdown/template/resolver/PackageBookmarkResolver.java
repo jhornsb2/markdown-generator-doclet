@@ -41,7 +41,10 @@ public class PackageBookmarkResolver implements IBookmarkResolver {
 			.sorted()
 			.map(content -> "- " + content)
 			.collect(Collectors.joining("\n"));
-		final String packageContentsTree = renderTree(packageName, sortedContents);
+		final String packageContentsTree = renderTree(
+			packageName,
+			sortedContents
+		);
 		return Map.of(
 			"package.contents",
 			packageContents,
@@ -65,9 +68,8 @@ public class PackageBookmarkResolver implements IBookmarkResolver {
 
 			TreeNode currentNode = root;
 			for (String token : relativeName.split("\\.")) {
-				currentNode = currentNode.children.computeIfAbsent(
-					token,
-					key -> new TreeNode()
+				currentNode = currentNode.children.computeIfAbsent(token, key ->
+					new TreeNode()
 				);
 			}
 		}

@@ -22,7 +22,11 @@ class GenericOptionTest {
 
 	@Test
 	void processStoresFirstProvidedValue() {
-		GenericOption option = new GenericOption("-d", "Destination", "default");
+		GenericOption option = new GenericOption(
+			"-d",
+			"Destination",
+			"default"
+		);
 
 		boolean processed = option.process("-d", List.of("custom", "ignored"));
 
@@ -32,7 +36,11 @@ class GenericOptionTest {
 
 	@Test
 	void processReturnsFalseWhenNoValuesProvided() {
-		GenericOption option = new GenericOption("-d", "Destination", "default");
+		GenericOption option = new GenericOption(
+			"-d",
+			"Destination",
+			"default"
+		);
 
 		boolean processed = option.process("-d", List.of());
 

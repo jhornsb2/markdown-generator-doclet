@@ -21,8 +21,15 @@ class ITemplateRendererTest {
 			}
 
 			@Override
-			public Map<String, String> resolve(final TemplateRenderContext context) {
-				return Map.of("name", "World", "kind", context.getTemplateKind().name());
+			public Map<String, String> resolve(
+				final TemplateRenderContext context
+			) {
+				return Map.of(
+					"name",
+					"World",
+					"kind",
+					context.getTemplateKind().name()
+				);
 			}
 		};
 		ITemplateRenderer renderer = new DefaultTemplateRenderer(

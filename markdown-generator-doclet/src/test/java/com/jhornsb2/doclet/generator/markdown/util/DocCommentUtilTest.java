@@ -22,6 +22,8 @@ class DocCommentUtilTest {
 	void getDocCommentTreeRejectsNullElement() {
 		DocCommentUtil util = new DocCommentUtil(null);
 
-		assertThrows(NullPointerException.class, () -> util.getDocCommentTree((Element) null));
+		assertThrows(NullPointerException.class, () ->
+			util.getDocCommentTree((Element) null)
+		);
 	}
 }

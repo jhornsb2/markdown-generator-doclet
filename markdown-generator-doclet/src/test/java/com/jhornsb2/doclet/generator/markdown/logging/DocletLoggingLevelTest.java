@@ -17,7 +17,11 @@ class DocletLoggingLevelTest {
 
 	@Test
 	void normalizedPrefixPreservesLevelName() {
-		assertTrue(DocletLoggingLevel.DEBUG.getNormalizedPrefix().contains("DEBUG"));
-		assertTrue(DocletLoggingLevel.ERROR.getNormalizedPrefix().contains("ERROR"));
+		assertTrue(
+			DocletLoggingLevel.DEBUG.getNormalizedPrefix().contains("DEBUG")
+		);
+		assertTrue(
+			DocletLoggingLevel.ERROR.getNormalizedPrefix().contains("ERROR")
+		);
 	}
 }

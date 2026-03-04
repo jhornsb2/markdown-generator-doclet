@@ -47,6 +47,8 @@ class ITemplateRegistryTest {
 			.build();
 
 		assertEquals("", registry.getTemplate(TemplateKind.MODULE, context));
-		assertFalse(registry.getTemplate(TemplateKind.MODULE, context).contains("${"));
+		assertFalse(
+			registry.getTemplate(TemplateKind.MODULE, context).contains("${")
+		);
 	}
 }
