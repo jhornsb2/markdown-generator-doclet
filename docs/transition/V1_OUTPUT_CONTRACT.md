@@ -11,6 +11,7 @@ Defines expected markdown output structure and naming for v1 rewrite parity.
 
 - Path: `index.md`
 - Source template kind: `PROJECT`
+- if no packages or modules exist, then all documentation for class files will be placed as if they are under a package called `default`.
 - Required sections:
   - project title
   - project description
