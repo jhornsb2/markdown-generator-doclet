@@ -76,4 +76,5 @@ task generateMarkdown(type: Javadoc) {
     // Example: pass options to your doclet (optional)
     // options.addStringOption('d', file("$rootDir/generated-docs/TestJavaProject/app").absolutePath)
     // options.addBooleanOption('notimestamp', true)
+    options.addStringOption('log-level', 'debug')
 }

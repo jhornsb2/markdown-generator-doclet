@@ -45,7 +45,7 @@ class BuiltInTemplateRegistryTest {
 		assertTrue(projectTemplate.contains("${project.name}"));
 		assertTrue(packageTemplate.contains("${package.contents}"));
 		assertTrue(interfaceTemplate.contains("${interface.methods}"));
-		assertTrue(classTemplate.contains("${class.methods}"));
+		assertTrue(classTemplate.contains("${class.methods.public}"));
 	}
 
 	@Test

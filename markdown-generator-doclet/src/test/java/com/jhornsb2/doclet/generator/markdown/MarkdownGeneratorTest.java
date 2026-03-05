@@ -3,6 +3,7 @@ package com.jhornsb2.doclet.generator.markdown;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
 import jdk.javadoc.doclet.DocletEnvironment;
@@ -58,6 +59,16 @@ class MarkdownGeneratorTest {
 			"template directory",
 			""
 		);
-		return new DocletOptions(destinationDir, pathLayout, templateDir);
+		GenericOption logLevel = new GenericOption(
+			"-log-level",
+			"minimum log level",
+			DocletLoggingLevel.WARN.getOptionValue()
+		);
+		return new DocletOptions(
+			destinationDir,
+			pathLayout,
+			templateDir,
+			logLevel
+		);
 	}
 }

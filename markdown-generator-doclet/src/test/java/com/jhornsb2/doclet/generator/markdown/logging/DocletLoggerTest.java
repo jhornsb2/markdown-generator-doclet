@@ -19,18 +19,20 @@ class DocletLoggerTest {
 	@BeforeEach
 	void resetReporterBeforeEach() throws Exception {
 		resetReporter();
+		DocletLogger.setMinimumLevel(DocletLoggingLevel.WARN);
 	}
 
 	@AfterEach
 	void resetReporterAfterEach() throws Exception {
 		resetReporter();
+		DocletLogger.setMinimumLevel(DocletLoggingLevel.WARN);
 	}
 
 	@Test
 	void throwsWhenReporterIsNotSet() {
 		DocletLogger logger = DocletLogger.forClass(DocletLoggerTest.class);
 
-		assertThrows(IllegalStateException.class, () -> logger.info("message"));
+		assertThrows(IllegalStateException.class, () -> logger.warn("message"));
 	}
 
 	@Test
@@ -46,6 +48,7 @@ class DocletLoggerTest {
 	void infoFormatsPlaceholdersAndNullValues() {
 		List<String> printed = new ArrayList<>();
 		DocletLogger.setReporter(capturingReporter(printed));
+		DocletLogger.setMinimumLevel(DocletLoggingLevel.INFO);
 		DocletLogger logger = DocletLogger.forClass(DocletLoggerTest.class);
 
 		logger.info("Hello {} {}", "world", null);
@@ -55,6 +58,32 @@ class DocletLoggerTest {
 		assertTrue(output.startsWith(Kind.NOTE + ":"));
 		assertTrue(output.contains("[INFO]"));
 		assertTrue(output.contains("Hello world null"));
+	}
+
+	@Test
+	void defaultMinimumLevelFiltersInfoMessages() {
+		List<String> printed = new ArrayList<>();
+		DocletLogger.setReporter(capturingReporter(printed));
+		DocletLogger logger = DocletLogger.forClass(DocletLoggerTest.class);
+
+		logger.info("Hidden info");
+		logger.warn("Visible warn");
+
+		assertEquals(1, printed.size());
+		assertTrue(printed.get(0).contains("[WARN]"));
+	}
+
+	@Test
+	void configuredMinimumLevelAllowsInfoMessages() {
+		List<String> printed = new ArrayList<>();
+		DocletLogger.setReporter(capturingReporter(printed));
+		DocletLogger.setMinimumLevel(DocletLoggingLevel.INFO);
+		DocletLogger logger = DocletLogger.forClass(DocletLoggerTest.class);
+
+		logger.info("Visible info");
+
+		assertEquals(1, printed.size());
+		assertTrue(printed.get(0).contains("[INFO]"));
 	}
 
 	private static Reporter noopReporter() {

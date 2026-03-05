@@ -221,6 +221,7 @@ public class MarkdownGenerator {
 	 */
 	public void generate() {
 		log.debug(String.format("%s.generate()", this.getClass().getName()));
+
 		final Set<PackageElement> packageElements =
 			this.collectPackageElements();
 		final Set<String> moduleNames = this.collectModuleNames();

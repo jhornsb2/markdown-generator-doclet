@@ -1,5 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.options;
 
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import java.nio.file.Path;
 import java.util.Optional;
 import lombok.NonNull;
@@ -16,6 +17,9 @@ public class ResolvedDocletOptions {
 
 	@NonNull
 	Optional<Path> templateDirectoryPath;
+
+	@NonNull
+	DocletLoggingLevel logLevel;
 
 	/**
 	 * Indicates whether a validated template directory was provided.

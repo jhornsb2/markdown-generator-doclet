@@ -1,6 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown;
 
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptionValidationException;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptionsResolver;
@@ -68,6 +69,17 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		""
 	);
 
+	/**
+	 * The option to set minimum emitted logging severity.
+	 * <p>
+	 * Supported values are: debug, info, warn, error.
+	 */
+	private final GenericOption logLevel = new GenericOption(
+		"-log-level",
+		"Minimum log level to emit: debug|info|warn|error",
+		DocletLoggingLevel.WARN.getOptionValue()
+	);
+
 	private final DocletOptionsResolver docletOptionsResolver =
 		new DocletOptionsResolver();
 
@@ -103,7 +115,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 			this.noTimestamp,
 			this.destinationDir,
 			this.pathLayout,
-			this.templateDir
+			this.templateDir,
+			this.logLevel
 		);
 	}
 
@@ -132,7 +145,8 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		final DocletOptions docletOptions = new DocletOptions(
 			this.destinationDir,
 			this.pathLayout,
-			this.templateDir
+			this.templateDir,
+			this.logLevel
 		);
 
 		// Resolve and validate options, aborting with an error message if any option is invalid
@@ -146,13 +160,16 @@ public class MarkdownGeneratorDoclet implements Doclet {
 			return false;
 		}
 
+		DocletLogger.setMinimumLevel(resolvedDocletOptions.getLogLevel());
+
 		log.info(
-			"Starting Markdown generation with destination directory: {}, path layout: {}, template directory: {}",
+			"Starting Markdown generation with destination directory: {}, path layout: {}, template directory: {}, log level: {}",
 			this.destinationDir.getValue(),
 			resolvedDocletOptions.getOutputPathLayout().getOptionValue(),
 			resolvedDocletOptions.hasTemplateDirectory()
 				? docletOptions.getTemplateDirectory()
-				: "<built-in>"
+				: "<built-in>",
+			resolvedDocletOptions.getLogLevel().getOptionValue()
 		);
 
 		// Create and run the generator

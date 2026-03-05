@@ -67,7 +67,13 @@ class MarkdownGeneratorDocletTest {
 			.collect(java.util.stream.Collectors.toSet());
 
 		assertEquals(
-			Set.of("-d", "-notimestamp", "-path-layout", "-template-dir"),
+			Set.of(
+				"-d",
+				"-notimestamp",
+				"-path-layout",
+				"-template-dir",
+				"-log-level"
+			),
 			optionNames
 		);
 	}
@@ -114,6 +120,23 @@ class MarkdownGeneratorDocletTest {
 			"-template-dir",
 			List.of("missing-template-dir-" + System.nanoTime())
 		);
+		boolean result = doclet.run(EMPTY_ENVIRONMENT);
+
+		assertFalse(result);
+	}
+
+	@Test
+	void runReturnsFalseWhenLogLevelOptionIsInvalid() {
+		MarkdownGeneratorDoclet doclet = new MarkdownGeneratorDoclet();
+
+		Set<? extends Doclet.Option> options = doclet.getSupportedOptions();
+		Doclet.Option logLevelOption = options
+			.stream()
+			.filter(option -> option.getNames().contains("-log-level"))
+			.findFirst()
+			.orElseThrow();
+
+		logLevelOption.process("-log-level", List.of("verbose"));
 		boolean result = doclet.run(EMPTY_ENVIRONMENT);
 
 		assertFalse(result);

@@ -18,6 +18,11 @@ public class DocletLogger {
 	private static Reporter reporter;
 
 	/**
+	 * Minimum severity that will be emitted.
+	 */
+	private static DocletLoggingLevel minimumLevel = DocletLoggingLevel.WARN;
+
+	/**
 	 * Sets the reporter to be used by this logger.
 	 * <p>
 	 * This method should be called only once, typically during the initialization
@@ -31,6 +36,17 @@ public class DocletLogger {
 			throw new IllegalStateException("Reporter has already been set.");
 		}
 		DocletLogger.reporter = reporter;
+	}
+
+	/**
+	 * Sets the minimum severity that will be emitted by this logger.
+	 *
+	 * @param minimumLevel minimum emitted level.
+	 */
+	public static void setMinimumLevel(
+		@NonNull final DocletLoggingLevel minimumLevel
+	) {
+		DocletLogger.minimumLevel = minimumLevel;
 	}
 
 	/**
@@ -60,6 +76,9 @@ public class DocletLogger {
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
 	public void debug(final String message, final Object... args) {
+		if (!this.isEnabled(DocletLoggingLevel.DEBUG)) {
+			return;
+		}
 		checkReporter();
 		reporter.print(
 			Kind.NOTE,
@@ -75,6 +94,9 @@ public class DocletLogger {
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
 	public void info(final String message, final Object... args) {
+		if (!this.isEnabled(DocletLoggingLevel.INFO)) {
+			return;
+		}
 		checkReporter();
 		reporter.print(
 			Kind.NOTE,
@@ -90,6 +112,9 @@ public class DocletLogger {
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
 	public void warn(final String message, final Object... args) {
+		if (!this.isEnabled(DocletLoggingLevel.WARN)) {
+			return;
+		}
 		checkReporter();
 		reporter.print(
 			Kind.WARNING,
@@ -105,6 +130,9 @@ public class DocletLogger {
 	 * @throws IllegalStateException if the reporter has not been set
 	 */
 	public void error(final String message, final Object... args) {
+		if (!this.isEnabled(DocletLoggingLevel.ERROR)) {
+			return;
+		}
 		checkReporter();
 		reporter.print(
 			Kind.ERROR,
@@ -124,6 +152,9 @@ public class DocletLogger {
 		final Throwable throwable,
 		final Object... args
 	) {
+		if (!this.isEnabled(DocletLoggingLevel.ERROR)) {
+			return;
+		}
 		checkReporter();
 		final String formattedMessage = this.formatMessage(
 			DocletLoggingLevel.ERROR,
@@ -180,5 +211,9 @@ public class DocletLogger {
 
 		// The final log message includes the logging message prefix and the formatted message
 		return loggingMessagePrefix + formattedMessage;
+	}
+
+	private boolean isEnabled(final DocletLoggingLevel level) {
+		return level.ordinal() >= minimumLevel.ordinal();
 	}
 }

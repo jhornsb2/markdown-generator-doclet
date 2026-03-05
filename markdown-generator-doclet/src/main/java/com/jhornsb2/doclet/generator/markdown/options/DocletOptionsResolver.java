@@ -1,5 +1,6 @@
 package com.jhornsb2.doclet.generator.markdown.options;
 
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -21,6 +22,19 @@ public class DocletOptionsResolver {
 	public ResolvedDocletOptions resolve(
 		@NonNull final DocletOptions docletOptions
 	) {
+		final DocletLoggingLevel logLevel;
+		try {
+			logLevel = docletOptions.getParsedLogLevel();
+		} catch (IllegalArgumentException ex) {
+			throw new DocletOptionValidationException(
+				"Invalid -log-level option: " +
+					docletOptions.getLogLevel().getValue() +
+					". Supported values are: " +
+					DocletLoggingLevel.supportedOptionValues(),
+				ex
+			);
+		}
+
 		final OutputPathLayout outputPathLayout;
 		try {
 			outputPathLayout = docletOptions.getOutputPathLayout();
@@ -59,7 +73,8 @@ public class DocletOptionsResolver {
 
 		return new ResolvedDocletOptions(
 			outputPathLayout,
-			templateDirectoryPath
+			templateDirectoryPath,
+			logLevel
 		);
 	}
 }

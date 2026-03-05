@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import java.nio.file.Path;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -24,8 +25,26 @@ class DocletOptionsResolverTest {
 			OutputPathLayout.HIERARCHICAL,
 			resolved.getOutputPathLayout()
 		);
+		assertEquals(DocletLoggingLevel.WARN, resolved.getLogLevel());
 		assertFalse(resolved.hasTemplateDirectory());
 		assertTrue(resolved.getTemplateDirectoryPath().isEmpty());
+	}
+
+	@Test
+	void resolveRejectsInvalidLogLevel() {
+		DocletOptions options = this.createOptions(
+			"/tmp",
+			OutputPathLayout.HIERARCHICAL.getOptionValue(),
+			"",
+			"verbose"
+		);
+
+		DocletOptionValidationException ex = assertThrows(
+			DocletOptionValidationException.class,
+			() -> this.resolver.resolve(options)
+		);
+
+		assertTrue(ex.getMessage().contains("Invalid -log-level option"));
 	}
 
 	@Test
@@ -101,6 +120,20 @@ class DocletOptionsResolverTest {
 		final String pathLayoutValue,
 		final String templateDirectory
 	) {
+		return this.createOptions(
+			destinationDirectory,
+			pathLayoutValue,
+			templateDirectory,
+			DocletLoggingLevel.WARN.getOptionValue()
+		);
+	}
+
+	private DocletOptions createOptions(
+		final String destinationDirectory,
+		final String pathLayoutValue,
+		final String templateDirectory,
+		final String logLevel
+	) {
 		GenericOption destinationOption = new GenericOption(
 			"-d",
 			"Destination directory for output files",
@@ -127,10 +160,20 @@ class DocletOptionsResolverTest {
 			);
 		}
 
+		GenericOption logLevelOption = new GenericOption(
+			"-log-level",
+			"Minimum log level to emit: debug|info|warn|error",
+			DocletLoggingLevel.WARN.getOptionValue()
+		);
+		if (!logLevel.isBlank()) {
+			logLevelOption.process("-log-level", List.of(logLevel));
+		}
+
 		return new DocletOptions(
 			destinationOption,
 			pathLayoutOption,
-			templateDirOption
+			templateDirOption,
+			logLevelOption
 		);
 	}
 }

@@ -2,6 +2,7 @@ package com.jhornsb2.doclet.generator.markdown.options;
 
 import com.jhornsb2.doclet.generator.markdown.filepath.IOutputFilepathStrategy;
 import com.jhornsb2.doclet.generator.markdown.filepath.OutputFilepathStrategyResolver;
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -26,6 +27,10 @@ public class DocletOptions {
 	/** Option that captures an optional custom template directory path. */
 	@NonNull
 	GenericOption templateDir;
+
+	/** Option that captures the minimum emitted logging level. */
+	@NonNull
+	GenericOption logLevel;
 
 	/**
 	 * Returns the configured output destination directory.
@@ -73,5 +78,15 @@ public class DocletOptions {
 	 */
 	public boolean hasTemplateDirectory() {
 		return !this.getTemplateDirectory().isBlank();
+	}
+
+	/**
+	 * Resolves the selected minimum logging level from option text.
+	 *
+	 * @return parsed logging level.
+	 * @throws IllegalArgumentException when the option value is not recognized.
+	 */
+	public DocletLoggingLevel getParsedLogLevel() {
+		return DocletLoggingLevel.fromOptionValue(this.logLevel.getValue());
 	}
 }

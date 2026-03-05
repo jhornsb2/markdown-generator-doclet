@@ -3,6 +3,7 @@ package com.jhornsb2.doclet.generator.markdown.options;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
 import java.nio.file.Path;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,8 @@ class ResolvedDocletOptionsTest {
 	void reportsTemplateDirectoryWhenPresent() {
 		ResolvedDocletOptions options = new ResolvedDocletOptions(
 			OutputPathLayout.HIERARCHICAL,
-			Optional.of(Path.of("templates"))
+			Optional.of(Path.of("templates")),
+			DocletLoggingLevel.WARN
 		);
 
 		assertTrue(options.hasTemplateDirectory());
@@ -23,7 +25,8 @@ class ResolvedDocletOptionsTest {
 	void reportsNoTemplateDirectoryWhenAbsent() {
 		ResolvedDocletOptions options = new ResolvedDocletOptions(
 			OutputPathLayout.HIERARCHICAL,
-			Optional.empty()
+			Optional.empty(),
+			DocletLoggingLevel.WARN
 		);
 
 		assertFalse(options.hasTemplateDirectory());
