@@ -2,31 +2,49 @@ package com.jhornsb2.doclet.generator.markdown.lookup;
 
 import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.lang.model.element.Element;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.Value;
 
 /**
  * An index that maps qualified names to various pieces of data that are
  * associated with the element with that qualified name.
  */
+@Value
+@AllArgsConstructor(access = lombok.AccessLevel.PACKAGE)
 public class QualifiedNameIndex {
+
+	private static final int DEFAULT_INITIAL_CAPACITY = 16;
 
 	/**
 	 * Maps qualified names to the path of the documentation file.
 	 */
-	Map<String, String> qualifiedNameToFilePath = new HashMap<>();
+	Map<String, String> qualifiedNameToFilePath;
 
 	/**
 	 * Maps qualified names to the {@link Element}.
 	 */
-	Map<String, Element> qualifiedNameToElement = new HashMap<>();
+	Map<String, Element> qualifiedNameToElement;
 
 	/**
 	 * Maps qualified names to the {@link IElementData}.
 	 */
-	Map<String, IElementData> qualifiedNameToElementData = new HashMap<>();
+	Map<String, IElementData> qualifiedNameToElementData;
+
+	public QualifiedNameIndex() {
+		this(DEFAULT_INITIAL_CAPACITY);
+	}
+
+	public QualifiedNameIndex(int initialCapacity) {
+		this(
+			new ConcurrentHashMap<>(initialCapacity),
+			new ConcurrentHashMap<>(initialCapacity),
+			new ConcurrentHashMap<>(initialCapacity)
+		);
+	}
 
 	/**
 	 * Adds an entry to the index.
