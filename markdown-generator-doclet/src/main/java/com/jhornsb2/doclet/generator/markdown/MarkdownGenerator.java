@@ -1,9 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown;
 
 import com.google.common.io.Files;
-import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
-import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
-import com.jhornsb2.doclet.generator.markdown.elements.ProjectData;
+import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
@@ -14,14 +12,15 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.RecordDataFactory;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
+import com.jhornsb2.doclet.generator.markdown.lookup.QualifiedNameIndex;
+import com.jhornsb2.doclet.generator.markdown.lookup.QualifiedNameIndexEntry;
+import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
 import com.jhornsb2.doclet.generator.markdown.template.BuiltInTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.DefaultTemplateRenderer;
 import com.jhornsb2.doclet.generator.markdown.template.FileSystemTemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.ITemplateRegistry;
 import com.jhornsb2.doclet.generator.markdown.template.ITemplateRenderer;
-import com.jhornsb2.doclet.generator.markdown.template.TemplateKind;
-import com.jhornsb2.doclet.generator.markdown.template.TemplateRenderContext;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
@@ -30,15 +29,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ModuleElement;
-import javax.lang.model.element.PackageElement;
 import jdk.javadoc.doclet.DocletEnvironment;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -176,6 +170,13 @@ public class MarkdownGenerator {
 	ElementDataCache elementDataCache;
 
 	/**
+	 * Index for looking up elements and their associated data by qualified name,
+	 * facilitating cross-referencing and linking within the generated
+	 * documentation.
+	 */
+	QualifiedNameIndex qualifiedNameIndex;
+
+	/**
 	 * Factory for creating data representations of interface elements.
 	 */
 	InterfaceDataFactory interfaceDataFactory;
@@ -222,155 +223,71 @@ public class MarkdownGenerator {
 	public void generate() {
 		log.debug(String.format("%s.generate()", this.getClass().getName()));
 
-		final Set<PackageElement> packageElements =
-			this.collectPackageElements();
-		final Set<String> moduleNames = this.collectModuleNames();
-		final Map<String, PackageData> packageDataByQualifiedName =
-			this.createPackageDataByQualifiedName(packageElements);
-		final ProjectData projectData = ProjectData.builder()
-			.name(this.resolveProjectName())
-			.description("")
-			.modules(moduleNames)
-			.packages(packageDataByQualifiedName.keySet())
+		this.environment.getIncludedElements()
+			.parallelStream()
+			/*
+			 * Expand elements to include enclosed members for type elements,
+			 * since these members should also be processed for markdown
+			 * generation.
+			 */
+			.flatMap(this::expandToProcessableElements)
+			/*
+			 * Build qualified name index entries for each element, which will
+			 * be used for cross-referencing and linking within the generated
+			 * documentation.
+			 */
+			.map(this::buildQualifiedNameIndexEntry)
+			.forEach(this.qualifiedNameIndex::addEntry);
+	}
+
+	/**
+	 * Expands an element into a stream of elements that should be processed for
+	 * markdown generation. For most element types, this will just return a
+	 * stream containing the element itself. Type elements (classes, interfaces,
+	 * enums, records) will be expanded to include their enclosed method, field,
+	 * constructor, and enum constant elements.
+	 *
+	 * @param element the element to expand
+	 * @return a stream of elements to be processed for markdown generation
+	 */
+	private Stream<Element> expandToProcessableElements(
+		@NonNull final Element element
+	) {
+		return switch (element.getKind()) {
+			case CLASS, INTERFACE, ENUM, RECORD -> Stream.of(
+				Stream.of(element),
+				element
+					.getEnclosedElements()
+					.stream()
+					.map(Element.class::cast)
+					.filter(e ->
+						switch (e.getKind()) {
+							case
+								METHOD,
+								FIELD,
+								CONSTRUCTOR,
+								ENUM_CONSTANT -> true;
+							default -> false;
+						}
+					)
+			).flatMap(Function.identity());
+			default -> Stream.of(element);
+		};
+	}
+
+	private QualifiedNameIndexEntry buildQualifiedNameIndexEntry(
+		@NonNull final Element element
+	) {
+		String qualifiedName = QualifiedNameResolver.qualifiedNameOf(element);
+		String filePath =
+			this.docletOptions.getOutputFilepathStrategy().forElement(element);
+		IElementData elementData = this.elementDataFactory.create(element);
+		return QualifiedNameIndexEntry.builder()
+			.qualifiedName(qualifiedName)
+			.filePath(filePath)
+			.element(element)
+			.elementData(elementData)
 			.build();
-
-		this.writeProjectDocumentation(projectData);
-
-		this.writePackageDocumentation(
-			packageElements,
-			packageDataByQualifiedName
-		);
-		log.info(
-			"Generated project and {} package markdown files",
-			packageDataByQualifiedName.size()
-		);
-	}
-
-	/**
-	 * Renders and writes project markdown file.
-	 *
-	 * @param projectData project-level metadata to render.
-	 */
-	private void writeProjectDocumentation(final ProjectData projectData) {
-		final String outputFilepath = StandardFileNames.INDEX_FILE_NAME;
-		final String markdown = this.templateRenderer.render(
-			TemplateKind.PROJECT,
-			TemplateRenderContext.builder()
-				.templateKind(TemplateKind.PROJECT)
-				.elementData(projectData)
-				.outputRelativeFilepath(outputFilepath)
-				.build()
-		);
-
-		this.writeMarkdownFile(outputFilepath, markdown);
-	}
-
-	/**
-	 * Collects distinct named packages represented by included doclet elements.
-	 *
-	 * @return ordered set of named package elements.
-	 */
-	private Set<PackageElement> collectPackageElements() {
-		final Set<PackageElement> packageElements = new LinkedHashSet<>();
-		for (Element includedElement : this.environment.getIncludedElements()) {
-			if (
-				includedElement.getKind() == ElementKind.PACKAGE &&
-				includedElement instanceof PackageElement packageElement
-			) {
-				packageElements.add(packageElement);
-				continue;
-			}
-
-			final PackageElement packageElement =
-				this.environment.getElementUtils().getPackageOf(
-					includedElement
-				);
-			if (packageElement != null && !packageElement.isUnnamed()) {
-				packageElements.add(packageElement);
-			}
-		}
-		return packageElements;
-	}
-
-	/**
-	 * Collects distinct named modules represented by included doclet elements.
-	 *
-	 * @return ordered set of module qualified names.
-	 */
-	private Set<String> collectModuleNames() {
-		final Set<String> moduleNames = new LinkedHashSet<>();
-		for (Element includedElement : this.environment.getIncludedElements()) {
-			final ModuleElement moduleElement =
-				this.environment.getElementUtils().getModuleOf(includedElement);
-			if (
-				moduleElement != null &&
-				!moduleElement.isUnnamed() &&
-				!moduleElement.getQualifiedName().toString().isBlank()
-			) {
-				moduleNames.add(moduleElement.getQualifiedName().toString());
-			}
-		}
-		return moduleNames;
-	}
-
-	/**
-	 * Creates package metadata indexed by package qualified name.
-	 *
-	 * @param packageElements package elements to transform.
-	 * @return ordered map of package metadata by qualified name.
-	 */
-	private Map<String, PackageData> createPackageDataByQualifiedName(
-		final Set<PackageElement> packageElements
-	) {
-		final Map<String, PackageData> packageDataByQualifiedName =
-			new LinkedHashMap<>();
-		for (PackageElement packageElement : packageElements) {
-			final PackageData packageData =
-				(PackageData) this.elementDataFactory.create(packageElement);
-			packageDataByQualifiedName.put(
-				packageData.getQualifiedName(),
-				packageData
-			);
-		}
-		return packageDataByQualifiedName;
-	}
-
-	/**
-	 * Renders and writes package markdown files.
-	 *
-	 * @param packageElements package elements to render.
-	 * @param packageDataByQualifiedName package metadata map by qualified name.
-	 */
-	private void writePackageDocumentation(
-		final Set<PackageElement> packageElements,
-		final Map<String, PackageData> packageDataByQualifiedName
-	) {
-		for (PackageElement packageElement : packageElements) {
-			final String qualifiedName = packageElement
-				.getQualifiedName()
-				.toString();
-			final PackageData packageData = packageDataByQualifiedName.get(
-				qualifiedName
-			);
-			if (packageData == null) {
-				continue;
-			}
-
-			final String outputFilepath =
-				this.docletOptions.getOutputFilepathStrategy().forPackageElement(
-					packageElement
-				);
-
-			final String markdown = this.templateRenderer.render(
-				TemplateKind.PACKAGE,
-				TemplateRenderContext.builder()
-					.templateKind(TemplateKind.PACKAGE)
-					.elementData(packageData)
-					.outputRelativeFilepath(outputFilepath)
-					.build()
-			);
-			this.writeMarkdownFile(outputFilepath, markdown);
-		}
 	}
 
 	/**
