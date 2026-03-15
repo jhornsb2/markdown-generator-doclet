@@ -7,7 +7,6 @@ import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
 import com.sun.source.doctree.DocCommentTree;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import lombok.NonNull;
@@ -72,11 +71,8 @@ public class MethodDataFactory {
 		final String declaringType = QualifiedNameResolver.qualifiedNameOf(
 			executableElement.getEnclosingElement()
 		);
-		final List<VariableData> parameters = executableElement
-			.getParameters()
-			.stream()
-			.map(parameter -> VariableData.builder().build())
-			.collect(Collectors.toList());
+		final List<VariableData> parameters =
+			ParameterDataFactory.createParameters(executableElement);
 
 		return MethodData.builder()
 			.simpleName(simpleName)

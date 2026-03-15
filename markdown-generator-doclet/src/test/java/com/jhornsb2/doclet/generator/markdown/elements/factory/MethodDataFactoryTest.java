@@ -1,6 +1,7 @@
 package com.jhornsb2.doclet.generator.markdown.elements.factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import com.jhornsb2.doclet.generator.markdown.elements.JavaModifier;
@@ -66,6 +67,18 @@ class MethodDataFactoryTest {
 		assertEquals("java.lang.String", methodData.getReturnType());
 		assertEquals("example.MyClass", methodData.getDeclaringType());
 		assertEquals(1, methodData.getParameters().size());
+		assertEquals(
+			"count",
+			methodData.getParameters().get(0).getSimpleName()
+		);
+		assertEquals("int", methodData.getParameters().get(0).getType());
+		assertEquals("int", methodData.getParameters().get(0).getReturnType());
+		assertEquals(0, methodData.getParameters().get(0).getPosition());
+		assertFalse(methodData.getParameters().get(0).isVarArgs());
+		assertEquals(
+			List.of(),
+			methodData.getParameters().get(0).getAnnotations()
+		);
 		assertEquals(
 			Set.of(JavaModifier.PUBLIC, JavaModifier.STATIC),
 			methodData.getModifiers()
