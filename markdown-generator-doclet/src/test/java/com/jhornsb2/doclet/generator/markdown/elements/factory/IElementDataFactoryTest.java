@@ -11,6 +11,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.EnumData;
 import com.jhornsb2.doclet.generator.markdown.elements.FieldData;
 import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import com.jhornsb2.doclet.generator.markdown.elements.InterfaceData;
+import com.jhornsb2.doclet.generator.markdown.elements.MethodData;
 import com.jhornsb2.doclet.generator.markdown.elements.ModuleData;
 import com.jhornsb2.doclet.generator.markdown.elements.PackageData;
 import com.jhornsb2.doclet.generator.markdown.elements.RecordData;
@@ -76,6 +77,16 @@ class IElementDataFactoryTest {
 			classElement,
 			java.util.Set.of()
 		);
+		Element methodElement = FactoryTestFixtures.executableElement(
+			"run",
+			FactoryTestFixtures.typeMirror(
+				"void",
+				javax.lang.model.type.TypeKind.VOID
+			),
+			classElement,
+			java.util.List.of(),
+			java.util.Set.of()
+		);
 
 		IElementData classData = factory.create(classElement);
 		IElementData enumData = factory.create(enumElement);
@@ -85,6 +96,7 @@ class IElementDataFactoryTest {
 		IElementData packageData = factory.create(packageElement);
 		IElementData moduleData = factory.create(moduleElement);
 		IElementData fieldData = factory.create(fieldElement);
+		IElementData methodData = factory.create(methodElement);
 
 		assertInstanceOf(ClassData.class, classData);
 		assertInstanceOf(EnumData.class, enumData);
@@ -94,6 +106,7 @@ class IElementDataFactoryTest {
 		assertInstanceOf(PackageData.class, packageData);
 		assertInstanceOf(ModuleData.class, moduleData);
 		assertInstanceOf(FieldData.class, fieldData);
+		assertInstanceOf(MethodData.class, methodData);
 	}
 
 	@Test
@@ -115,8 +128,8 @@ class IElementDataFactoryTest {
 	void createThrowsForUnsupportedElementKind() {
 		IElementDataFactory factory = createFactory();
 		Element unsupported = FactoryTestFixtures.plainElement(
-			ElementKind.METHOD,
-			"run()"
+			ElementKind.CONSTRUCTOR,
+			"<init>()"
 		);
 
 		IllegalArgumentException exception = assertThrows(
@@ -125,7 +138,7 @@ class IElementDataFactoryTest {
 		);
 
 		assertEquals(
-			"Unsupported element kind: METHOD",
+			"Unsupported element kind: CONSTRUCTOR",
 			exception.getMessage()
 		);
 	}
@@ -165,6 +178,10 @@ class IElementDataFactoryTest {
 			cache,
 			docCommentUtil
 		);
+		MethodDataFactory methodDataFactory = new MethodDataFactory(
+			cache,
+			docCommentUtil
+		);
 
 		return new IElementDataFactory(
 			cache,
@@ -175,7 +192,8 @@ class IElementDataFactoryTest {
 			classDataFactory,
 			recordDataFactory,
 			enumDataFactory,
-			fieldDataFactory
+			fieldDataFactory,
+			methodDataFactory
 		);
 	}
 }

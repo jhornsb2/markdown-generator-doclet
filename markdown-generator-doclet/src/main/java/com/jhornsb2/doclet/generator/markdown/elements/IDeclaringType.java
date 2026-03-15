@@ -5,11 +5,9 @@ package com.jhornsb2.doclet.generator.markdown.elements;
  * field).
  */
 public interface IDeclaringType {
-
 	/**
 	 * Returns the fully qualified name of the declaring type of the element.
 	 * @return the fully qualified name of the declaring type
 	 */
 	String getDeclaringType();
-
 }

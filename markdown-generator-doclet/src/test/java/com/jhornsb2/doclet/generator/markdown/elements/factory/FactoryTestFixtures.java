@@ -208,6 +208,24 @@ final class FactoryTestFixtures {
 		return proxy(VariableElement.class, values);
 	}
 
+	static ExecutableElement executableElement(
+		String simpleName,
+		TypeMirror returnType,
+		Element enclosingElement,
+		List<? extends VariableElement> parameters,
+		Set<Modifier> modifiers
+	) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("getSimpleName", new SimpleName(simpleName));
+		values.put("getKind", ElementKind.METHOD);
+		values.put("getReturnType", returnType);
+		values.put("getEnclosingElement", enclosingElement);
+		values.put("getParameters", parameters);
+		values.put("getModifiers", modifiers);
+		values.put("toString", simpleName + "()");
+		return proxy(ExecutableElement.class, values);
+	}
+
 	@SuppressWarnings("unchecked")
 	private static <T> T proxy(Class<T> clazz, Map<String, Object> values) {
 		InvocationHandler handler = new ValueInvocationHandler(values);

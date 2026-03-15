@@ -9,6 +9,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.EnumDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.FieldDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.IElementDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.MethodDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.PackageDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.RecordDataFactory;
@@ -90,6 +91,10 @@ public class MarkdownGenerator {
 			elementDataCache,
 			docCommentUtil
 		);
+		MethodDataFactory methodDataFactory = new MethodDataFactory(
+			elementDataCache,
+			docCommentUtil
+		);
 		PackageDataFactory packageDataFactory = new PackageDataFactory(
 			elementDataCache,
 			docCommentUtil
@@ -107,7 +112,8 @@ public class MarkdownGenerator {
 			classDataFactory,
 			recordDataFactory,
 			enumDataFactory,
-			fieldDataFactory
+			fieldDataFactory,
+			methodDataFactory
 		);
 		ITemplateRegistry templateRegistry = createTemplateRegistry(
 			docletOptions
