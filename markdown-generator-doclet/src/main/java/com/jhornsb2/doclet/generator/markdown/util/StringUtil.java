@@ -13,7 +13,9 @@ public class StringUtil {
 			return "null";
 		}
 
-		StringBuilder formatted = new StringBuilder(lombokToString.length() + 32);
+		StringBuilder formatted = new StringBuilder(
+			lombokToString.length() + 32
+		);
 		int depth = 0;
 		boolean inQuotedString = false;
 		char quoteCharacter = '\0';
@@ -28,7 +30,15 @@ public class StringUtil {
 			}
 			skipSingleSpace = false;
 
-			if (isQuoteBoundary(lombokToString, index, current, inQuotedString, quoteCharacter)) {
+			if (
+				isQuoteBoundary(
+					lombokToString,
+					index,
+					current,
+					inQuotedString,
+					quoteCharacter
+				)
+			) {
 				if (inQuotedString) {
 					inQuotedString = false;
 					quoteCharacter = '\0';
@@ -48,7 +58,9 @@ public class StringUtil {
 			if (isOpeningDelimiter(current)) {
 				formatted.append(current);
 
-				if (hasContentInsideDelimiters(lombokToString, index, current)) {
+				if (
+					hasContentInsideDelimiters(lombokToString, index, current)
+				) {
 					depth++;
 					appendNewLineAndIndent(formatted, depth);
 				}
@@ -138,11 +150,13 @@ public class StringUtil {
 		return (slashCount % 2) == 1;
 	}
 
-	private static void appendNewLineAndIndent(StringBuilder output, int depth) {
+	private static void appendNewLineAndIndent(
+		StringBuilder output,
+		int depth
+	) {
 		output.append('\n');
 		for (int i = 0; i < depth; i++) {
 			output.append(INDENT);
 		}
 	}
-
 }

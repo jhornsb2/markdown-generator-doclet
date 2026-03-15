@@ -19,7 +19,8 @@ class StringUtilTest {
 			  a=1,
 			  b=2
 			)
-			""".stripIndent().trim();
+			""".stripIndent()
+			.trim();
 
 		assertEquals(expected, StringUtil.formatLombokToString(input));
 	}
@@ -44,7 +45,8 @@ class StringUtilTest {
 			    two
 			  ]
 			)
-			""".stripIndent().trim();
+			""".stripIndent()
+			.trim();
 
 		assertEquals(expected, StringUtil.formatLombokToString(input));
 	}
@@ -57,7 +59,8 @@ class StringUtilTest {
 			  label=\"a,b(c)\",
 			  code='x,y[z]'
 			)
-			""".stripIndent().trim();
+			""".stripIndent()
+			.trim();
 
 		assertEquals(expected, StringUtil.formatLombokToString(input));
 	}

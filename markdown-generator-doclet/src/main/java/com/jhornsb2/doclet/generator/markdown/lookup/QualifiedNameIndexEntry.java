@@ -2,7 +2,6 @@ package com.jhornsb2.doclet.generator.markdown.lookup;
 
 import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import javax.lang.model.element.Element;
-
 import lombok.Builder;
 import lombok.Value;
 
