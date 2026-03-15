@@ -22,6 +22,7 @@ public class IElementDataFactory {
 	ClassDataFactory classDataFactory;
 	RecordDataFactory recordDataFactory;
 	EnumDataFactory enumDataFactory;
+	FieldDataFactory fieldDataFactory;
 
 	/**
 	 * Creates an instance of {@link IElementData} based on the provided
@@ -67,6 +68,7 @@ public class IElementDataFactory {
 			case CLASS -> this.classDataFactory.createUncached(element);
 			case RECORD -> this.recordDataFactory.createUncached(element);
 			case ENUM -> this.enumDataFactory.createUncached(element);
+			case FIELD -> this.fieldDataFactory.createUncached(element);
 			case INTERFACE -> this.interfaceDataFactory.createUncached(element);
 			case ANNOTATION_TYPE -> this.annotationDataFactory.createUncached(
 				element

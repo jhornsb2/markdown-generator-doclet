@@ -6,6 +6,7 @@ import com.jhornsb2.doclet.generator.markdown.elements.factory.AnnotationDataFac
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ClassDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ElementDataCache;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.EnumDataFactory;
+import com.jhornsb2.doclet.generator.markdown.elements.factory.FieldDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.IElementDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.InterfaceDataFactory;
 import com.jhornsb2.doclet.generator.markdown.elements.factory.ModuleDataFactory;
@@ -25,6 +26,7 @@ import com.jhornsb2.doclet.generator.markdown.template.resolver.CommonBookmarkRe
 import com.jhornsb2.doclet.generator.markdown.template.resolver.PackageBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.template.resolver.ProjectBookmarkResolver;
 import com.jhornsb2.doclet.generator.markdown.util.DocCommentUtil;
+import com.jhornsb2.doclet.generator.markdown.util.StringUtil;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -84,6 +86,10 @@ public class MarkdownGenerator {
 			elementDataCache,
 			docCommentUtil
 		);
+		FieldDataFactory fieldDataFactory = new FieldDataFactory(
+			elementDataCache,
+			docCommentUtil
+		);
 		PackageDataFactory packageDataFactory = new PackageDataFactory(
 			elementDataCache,
 			docCommentUtil
@@ -100,7 +106,8 @@ public class MarkdownGenerator {
 			annotationDataFactory,
 			classDataFactory,
 			recordDataFactory,
-			enumDataFactory
+			enumDataFactory,
+			fieldDataFactory
 		);
 		ITemplateRegistry templateRegistry = createTemplateRegistry(
 			docletOptions
@@ -113,6 +120,7 @@ public class MarkdownGenerator {
 				new PackageBookmarkResolver()
 			)
 		);
+		QualifiedNameIndex qualifiedNameIndex = new QualifiedNameIndex();
 
 		return MarkdownGenerator.builder()
 			.environment(environment)
@@ -128,6 +136,7 @@ public class MarkdownGenerator {
 			.moduleDataFactory(moduleDataFactory)
 			.elementDataFactory(elementDataFactory)
 			.templateRenderer(templateRenderer)
+			.qualifiedNameIndex(qualifiedNameIndex)
 			.build();
 	}
 
@@ -238,6 +247,10 @@ public class MarkdownGenerator {
 			 */
 			.map(this::buildQualifiedNameIndexEntry)
 			.forEach(this.qualifiedNameIndex::addEntry);
+
+		log.debug(
+			StringUtil.formatLombokToString(this.qualifiedNameIndex.toString())
+		);
 	}
 
 	/**
@@ -262,11 +275,7 @@ public class MarkdownGenerator {
 					.map(Element.class::cast)
 					.filter(e ->
 						switch (e.getKind()) {
-							case
-								METHOD,
-								FIELD,
-								CONSTRUCTOR,
-								ENUM_CONSTANT -> true;
+							case METHOD, FIELD -> true;
 							default -> false;
 						}
 					)

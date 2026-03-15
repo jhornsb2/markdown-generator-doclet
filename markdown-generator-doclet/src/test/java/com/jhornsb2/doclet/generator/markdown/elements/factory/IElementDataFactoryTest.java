@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.jhornsb2.doclet.generator.markdown.elements.AnnotationData;
 import com.jhornsb2.doclet.generator.markdown.elements.ClassData;
 import com.jhornsb2.doclet.generator.markdown.elements.EnumData;
+import com.jhornsb2.doclet.generator.markdown.elements.FieldData;
 import com.jhornsb2.doclet.generator.markdown.elements.IElementData;
 import com.jhornsb2.doclet.generator.markdown.elements.InterfaceData;
 import com.jhornsb2.doclet.generator.markdown.elements.ModuleData;
@@ -65,6 +66,16 @@ class IElementDataFactoryTest {
 			"example.module",
 			java.util.List.of()
 		);
+		Element fieldElement = FactoryTestFixtures.variableElement(
+			"value",
+			ElementKind.FIELD,
+			FactoryTestFixtures.typeMirror(
+				"java.lang.String",
+				javax.lang.model.type.TypeKind.DECLARED
+			),
+			classElement,
+			java.util.Set.of()
+		);
 
 		IElementData classData = factory.create(classElement);
 		IElementData enumData = factory.create(enumElement);
@@ -73,6 +84,7 @@ class IElementDataFactoryTest {
 		IElementData annotationData = factory.create(annotationElement);
 		IElementData packageData = factory.create(packageElement);
 		IElementData moduleData = factory.create(moduleElement);
+		IElementData fieldData = factory.create(fieldElement);
 
 		assertInstanceOf(ClassData.class, classData);
 		assertInstanceOf(EnumData.class, enumData);
@@ -81,6 +93,7 @@ class IElementDataFactoryTest {
 		assertInstanceOf(AnnotationData.class, annotationData);
 		assertInstanceOf(PackageData.class, packageData);
 		assertInstanceOf(ModuleData.class, moduleData);
+		assertInstanceOf(FieldData.class, fieldData);
 	}
 
 	@Test
@@ -148,6 +161,10 @@ class IElementDataFactoryTest {
 			cache,
 			docCommentUtil
 		);
+		FieldDataFactory fieldDataFactory = new FieldDataFactory(
+			cache,
+			docCommentUtil
+		);
 
 		return new IElementDataFactory(
 			cache,
@@ -157,7 +174,8 @@ class IElementDataFactoryTest {
 			annotationDataFactory,
 			classDataFactory,
 			recordDataFactory,
-			enumDataFactory
+			enumDataFactory,
+			fieldDataFactory
 		);
 	}
 }
