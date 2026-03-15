@@ -1,9 +1,11 @@
 package com.jhornsb2.doclet.generator.markdown.filepath;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 
 /**
  * Strategy interface for generating output file paths for different element
@@ -19,7 +21,11 @@ public interface IOutputFilepathStrategy {
 			case RECORD -> forRecordElement((TypeElement) element);
 			case MODULE -> forModuleElement((ModuleElement) element);
 			case PACKAGE -> forPackageElement((PackageElement) element);
-			default -> throw new IllegalArgumentException("Unsupported element type: " + element.getKind());
+			case FIELD -> forFieldElement((VariableElement) element);
+			case METHOD -> forMethodElement((ExecutableElement) element);
+			default -> throw new IllegalArgumentException(
+				"Unsupported element type: " + element.getKind()
+			);
 		};
 	}
 
@@ -36,4 +42,8 @@ public interface IOutputFilepathStrategy {
 	String forModuleElement(ModuleElement moduleElement);
 
 	String forPackageElement(PackageElement packageElement);
+
+	String forFieldElement(VariableElement fieldElement);
+
+	String forMethodElement(ExecutableElement methodElement);
 }

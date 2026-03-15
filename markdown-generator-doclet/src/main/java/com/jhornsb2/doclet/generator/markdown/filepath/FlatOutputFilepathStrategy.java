@@ -1,9 +1,13 @@
 package com.jhornsb2.doclet.generator.markdown.filepath;
 
+import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 
 /**
  * Flat strategy that generates output file paths as single markdown files.
@@ -46,7 +50,27 @@ public class FlatOutputFilepathStrategy implements IOutputFilepathStrategy {
 	}
 
 	private String containerElementFilepath(final QualifiedNameable element) {
-		final String qualifiedNamePath = element.getQualifiedName().toString();
+		final String qualifiedNamePath = QualifiedNameResolver.qualifiedNameOf(
+			element
+		);
+
+		return String.format("%s.md", qualifiedNamePath);
+	}
+
+	@Override
+	public String forFieldElement(VariableElement fieldElement) {
+		return this.filePathForMemberElement(fieldElement);
+	}
+
+	@Override
+	public String forMethodElement(ExecutableElement methodElement) {
+		return this.filePathForMemberElement(methodElement);
+	}
+
+	private String filePathForMemberElement(final Element element) {
+		final String qualifiedNamePath = QualifiedNameResolver.qualifiedNameOf(
+			element
+		);
 
 		return String.format("%s.md", qualifiedNamePath);
 	}

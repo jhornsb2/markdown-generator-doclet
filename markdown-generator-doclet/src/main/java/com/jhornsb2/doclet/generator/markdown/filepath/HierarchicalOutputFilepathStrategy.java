@@ -1,10 +1,14 @@
 package com.jhornsb2.doclet.generator.markdown.filepath;
 
 import com.jhornsb2.doclet.generator.markdown.constants.StandardFileNames;
+import com.jhornsb2.doclet.generator.markdown.naming.QualifiedNameResolver;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 
 /**
  * Hierarchical strategy that generates output file paths with directories
@@ -50,15 +54,28 @@ public class HierarchicalOutputFilepathStrategy
 	}
 
 	private String containerElementFilepath(final QualifiedNameable element) {
-		final String qualifiedNamePath = element
-			.getQualifiedName()
-			.toString()
-			.replace('.', '/');
+		final String qualifiedNamePath = QualifiedNameResolver.pathOf(element);
 
 		return String.format(
 			"%s/%s",
 			qualifiedNamePath,
 			StandardFileNames.INDEX_FILE_NAME
 		);
+	}
+
+	@Override
+	public String forFieldElement(VariableElement fieldElement) {
+		return this.filePathForMemberElement(fieldElement);
+	}
+
+	@Override
+	public String forMethodElement(ExecutableElement methodElement) {
+		return this.filePathForMemberElement(methodElement);
+	}
+
+	private String filePathForMemberElement(final Element element) {
+		final String qualifiedNamePath = QualifiedNameResolver.pathOf(element);
+
+		return String.format("%s.md", qualifiedNamePath);
 	}
 }
