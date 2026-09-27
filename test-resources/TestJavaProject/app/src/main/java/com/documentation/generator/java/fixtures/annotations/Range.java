@@ -11,9 +11,11 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(
-	{ ElementType.FIELD, ElementType.PARAMETER, ElementType.RECORD_COMPONENT }
-)
+@Target({
+	ElementType.FIELD,
+	ElementType.PARAMETER,
+	ElementType.RECORD_COMPONENT
+})
 public @interface Range {
 	/**
 	 * Lower inclusive bound.

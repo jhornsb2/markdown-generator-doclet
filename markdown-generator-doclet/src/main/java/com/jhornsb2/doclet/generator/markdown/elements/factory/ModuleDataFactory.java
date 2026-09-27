@@ -68,9 +68,8 @@ public class ModuleDataFactory {
 			.getQualifiedName()
 			.toString();
 		final String kind = moduleElement.getKind().name().toLowerCase();
-		final String docComment = this.docCommentUtil.getDocCommentTree(
-				moduleElement
-			)
+		final String docComment = this.docCommentUtil
+			.getDocCommentTree(moduleElement)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

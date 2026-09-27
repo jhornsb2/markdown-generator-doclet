@@ -15,11 +15,12 @@ class StringUtilTest {
 	void formatLombokToStringFormatsFlatObjectWithIndentation() {
 		String input = "Foo(a=1, b=2)";
 		String expected = """
-			Foo(
-			  a=1,
-			  b=2
-			)
-			""".stripIndent()
+		Foo(
+		  a=1,
+		  b=2
+		)
+		"""
+			.stripIndent()
 			.trim();
 
 		assertEquals(expected, StringUtil.formatLombokToString(input));
@@ -35,17 +36,18 @@ class StringUtilTest {
 	void formatLombokToStringFormatsNestedStructures() {
 		String input = "Foo(a=Bar(x=1, y=2), b=[one, two])";
 		String expected = """
-			Foo(
-			  a=Bar(
-			    x=1,
-			    y=2
-			  ),
-			  b=[
-			    one,
-			    two
-			  ]
-			)
-			""".stripIndent()
+		Foo(
+		  a=Bar(
+		    x=1,
+		    y=2
+		  ),
+		  b=[
+		    one,
+		    two
+		  ]
+		)
+		"""
+			.stripIndent()
 			.trim();
 
 		assertEquals(expected, StringUtil.formatLombokToString(input));
@@ -55,11 +57,12 @@ class StringUtilTest {
 	void formatLombokToStringDoesNotSplitDelimitersInsideQuotes() {
 		String input = "Foo(label=\"a,b(c)\", code='x,y[z]')";
 		String expected = """
-			Foo(
-			  label=\"a,b(c)\",
-			  code='x,y[z]'
-			)
-			""".stripIndent()
+		Foo(
+		  label=\"a,b(c)\",
+		  code='x,y[z]'
+		)
+		"""
+			.stripIndent()
 			.trim();
 
 		assertEquals(expected, StringUtil.formatLombokToString(input));

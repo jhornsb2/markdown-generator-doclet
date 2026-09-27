@@ -68,9 +68,8 @@ public class PackageDataFactory {
 			.getQualifiedName()
 			.toString();
 		final String kind = packageElement.getKind().name().toLowerCase();
-		final String docComment = this.docCommentUtil.getDocCommentTree(
-				packageElement
-			)
+		final String docComment = this.docCommentUtil
+			.getDocCommentTree(packageElement)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

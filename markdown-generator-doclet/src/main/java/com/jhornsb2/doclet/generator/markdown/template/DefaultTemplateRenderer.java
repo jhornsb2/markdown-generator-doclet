@@ -35,7 +35,8 @@ public class DefaultTemplateRenderer implements ITemplateRenderer {
 		);
 		final Map<String, String> resolvedBookmarks = new LinkedHashMap<>();
 
-		this.bookmarkResolvers.stream()
+		this.bookmarkResolvers
+			.stream()
 			.filter(resolver -> resolver.supports(context))
 			.forEach(resolver ->
 				resolvedBookmarks.putAll(resolver.resolve(context))

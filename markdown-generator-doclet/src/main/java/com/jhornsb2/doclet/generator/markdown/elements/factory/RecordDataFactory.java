@@ -70,9 +70,8 @@ public class RecordDataFactory {
 		final String simpleName = typeElement.getSimpleName().toString();
 		final String qualifiedName = typeElement.getQualifiedName().toString();
 		final String kind = typeElement.getKind().name().toLowerCase();
-		final String docComment = this.docCommentUtil.getDocCommentTree(
-				typeElement
-			)
+		final String docComment = this.docCommentUtil
+			.getDocCommentTree(typeElement)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

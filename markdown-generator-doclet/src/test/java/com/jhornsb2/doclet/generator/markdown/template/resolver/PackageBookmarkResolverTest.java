@@ -72,19 +72,19 @@ class PackageBookmarkResolverTest {
 
 		Map<String, String> bookmarks = resolver.resolve(context);
 		String expectedContents = """
-			- com.alpha.Alpha
-			- com.example.Api
-			- com.example.nested.Internal
-			- com.zeta.Beta""";
+		- com.alpha.Alpha
+		- com.example.Api
+		- com.example.nested.Internal
+		- com.zeta.Beta""";
 		String expectedTree = """
-			- Api
-			- com
-			  - alpha
-			    - Alpha
-			  - zeta
-			    - Beta
-			- nested
-			  - Internal""";
+		- Api
+		- com
+		  - alpha
+		    - Alpha
+		  - zeta
+		    - Beta
+		- nested
+		  - Internal""";
 
 		assertEquals(expectedContents, bookmarks.get("package.contents"));
 		assertEquals(expectedContents, bookmarks.get("package.contents.flat"));

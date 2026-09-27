@@ -60,9 +60,8 @@ public class FieldDataFactory {
 			variableElement
 		);
 		final String kind = variableElement.getKind().name().toLowerCase();
-		final String docComment = this.docCommentUtil.getDocCommentTree(
-				variableElement
-			)
+		final String docComment = this.docCommentUtil
+			.getDocCommentTree(variableElement)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

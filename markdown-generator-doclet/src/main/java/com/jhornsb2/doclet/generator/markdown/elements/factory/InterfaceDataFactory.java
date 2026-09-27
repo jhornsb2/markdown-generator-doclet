@@ -63,7 +63,8 @@ public class InterfaceDataFactory {
 				ModifierMapper.toJavaModifiers(typeElement.getModifiers())
 			)
 			.docComment(
-				this.docCommentUtil.getDocCommentTree(typeElement)
+				this.docCommentUtil
+					.getDocCommentTree(typeElement)
 					.map(DocCommentTree::getFullBody)
 					.map(List::toString)
 					.orElse("")

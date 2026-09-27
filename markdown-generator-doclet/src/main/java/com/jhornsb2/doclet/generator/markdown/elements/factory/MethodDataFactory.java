@@ -61,9 +61,8 @@ public class MethodDataFactory {
 			executableElement
 		);
 		final String kind = executableElement.getKind().name().toLowerCase();
-		final String docComment = this.docCommentUtil.getDocCommentTree(
-				executableElement
-			)
+		final String docComment = this.docCommentUtil
+			.getDocCommentTree(executableElement)
 			.map(DocCommentTree::getFullBody)
 			.map(List::toString)
 			.orElse("");

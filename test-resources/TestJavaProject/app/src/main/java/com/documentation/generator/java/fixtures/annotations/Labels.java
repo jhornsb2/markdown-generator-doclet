@@ -13,16 +13,14 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target(
-	{
-		ElementType.TYPE,
-		ElementType.TYPE_USE,
-		ElementType.FIELD,
-		ElementType.METHOD,
-		ElementType.PARAMETER,
-		ElementType.RECORD_COMPONENT
-	}
-)
+@Target({
+	ElementType.TYPE,
+	ElementType.TYPE_USE,
+	ElementType.FIELD,
+	ElementType.METHOD,
+	ElementType.PARAMETER,
+	ElementType.RECORD_COMPONENT
+})
 public @interface Labels {
 	/**
 	 * Repeated labels.

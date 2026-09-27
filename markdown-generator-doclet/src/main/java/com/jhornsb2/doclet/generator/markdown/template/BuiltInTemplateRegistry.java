@@ -10,111 +10,111 @@ import lombok.NonNull;
 public class BuiltInTemplateRegistry implements ITemplateRegistry {
 
 	private static final String PROJECT_TEMPLATE = """
-		# ${project.name}
+	# ${project.name}
 
-		${project.description}
+	${project.description}
 
-		## Modules (${project.moduleCount})
+	## Modules (${project.moduleCount})
 
-		${project.modules}
+	${project.modules}
 
-		## Packages (${project.packageCount})
+	## Packages (${project.packageCount})
 
-		${project.packages}
-		""";
+	${project.packages}
+	""";
 
 	private static final String PACKAGE_TEMPLATE = """
-		# ${common.qualifiedName}
+	# ${common.qualifiedName}
 
-		${common.kind}
+	${common.kind}
 
-		## Description
+	## Description
 
-		${common.description}
+	${common.description}
 
-		## Contents
+	## Contents
 
-		${package.contents}
-		""";
+	${package.contents}
+	""";
 
 	private static final String INTERFACE_TEMPLATE = """
-		# ${common.simpleName}
+	# ${common.simpleName}
 
-		${common.kindWithModifiers}
+	${common.kindWithModifiers}
 
-		## Description
+	## Description
 
-		${common.description}
+	${common.description}
 
-		## Public Methods
+	## Public Methods
 
-		${interface.methods}
-		""";
+	${interface.methods}
+	""";
 
 	private static final String CLASS_TEMPLATE = """
-		# ${common.simpleName}
+	# ${common.simpleName}
 
-		${common.kindWithModifiers}
+	${common.kindWithModifiers}
 
-		## Description
+	## Description
 
-		${common.description}
+	${common.description}
 
-		## Public Constants
+	## Public Constants
 
-		${class.constants.public}
+	${class.constants.public}
 
-		## Static Methods
+	## Static Methods
 
-		${class.methods.static}
+	${class.methods.static}
 
-		## Properties
+	## Properties
 
-		${class.properties.public}
+	${class.properties.public}
 
-		## Public Methods
+	## Public Methods
 
-		${class.methods.public}
+	${class.methods.public}
 
-		## Inherited Members
+	## Inherited Members
 
-		### Static Methods
+	### Static Methods
 
-		${class.inheritedMethods.static}
+	${class.inheritedMethods.static}
 
-		### Properties
+	### Properties
 
-		${class.inheritedProperties.public}
+	${class.inheritedProperties.public}
 
-		### Public Methods
+	### Public Methods
 
-		${class.inheritedMethods.public}
+	${class.inheritedMethods.public}
 
-		""";
+	""";
 
 	private static final String METHOD_TEMPLATE = """
-		#  ${method.className}.${method.simpleName}
+	#  ${method.className}.${method.simpleName}
 
-		${method.overloads}
-		""";
+	${method.overloads}
+	""";
 
 	private static final String METHOD_OVERLOAD_BLOCK_TEMPLATE = """
-		## Declaration
+	## Declaration
 
-		${method.signature}
+	${method.signature}
 
-		## Parameters
+	## Parameters
 
-		${method.parameters.table}
+	${method.parameters.table}
 
-		## Returns
+	## Returns
 
-		${method.returns}
+	${method.returns}
 
-		## Description
+	## Description
 
-		${method.description}
-		""";
+	${method.description}
+	""";
 
 	private final Map<TemplateKind, String> templates;
 

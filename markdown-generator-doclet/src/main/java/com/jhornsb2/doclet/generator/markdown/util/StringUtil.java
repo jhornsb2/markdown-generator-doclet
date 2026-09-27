@@ -147,7 +147,7 @@ public class StringUtil {
 		for (int i = index - 1; i >= 0 && text.charAt(i) == '\\'; i--) {
 			slashCount++;
 		}
-		return (slashCount % 2) == 1;
+		return slashCount % 2 == 1;
 	}
 
 	private static void appendNewLineAndIndent(

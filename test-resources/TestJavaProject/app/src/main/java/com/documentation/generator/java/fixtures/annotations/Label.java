@@ -15,16 +15,14 @@ import java.lang.annotation.Target;
 @Inherited
 @Repeatable(Labels.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Target(
-	{
-		ElementType.TYPE,
-		ElementType.TYPE_USE,
-		ElementType.FIELD,
-		ElementType.METHOD,
-		ElementType.PARAMETER,
-		ElementType.RECORD_COMPONENT
-	}
-)
+@Target({
+	ElementType.TYPE,
+	ElementType.TYPE_USE,
+	ElementType.FIELD,
+	ElementType.METHOD,
+	ElementType.PARAMETER,
+	ElementType.RECORD_COMPONENT
+})
 public @interface Label {
 	/**
 	 * Label text.

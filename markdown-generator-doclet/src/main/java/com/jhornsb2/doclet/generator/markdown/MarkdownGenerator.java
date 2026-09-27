@@ -238,7 +238,8 @@ public class MarkdownGenerator {
 	public void generate() {
 		log.debug(String.format("%s.generate()", this.getClass().getName()));
 
-		this.environment.getIncludedElements()
+		this.environment
+			.getIncludedElements()
 			.parallelStream()
 			/*
 			 * Expand elements to include enclosed members for type elements,
@@ -279,11 +280,12 @@ public class MarkdownGenerator {
 					.getEnclosedElements()
 					.stream()
 					.map(Element.class::cast)
-					.filter(e ->
-						switch (e.getKind()) {
-							case METHOD, FIELD -> true;
-							default -> false;
-						}
+					.filter(
+						e ->
+							switch (e.getKind()) {
+								case METHOD, FIELD -> true;
+								default -> false;
+							}
 					)
 			).flatMap(Function.identity());
 			default -> Stream.of(element);
@@ -294,8 +296,9 @@ public class MarkdownGenerator {
 		@NonNull final Element element
 	) {
 		String qualifiedName = QualifiedNameResolver.qualifiedNameOf(element);
-		String filePath =
-			this.docletOptions.getOutputFilepathStrategy().forElement(element);
+		String filePath = this.docletOptions
+			.getOutputFilepathStrategy()
+			.forElement(element);
 		IElementData elementData = this.elementDataFactory.create(element);
 		return QualifiedNameIndexEntry.builder()
 			.qualifiedName(qualifiedName)
