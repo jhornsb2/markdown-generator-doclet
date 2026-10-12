@@ -2,13 +2,8 @@ package com.jhornsb2.doclet.generator.markdown;
 
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLogger;
 import com.jhornsb2.doclet.generator.markdown.logging.DocletLoggingLevel;
-import com.jhornsb2.doclet.generator.markdown.options.DocletOptionValidationException;
-import com.jhornsb2.doclet.generator.markdown.options.DocletOptions;
-import com.jhornsb2.doclet.generator.markdown.options.DocletOptionsResolver;
 import com.jhornsb2.doclet.generator.markdown.options.Flag;
 import com.jhornsb2.doclet.generator.markdown.options.GenericOption;
-import com.jhornsb2.doclet.generator.markdown.options.OutputPathLayout;
-import com.jhornsb2.doclet.generator.markdown.options.ResolvedDocletOptions;
 import java.util.Locale;
 import java.util.Set;
 import javax.lang.model.SourceVersion;
@@ -40,6 +35,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		"-notimestamp",
 		"Do not include hidden time stamp"
 	);
+
 	/**
 	 * The option to specify the destination directory for output files.
 	 */
@@ -57,7 +53,7 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	private final GenericOption pathLayout = new GenericOption(
 		"-path-layout",
 		"Output path layout for generated docs: hierarchical|h|flat|f",
-		OutputPathLayout.HIERARCHICAL.getOptionValue()
+		"h"
 	);
 
 	/**
@@ -79,9 +75,6 @@ public class MarkdownGeneratorDoclet implements Doclet {
 		"Minimum log level to emit: debug|info|warn|error",
 		DocletLoggingLevel.WARN.getOptionValue()
 	);
-
-	private final DocletOptionsResolver docletOptionsResolver =
-		new DocletOptionsResolver();
 
 	/**
 	 * Initializes doclet locale/reporting integration.
@@ -142,43 +135,6 @@ public class MarkdownGeneratorDoclet implements Doclet {
 	 */
 	@Override
 	public boolean run(final DocletEnvironment environment) {
-		final DocletOptions docletOptions = new DocletOptions(
-			this.destinationDir,
-			this.pathLayout,
-			this.templateDir,
-			this.logLevel
-		);
-
-		// Resolve and validate options, aborting with an error message if any option is invalid
-		final ResolvedDocletOptions resolvedDocletOptions;
-		try {
-			resolvedDocletOptions = this.docletOptionsResolver.resolve(
-				docletOptions
-			);
-		} catch (DocletOptionValidationException ex) {
-			log.error(ex.getMessage());
-			return false;
-		}
-
-		DocletLogger.setMinimumLevel(resolvedDocletOptions.getLogLevel());
-
-		log.info(
-			"Starting Markdown generation with destination directory: {}, path layout: {}, template directory: {}, log level: {}",
-			this.destinationDir.getValue(),
-			resolvedDocletOptions.getOutputPathLayout().getOptionValue(),
-			resolvedDocletOptions.hasTemplateDirectory()
-				? docletOptions.getTemplateDirectory()
-				: "<built-in>",
-			resolvedDocletOptions.getLogLevel().getOptionValue()
-		);
-
-		// Create and run the generator
-		final MarkdownGenerator generator = MarkdownGenerator.createFor(
-			environment,
-			docletOptions
-		);
-		generator.generate();
-
 		return true;
 	}
 }
